@@ -8,14 +8,13 @@ import bcrypt from "bcrypt";
 export const POST = async (req: NextRequest) => {
 	try {
 		const { username, password, email, avatar } = await req.json();
-		console.log();
-
 		if (password.length < 6) throw new Error("Password too short");
-		if (await USER.findOne({ email }))
+
+		await dbConnect();
+		if (await USER.exists({ email }))
 			throw new Error("Email already registered");
 
 		const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-		await dbConnect();
 		const user = new USER({
 			username,
 			hashedPassword,

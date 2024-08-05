@@ -37,7 +37,9 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 		toast.loading("Auto logging...");
 		const { user } = (await axios.get("/api/auth/login")).data;
 		toast.dismiss();
-		if (user) setUser(user);
+		if (!user) return;
+		setUser(user);
+		toast.success("Logged in automatically");
 	};
 	useEffect(() => {
 		autoLogin();

@@ -7,8 +7,8 @@ import bcrypt from "bcrypt";
 
 export const POST = async (req: NextRequest) => {
 	try {
-		await dbConnect();
 		const { password, email } = await req.json();
+		await dbConnect();
 		const user = await USER.findOne({ email })
 			.select("_id username avatar email")
 			.populate("avatar");
@@ -31,8 +31,11 @@ export const POST = async (req: NextRequest) => {
 export const GET = async () => {
 	try {
 		const token = cookies().get("token")?.value;
-		const user_id = cookies().get("user_id")?.value;
-		if (!token || jwt.verify(token, process.env.JWT_SECRET!) !== user_id)
+		if (!token) throw new Error();
+		const { user_id } = jwt.verify(token, process.env.JWT_SECRET!) as {
+			user_id: string;
+		};
+		if (!user_id || cookies().get("user_id")?.value !== user_id)
 			throw new Error();
 		const user = await USER.findById(user_id)
 			.select("_id username avatar email")
