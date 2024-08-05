@@ -4,6 +4,9 @@ import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { UserProvider } from "./providers/UserProvider";
 import { ThemeProvider } from "./providers/ThemeProvider";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import Topbar from "@/components/Nav/Topbar";
+import { SmallSidebar } from "@/components/Nav/SmallSidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,14 +24,20 @@ export default function RootLayout({
 		<html lang="en">
 			<body className={inter.className}>
 				<Toaster />
-				<ThemeProvider
-					attribute="class"
-					defaultTheme="system"
-					enableSystem
-					disableTransitionOnChange
-				>
-					<UserProvider>{children}</UserProvider>
-				</ThemeProvider>
+				<TooltipProvider>
+					<ThemeProvider
+						attribute="class"
+						defaultTheme="system"
+						enableSystem
+						disableTransitionOnChange
+					>
+						<UserProvider>
+							<Topbar />
+							<SmallSidebar />
+							{children}
+						</UserProvider>
+					</ThemeProvider>
+				</TooltipProvider>
 			</body>
 		</html>
 	);
