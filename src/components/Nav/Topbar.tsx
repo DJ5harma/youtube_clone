@@ -13,6 +13,7 @@ import CustomTooltip from "@/components/Nav/CustomTooltip";
 import React from "react";
 import { ModeToggle } from "@/app/providers/ThemeProvider";
 import { BiSearch } from "react-icons/bi";
+import Link from "next/link";
 
 const Topbar = () => {
 	return (
@@ -21,10 +22,10 @@ const Topbar = () => {
 				<CustomTooltip icon={<SheetSidebar />} text="Menu" />
 				<Tooltip>
 					<TooltipTrigger asChild>
-						<div className="flex items-center gap-1 opacity-95">
+						<Link href="/" className="flex items-center gap-1 opacity-95">
 							<ImYoutube size={25} />
 							<ImYoutube2 size={60} className="hidden sm:flex" />
-						</div>
+						</Link>
 					</TooltipTrigger>
 					<TooltipContent side="right">Youtube</TooltipContent>
 				</Tooltip>
@@ -35,7 +36,9 @@ const Topbar = () => {
 			</div>
 			<div className="flex h-full items-center gap-1 px-2 py-4">
 				<CustomTooltip icon={<ModeToggle />} text="Toggle theme" />
-				<CustomTooltip icon={<LuUpload />} text="Upload +" />
+				<Link href="/upload">
+					<CustomTooltip icon={<LuUpload />} text="Upload +" />
+				</Link>
 				<CustomTooltip icon={<ProfileDropdown />} text="Profile Menu" />
 			</div>
 		</aside>

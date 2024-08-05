@@ -4,9 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 export const POST = async (req: NextRequest) => {
 	const formData = await req.formData();
 
-	const image = formData.get("image") as unknown as File;
+	const video = formData.get("video") as unknown as File;
 
-	const { errMessage, result } = await uploadToCloudinary(image, "image");
+	const { errMessage, result } = await uploadToCloudinary(video, "video");
 
 	if (errMessage) return NextResponse.json({ errMessage });
 

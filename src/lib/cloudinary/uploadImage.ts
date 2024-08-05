@@ -1,19 +1,20 @@
 import { UploadApiResponse } from "cloudinary";
 import cloudinary from "./cloudinary";
 
-export const uploadImage = async (
-	image: File
+export const uploadToCloudinary = async (
+	file: File,
+	fileType: "video" | "image"
 ): Promise<{ errMessage?: string; result?: UploadApiResponse }> => {
-	const buffer = await image.arrayBuffer();
+	const buffer = await file.arrayBuffer();
 	const bytes = Buffer.from(buffer);
 
-	const folder = "youtube_clone/images";
+	const folder = `youtube_clone/${fileType}s`;
 
 	return new Promise(async (resolve, reject) => {
 		cloudinary.uploader
 			.upload_stream(
 				{
-					resource_type: "auto",
+					resource_type: fileType,
 					folder,
 				},
 				async (err, result) => {

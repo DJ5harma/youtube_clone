@@ -128,6 +128,7 @@ export default function Page() {
 							<input
 								type="file"
 								className="border-2 h-full w-full opacity-0 cursor-pointer"
+								accept=".png, .jpeg, .jpg, .webp"
 								onChange={(e) => {
 									if (e.target.files) handleAvatarUpload(e.target.files[0]);
 								}}

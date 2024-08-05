@@ -34,7 +34,15 @@ export default function RootLayout({
 						<UserProvider>
 							<Topbar />
 							<SmallSidebar />
-							{children}
+							<div
+								className="relative top-14 left-14 overflow-auto"
+								style={{
+									width: "calc(100vw - 56px)",
+									height: "calc(100vh - 56px)",
+								}}
+							>
+								{children}
+							</div>
 						</UserProvider>
 					</ThemeProvider>
 				</TooltipProvider>
