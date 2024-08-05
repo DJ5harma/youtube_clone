@@ -18,7 +18,6 @@ export const POST = async (req: NextRequest) => {
 
 		const token = jwt.sign({ user_id: user._id }, process.env.JWT_SECRET!);
 		cookies().set("token", token);
-		cookies().set("user_id", user._id);
 
 		return NextResponse.json({ user });
 	} catch (error) {
@@ -35,11 +34,11 @@ export const GET = async () => {
 		const { user_id } = jwt.verify(token, process.env.JWT_SECRET!) as {
 			user_id: string;
 		};
-		if (!user_id || cookies().get("user_id")?.value !== user_id)
-			throw new Error();
+		if (!user_id) throw new Error();
 		const user = await USER.findById(user_id)
 			.select("_id username avatar email")
 			.populate("avatar");
+
 		return NextResponse.json({ user });
 	} catch (error) {
 		return NextResponse.json({});

@@ -23,7 +23,6 @@ export const POST = async (req: NextRequest) => {
 		});
 		const token = jwt.sign({ user_id: user._id }, process.env.JWT_SECRET!);
 		cookies().set("token", token);
-		cookies().set("user_id", user._id);
 		await user.save();
 		return NextResponse.json({
 			user: {
