@@ -1,3 +1,5 @@
+import USER from "@/models/USER.model";
+import VIDEO from "@/models/VIDEO.model";
 import mongoose from "mongoose";
 
 const { MONGO_URI } = process.env;
@@ -11,7 +13,8 @@ export default async function dbConnect() {
 		if (!MONGO_URI) throw new Error("MONGO_URI not detected");
 		const db = await mongoose.connect(MONGO_URI);
 
-		// if (!mongoose.models.User) mongoose.model("User", User.schema);
+		if (!mongoose.models.USER) mongoose.model("USER", USER.schema);
+		if (!mongoose.models.VIDEO) mongoose.model("VIDEO", VIDEO.schema);
 
 		isConnected = db.connections[0].readyState === 1;
 	} catch (error) {
