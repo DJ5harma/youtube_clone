@@ -27,6 +27,7 @@ const USER =
 						secure_url: "https://avatars.githubusercontent.com/u/5172592?v=4",
 						public_id: "",
 					},
+					_id: false,
 				},
 				videoRatings: [
 					{
@@ -38,6 +39,13 @@ const USER =
 					{
 						type: Schema.Types.ObjectId,
 						ref: "VIDEO",
+					},
+				],
+				subscribers: { type: Number, default: 0 },
+				subscriptions: [
+					{
+						type: Schema.Types.ObjectId,
+						ref: "USER",
 					},
 				],
 			},

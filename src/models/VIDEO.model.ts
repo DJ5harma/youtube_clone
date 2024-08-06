@@ -21,6 +21,7 @@ const VIDEO =
 						public_id: String,
 					},
 					required: true,
+					_id: false,
 				},
 				video: {
 					type: {
@@ -28,6 +29,7 @@ const VIDEO =
 						public_id: String,
 					},
 					required: true,
+					_id: false,
 				},
 				views: { type: Number, default: 0 },
 				likes: { type: Number, default: 0 },
