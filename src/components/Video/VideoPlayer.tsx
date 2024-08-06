@@ -1,35 +1,8 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import ControlButtons from "./ControlButtons";
-export default function VideoPlayer({
-	video,
-}: {
-	video: {
-		_id: string;
-		title: string;
-		creator: {
-			username: string;
-			_id: string;
-			avatar: {
-				secure_url: string;
-				public_id: string;
-			};
-			subscribers: number;
-		};
-		thumbnail: {
-			secure_url: string;
-			public_id: string;
-		};
-		video: {
-			secure_url: string;
-			public_id: string;
-		};
-		views: string;
-		createdAt: Date;
-		likes: number;
-		dislikes: number;
-	};
-}) {
+import { CVideoPlayable } from "@/lib/types";
+export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 	const videoRef = useRef<HTMLVideoElement>(null);
 	const fullscreenContainer = useRef<HTMLDivElement>(null);
 
@@ -134,9 +107,9 @@ export default function VideoPlayer({
 			<div>
 				<p
 					className={`text-2xl font-semibold p-2 ${
-						(fullscreen
+						fullscreen
 							? "fixed top-0 left-0 z-50 bg-black p-2 rounded-ee-xl bg-opacity-50"
-							: "") + (hideControlsTimer > 0 || paused ? "" : " opacity-0")
+							: ""
 					}`}
 				>
 					{video.title}

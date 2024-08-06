@@ -43,6 +43,7 @@ export default function Page() {
 		if (errMessage) return toast.error(errMessage);
 		setUser(user);
 		router.push("/");
+		toast.success("Registered");
 	};
 
 	return (

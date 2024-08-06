@@ -8,15 +8,18 @@ import bcrypt from "bcrypt";
 export const POST = async (req: NextRequest) => {
 	try {
 		const { password, email } = await req.json();
+		console.log({ password, email });
+
 		await dbConnect();
 		const user = await USER.findOne({ email })
-			.select("_id username avatar email")
+			.select("_id username avatar email hashedPassword")
 			.populate("avatar");
 		if (!user) throw new Error("Email not registered");
 		if (!bcrypt.compareSync(password, user.hashedPassword))
 			throw new Error("Incorrect password");
 
 		const token = jwt.sign({ user_id: user._id }, process.env.JWT_SECRET!);
+
 		cookies().set("token", token);
 
 		return NextResponse.json({ user });

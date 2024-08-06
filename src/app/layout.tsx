@@ -40,7 +40,7 @@ export default function RootLayout({
 								}}
 							>
 								<SmallSidebar />
-								<div>{children}</div>
+								<div className="w-full">{children}</div>
 							</div>
 						</UserProvider>
 					</ThemeProvider>

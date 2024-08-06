@@ -1,16 +1,13 @@
 import dbConnect from "@/lib/dbConnect";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
 import VIDEO from "@/models/VIDEO.model";
+import getUserIdFromJwt from "@/lib/getUserIdFromJwt";
 
 export const POST = async (req: NextRequest) => {
 	try {
-		const token = cookies().get("token")?.value;
-		if (!token) throw new Error("token missing");
-		const { user_id } = jwt.verify(token, process.env.JWT_SECRET!) as {
-			user_id: string;
-		};
+		const user_id = getUserIdFromJwt(cookies().get("token")?.value);
+		if (!user_id) throw new Error("token missing");
 
 		const videoDoc = await req.json();
 		videoDoc.creator = user_id;

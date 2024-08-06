@@ -1,26 +1,11 @@
 "use client";
+import { CVideoCard } from "@/lib/types";
 import { croppedAvatarUrl, timeSince } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
 
-const VideoCard = ({
-	video,
-}: {
-	video: {
-		_id: string;
-		title: string;
-		views: number;
-		thumbnail: { secure_url: string };
-		video: { secure_url: string };
-		creator: {
-			username: string;
-			_id: string;
-			avatar: { secure_url: string; public_id: string };
-		};
-		createdAt: Date;
-	};
-}) => {
+const VideoCard = ({ video }: { video: CVideoCard }) => {
 	const [playVideo, setPlayVideo] = useState(false);
 	const videoRef = useRef<HTMLVideoElement | null>(null);
 	return (

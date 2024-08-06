@@ -1,7 +1,11 @@
 import SubscribeSection from "@/components/SubscribeSection";
 import VideoPlayer from "@/components/Video/VideoPlayer";
 import dbConnect from "@/lib/dbConnect";
+import getUserIdFromJwt from "@/lib/getUserIdFromJwt";
+import { CVideoCard, CVideoPlayable } from "@/lib/types";
+import USER from "@/models/USER.model";
 import VIDEO from "@/models/VIDEO.model";
+import { cookies } from "next/headers";
 import React from "react";
 
 export default async function page({
@@ -10,67 +14,28 @@ export default async function page({
 	searchParams: { video_id: string };
 }) {
 	await dbConnect();
-	const [video, moreVideos]: [
-		{
-			title: string;
-			creator: {
-				username: string;
-				_id: string;
-				avatar: {
-					secure_url: string;
-					public_id: string;
-				};
-				subscribers: number;
-			};
-			thumbnail: {
-				secure_url: string;
-				public_id: string;
-			};
-			video: {
-				secure_url: string;
-				public_id: string;
-			};
-			views: string;
-			createdAt: Date;
-			likes: number;
-			dislikes: number;
-			description: string;
-		},
-		{
-			_id: string;
-			title: string;
-			creator: {
-				username: string;
-				_id: string;
-				avatar: {
-					secure_url: string;
-					public_id: string;
-				};
-			};
-			thumbnail: {
-				secure_url: string;
-				public_id: string;
-			};
-			video: {
-				secure_url: string;
-				public_id: string;
-			};
-			views: string;
-			createdAt: Date;
-		}[]
-	] = await Promise.all([
-		VIDEO.findById(video_id)
-			.select(
-				"-_id title creator thumbnail video views createdAt likes dislikes description"
-			)
-			.populate({ path: "creator", select: "username _id avatar subscribers" }),
-		VIDEO.find()
-			.select("_id title creator thumbnail video views createdAt")
-			.populate({ path: "creator", select: "username _id avatar" }),
-	]);
+	const [video, moreVideos]: [CVideoPlayable, CVideoCard[]] = await Promise.all(
+		[
+			VIDEO.findById(video_id)
+				.select(
+					"-_id title creator thumbnail video views createdAt likes dislikes description"
+				)
+				.populate({
+					path: "creator",
+					select: "username _id avatar subscribers",
+				}),
+			VIDEO.find()
+				.select("_id title creator thumbnail video views createdAt")
+				.populate({ path: "creator", select: "username _id avatar" }),
+		]
+	);
+	const subscribed = await USER.exists({
+		_id: getUserIdFromJwt(cookies().get("token")?.value),
+		subscriptions: { $in: [video.creator._id] },
+	});
 
 	return (
-		<div className="p-4 overflow-x-hidden">
+		<div className="p-4 overflow-x-hidden border">
 			<VideoPlayer
 				video={{
 					...JSON.parse(JSON.stringify(video)),
@@ -78,7 +43,10 @@ export default async function page({
 				}}
 			/>
 			<div className="px-2">
-				<SubscribeSection creator={JSON.parse(JSON.stringify(video.creator))} />
+				<SubscribeSection
+					creator={JSON.parse(JSON.stringify(video.creator))}
+					subscribed={subscribed ? true : false}
+				/>
 			</div>
 		</div>
 	);

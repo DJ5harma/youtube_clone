@@ -1,11 +1,35 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useUser } from "@/app/providers/UserProvider";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Page() {
+	const { setUser } = useUser();
+	const router = useRouter();
+	const [form, setForm] = useState({
+		email: "",
+		password: "",
+	});
+
+	const handleLogin = async () => {
+		toast.loading("Signing you in...");
+		const { errMessage, user } = (await axios.post("/api/auth/login", form))
+			.data;
+		toast.dismiss();
+		if (errMessage) return toast.error(errMessage);
+		setUser(user);
+		router.push("/");
+		toast.success("Logged In");
+	};
+
 	return (
 		<div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
 			<div className="flex items-center justify-center py-12">
@@ -24,6 +48,7 @@ export default function Page() {
 								type="email"
 								placeholder="m@example.com"
 								required
+								onChange={(e) => setForm({ ...form, email: e.target.value })}
 							/>
 						</div>
 						<div className="grid gap-2">
@@ -36,9 +61,14 @@ export default function Page() {
 									Forgot your password?
 								</Link>
 							</div>
-							<Input id="password" type="password" required />
+							<Input
+								id="password"
+								type="password"
+								required
+								onChange={(e) => setForm({ ...form, password: e.target.value })}
+							/>
 						</div>
-						<Button type="submit" className="w-full">
+						<Button type="submit" className="w-full" onClick={handleLogin}>
 							Login
 						</Button>
 					</div>
