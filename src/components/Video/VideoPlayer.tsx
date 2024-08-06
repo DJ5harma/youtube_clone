@@ -120,7 +120,7 @@ export default function VideoPlayer({
 				<source />
 				video tag not supported on this browser
 			</video>
-			{(hideControlsTimer > 0 || paused) && (
+			<div className={`${hideControlsTimer > 0 || paused ? "" : "opacity-0"}`}>
 				<ControlButtons
 					currentTime={currentTime}
 					fullscreen={fullscreen}
@@ -130,16 +130,14 @@ export default function VideoPlayer({
 					handleSeek={handleSeek}
 					videoRef={videoRef}
 				/>
-			)}
+			</div>
 			<div
-				className={`pt-2 px-1 flex flex-col gap-2 w-full border ${
-					hideControlsTimer > 0 || paused ? "relative bottom-16" : ""
-				}`}
+				className={`pt-2 px-1 flex flex-col gap-2 w-full border relative bottom-16`}
 			>
 				<p
 					className={`text-2xl font-semibold ${
 						fullscreen && (hideControlsTimer > 0 || paused)
-							? "fixed top-4 left-4 z-50"
+							? "fixed top-0 left-0 z-50 bg-black p-2 rounded-ee-xl bg-opacity-50"
 							: ""
 					}`}
 				>
