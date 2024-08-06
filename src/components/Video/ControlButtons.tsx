@@ -1,10 +1,10 @@
 "use client";
-import { getSeekbarTime } from "@/lib/timeUtils";
 import React, { useState } from "react";
 import { BiFastForward, BiPause, BiPlay } from "react-icons/bi";
 import { HiMiniSpeakerWave, HiMiniSpeakerXMark } from "react-icons/hi2";
 import { MdFullscreen, MdFullscreenExit } from "react-icons/md";
 import CustomTooltip from "../Nav/CustomTooltip";
+import { getSeekbarTime } from "@/lib/utils";
 
 const ControlButtons = ({
 	paused,

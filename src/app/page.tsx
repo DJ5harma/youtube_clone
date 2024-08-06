@@ -9,15 +9,11 @@ export default async function page() {
 		.limit(10)
 		.select("_id title creator thumbnail video views createdAt")
 		.populate({ path: "creator", select: "username _id avatar" });
-
-	const cloudName = process.env.PUBLIC_CLOUDINARY_CLOUD_NAME!;
-
 	return (
 		<div className="p-4 flex w-full flex-wrap">
 			{videos.map((video) => (
 				<VideoCard
 					key={"ds"}
-					cloudName={cloudName}
 					video={{
 						...JSON.parse(JSON.stringify(video)),
 						createdAt: video.createdAt,

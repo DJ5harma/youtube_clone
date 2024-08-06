@@ -1,12 +1,11 @@
 "use client";
-import { timeSince } from "@/lib/timeUtils";
+import { croppedAvatarUrl, timeSince } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
 
 const VideoCard = ({
 	video,
-	cloudName,
 }: {
 	video: {
 		_id: string;
@@ -21,10 +20,7 @@ const VideoCard = ({
 		};
 		createdAt: Date;
 	};
-	cloudName: string;
 }) => {
-	const croppedAvatarUrl = `https://res.cloudinary.com/${cloudName}/image/upload/c_crop,w_300,h_300/${video.creator.avatar.public_id}.jpg`;
-
 	const [playVideo, setPlayVideo] = useState(false);
 	const videoRef = useRef<HTMLVideoElement | null>(null);
 	return (
@@ -61,7 +57,7 @@ const VideoCard = ({
 			/>
 			<div className="flex gap-3">
 				<Image
-					src={croppedAvatarUrl}
+					src={croppedAvatarUrl(video.creator.avatar.public_id)}
 					alt=""
 					width="40"
 					height="40"

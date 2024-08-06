@@ -87,7 +87,7 @@ export default function VideoPlayer({
 
 	return (
 		<div
-			className="items-start gap-1 flex-col sm:w-7/12"
+			className="items-start gap-1 flex-col sm:w-7/12 border"
 			ref={fullscreenContainer}
 			onMouseMove={() => setHideControlsTimer(4)}
 			onMouseLeave={() => setHideControlsTimer(0)}

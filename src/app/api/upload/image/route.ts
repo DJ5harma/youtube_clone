@@ -1,4 +1,4 @@
-import { uploadToCloudinary } from "@/lib/cloudinary/uploadImage";
+import { uploadToCloudinary } from "@/lib/cloudinary/uploadFile";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {

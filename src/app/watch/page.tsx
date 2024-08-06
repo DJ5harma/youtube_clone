@@ -32,6 +32,7 @@ export default async function page({
 			createdAt: Date;
 			likes: number;
 			dislikes: number;
+			description: string;
 		},
 		{
 			_id: string;
@@ -58,7 +59,7 @@ export default async function page({
 	] = await Promise.all([
 		VIDEO.findById(video_id)
 			.select(
-				"-_id title creator thumbnail video views createdAt likes dislikes"
+				"-_id title creator thumbnail video views createdAt likes dislikes description"
 			)
 			.populate({ path: "creator", select: "username _id avatar" }),
 		VIDEO.find()
