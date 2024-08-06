@@ -19,6 +19,7 @@ export default async function page({
 					secure_url: string;
 					public_id: string;
 				};
+				subscribers: number;
 			};
 			thumbnail: {
 				secure_url: string;
@@ -61,7 +62,7 @@ export default async function page({
 			.select(
 				"-_id title creator thumbnail video views createdAt likes dislikes description"
 			)
-			.populate({ path: "creator", select: "username _id avatar" }),
+			.populate({ path: "creator", select: "username _id avatar subscribers" }),
 		VIDEO.find()
 			.select("_id title creator thumbnail video views createdAt")
 			.populate({ path: "creator", select: "username _id avatar" }),

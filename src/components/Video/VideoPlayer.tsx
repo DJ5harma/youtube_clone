@@ -1,6 +1,9 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import ControlButtons from "./ControlButtons";
+import Image from "next/image";
+import { croppedAvatarUrl } from "@/lib/utils";
+import SubscribeSection from "../SubscribeSection";
 
 export default function VideoPlayer({
 	video,
@@ -15,6 +18,7 @@ export default function VideoPlayer({
 				secure_url: string;
 				public_id: string;
 			};
+			subscribers: number;
 		};
 		thumbnail: {
 			secure_url: string;
@@ -58,13 +62,14 @@ export default function VideoPlayer({
 		videoRef.current.currentTime = val;
 		setCurrentTime(val);
 	}
-	useEffect(() => {
-		if (videoRef.current) {
-			videoRef.current.src = video.video.secure_url;
-			videoRef.current.load();
-			setPaused(false);
-		}
-	}, [video]);
+	// useEffect(() => {
+	// 	if (videoRef.current) {
+	// 		videoRef.current.src = "/sampleVideo.mp4";
+	// 		// video.video.secure_url;
+	// 		videoRef.current.load();
+	// 		setPaused(false);
+	// 	}
+	// }, [video]);
 	function toggleFullscreen() {
 		if (document.fullscreenElement) {
 			setFullscreen(false);
@@ -75,6 +80,7 @@ export default function VideoPlayer({
 		}
 	}
 	useEffect(() => {
+		if (videoRef.current) videoRef.current.muted = false;
 		const handleFullscreenChange = () => {
 			if (document.fullscreenElement) setFullscreen(true);
 			else setFullscreen(false);
@@ -87,7 +93,7 @@ export default function VideoPlayer({
 
 	return (
 		<div
-			className="items-start gap-1 flex-col sm:w-7/12 border"
+			className="items-start gap-1 flex-col sm:w-7/12"
 			ref={fullscreenContainer}
 			onMouseMove={() => setHideControlsTimer(4)}
 			onMouseLeave={() => setHideControlsTimer(0)}
@@ -99,6 +105,11 @@ export default function VideoPlayer({
 				autoPlay
 				loop
 				ref={videoRef}
+				muted
+				src={
+					// "/sampleVideo.mp4"
+					video.video.secure_url
+				}
 				onTimeUpdate={() => {
 					setCurrentTime(videoRef.current?.currentTime || 0);
 					if (hideControlsTimer > 0)
@@ -121,7 +132,7 @@ export default function VideoPlayer({
 				/>
 			)}
 			<div
-				className={`pt-2 px-1 flex flex-col ${
+				className={`pt-2 px-1 flex flex-col gap-2 w-full border ${
 					hideControlsTimer > 0 || paused ? "relative bottom-16" : ""
 				}`}
 			>
@@ -134,7 +145,9 @@ export default function VideoPlayer({
 				>
 					{video.title}
 				</p>
-				<div></div>
+				<div className="flex w-full border">
+					<SubscribeSection creator={video.creator} />
+				</div>
 			</div>
 		</div>
 	);

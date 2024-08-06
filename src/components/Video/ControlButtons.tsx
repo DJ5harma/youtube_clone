@@ -97,7 +97,7 @@ const ControlButtons = ({
 
 	return (
 		<div
-			className={`w-full min-h-16 pb-2 justify-between items-center flex flex-col gap-2 pt-3 relative bottom-16 px-2 ${
+			className={`bg-black bg-opacity-75 w-full min-h-16 pb-2 justify-between items-center flex flex-col gap-2 pt-3 relative bottom-16 px-2 ${
 				fullscreen && "fixed bottom-0 left-0"
 			}`}
 		>
