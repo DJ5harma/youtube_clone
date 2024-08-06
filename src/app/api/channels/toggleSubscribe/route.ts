@@ -11,7 +11,6 @@ export const POST = async (req: NextRequest) => {
 		if (!user_id) throw new Error("Token missing");
 		const { creator_id, todo } = await req.json();
 		await dbConnect();
-		console.log({ creator_id, todo });
 
 		if (todo === "SUBSCRIBE") {
 			await USER.updateOne(

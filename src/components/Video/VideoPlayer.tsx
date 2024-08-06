@@ -62,13 +62,13 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 
 	return (
 		<div
-			className="items-start gap-1 flex-col sm:w-7/12"
+			className="items-start gap-1 flex-col"
 			ref={fullscreenContainer}
 			onMouseMove={() => setHideControlsTimer(4)}
 			onMouseLeave={() => setHideControlsTimer(0)}
 		>
 			<video
-				className={`rounded-xl cursor-pointer`}
+				className={`rounded-lg cursor-pointer`}
 				onClick={togglePlay}
 				playsInline
 				autoPlay
@@ -106,7 +106,7 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 			</div>
 			<div>
 				<p
-					className={`text-2xl font-semibold p-2 ${
+					className={`text-xl sm:text-2xl font-semibold p-2 ${
 						fullscreen
 							? "fixed top-0 left-0 z-50 bg-black p-2 rounded-ee-xl bg-opacity-50"
 							: ""

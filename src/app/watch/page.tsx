@@ -1,4 +1,6 @@
 import SubscribeSection from "@/components/SubscribeSection";
+import VideoActions from "@/components/Video/VideoActions";
+import ActionButtons from "@/components/Video/VideoActions";
 import VideoPlayer from "@/components/Video/VideoPlayer";
 import dbConnect from "@/lib/dbConnect";
 import getUserIdFromJwt from "@/lib/getUserIdFromJwt";
@@ -14,39 +16,52 @@ export default async function page({
 	searchParams: { video_id: string };
 }) {
 	await dbConnect();
-	const [video, moreVideos]: [CVideoPlayable, CVideoCard[]] = await Promise.all(
-		[
-			VIDEO.findById(video_id)
-				.select(
-					"-_id title creator thumbnail video views createdAt likes dislikes description"
-				)
-				.populate({
-					path: "creator",
-					select: "username _id avatar subscribers",
-				}),
-			VIDEO.find()
-				.select("_id title creator thumbnail video views createdAt")
-				.populate({ path: "creator", select: "username _id avatar" }),
-		]
-	);
-	const subscribed = await USER.exists({
-		_id: getUserIdFromJwt(cookies().get("token")?.value),
-		subscriptions: { $in: [video.creator._id] },
-	});
+	const video: CVideoPlayable = await VIDEO.findById(video_id)
+		.select(
+			"-_id title creator thumbnail video views createdAt likes dislikes description"
+		)
+		.populate({
+			path: "creator",
+			select: "username _id avatar subscribers",
+		});
+	const user_id = getUserIdFromJwt(cookies().get("token")?.value);
+	const [subscribed, moreVideos, test] = await Promise.all([
+		USER.exists({
+			_id: user_id,
+			subscriptions: { $in: [video.creator._id] },
+		}),
+		VIDEO.find()
+			.select("_id title creator thumbnail video views createdAt")
+			.populate({ path: "creator", select: "username _id avatar" }),
+		USER.findOne(
+			{ "videoRatings.video": video_id },
+			{ "videoRatings.$": 1 }
+		).select("-_id"),
+	]);
+	// const { isPositive } = videoRatings[0].isPositive;
+	const userRating = test ? (test.videoRatings[0].isPositive ? 1 : -1) : 0;
 
 	return (
-		<div className="p-4 overflow-x-hidden border">
-			<VideoPlayer
-				video={{
-					...JSON.parse(JSON.stringify(video)),
-					createdAt: video.createdAt,
-				}}
-			/>
-			<div className="px-2">
-				<SubscribeSection
-					creator={JSON.parse(JSON.stringify(video.creator))}
-					subscribed={subscribed ? true : false}
+		<div className="sm:p-4 overflow-x-hidden border">
+			<div className="flex flex-col w-full lg:w-7/12">
+				<VideoPlayer
+					video={{
+						...JSON.parse(JSON.stringify(video)),
+						createdAt: video.createdAt,
+					}}
 				/>
+				<div className="px-2 flex w-full justify-between flex-col sm:flex-row gap-3">
+					<SubscribeSection
+						creator={JSON.parse(JSON.stringify(video.creator))}
+						subscribed={subscribed ? true : false}
+					/>
+					<VideoActions
+						dislikes={video.dislikes}
+						likes={video.likes}
+						userRating={userRating}
+						video_id={video_id}
+					/>
+				</div>
 			</div>
 		</div>
 	);

@@ -31,8 +31,11 @@ const USER =
 				},
 				videoRatings: [
 					{
-						isPositive: Boolean,
-						video: { type: Schema.Types.ObjectId, ref: "VIDEO" },
+						type: {
+							isPositive: Boolean,
+							video: { type: Schema.Types.ObjectId, ref: "VIDEO" },
+						},
+						_id: false,
 					},
 				],
 				watchHistory: [

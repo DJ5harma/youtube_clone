@@ -38,22 +38,24 @@ const SubscribeSection = ({
 	};
 
 	return (
-		<div className="flex gap-2 w-full items-center">
-			<Image
-				src={croppedAvatarUrl(creator.avatar.public_id)}
-				height={40}
-				width={40}
-				alt=""
-				className="rounded-full w-10 h-10"
-			/>
-			<div className="gap-0.5 flex flex-col">
-				<p className="hover:opacity-100 w-fit cursor-pointer">
-					{creator.username}
-				</p>
-				<p className="text-xs opacity-75 flex">
-					{shownSubCount} subscriber
-					{shownSubCount !== 1 ? "s" : ""}
-				</p>
+		<div className="flex gap-2 items-center w-full justify-between sm:w-fit sm:justify-start">
+			<div className="flex gap-2 items-center">
+				<Image
+					src={croppedAvatarUrl(creator.avatar.public_id)}
+					height={40}
+					width={40}
+					alt=""
+					className="rounded-full w-10 h-10"
+				/>
+				<div className="gap-0.5 flex flex-col">
+					<p className="hover:opacity-100 w-fit cursor-pointer">
+						{creator.username}
+					</p>
+					<p className="text-xs opacity-75 flex">
+						{shownSubCount} subscriber
+						{shownSubCount !== 1 ? "s" : ""}
+					</p>
+				</div>
 			</div>
 
 			<Button
