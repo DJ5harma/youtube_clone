@@ -15,7 +15,7 @@ const SubscribeSection = ({
 	};
 }) => {
 	return (
-		<div className="flex gap-2 w-full">
+		<div className="flex gap-2 w-full items-center">
 			<Image
 				src={croppedAvatarUrl(creator.avatar.public_id)}
 				height={40}
@@ -32,7 +32,7 @@ const SubscribeSection = ({
 					{creator.subscribers !== 1 ? "s" : ""}
 				</p>
 			</div>
-			<Button>Subscribe</Button>
+			<Button className="rounded-full">Subscribe</Button>
 		</div>
 	);
 };

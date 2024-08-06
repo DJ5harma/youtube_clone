@@ -1,10 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import ControlButtons from "./ControlButtons";
-import Image from "next/image";
-import { croppedAvatarUrl } from "@/lib/utils";
-import SubscribeSection from "../SubscribeSection";
-
 export default function VideoPlayer({
 	video,
 }: {
@@ -107,8 +103,8 @@ export default function VideoPlayer({
 				ref={videoRef}
 				muted
 				src={
-					// "/sampleVideo.mp4"
-					video.video.secure_url
+					"/sampleVideo.mp4"
+					// video.video.secure_url
 				}
 				onTimeUpdate={() => {
 					setCurrentTime(videoRef.current?.currentTime || 0);
@@ -120,7 +116,11 @@ export default function VideoPlayer({
 				<source />
 				video tag not supported on this browser
 			</video>
-			<div className={`${hideControlsTimer > 0 || paused ? "" : "opacity-0"}`}>
+			<div
+				className={`relative bottom-16 -mb-16 ${
+					hideControlsTimer > 0 || paused ? "" : "opacity-0"
+				}`}
+			>
 				<ControlButtons
 					currentTime={currentTime}
 					fullscreen={fullscreen}
@@ -131,21 +131,16 @@ export default function VideoPlayer({
 					videoRef={videoRef}
 				/>
 			</div>
-			<div
-				className={`pt-2 px-1 flex flex-col gap-2 w-full border relative bottom-16`}
-			>
+			<div>
 				<p
-					className={`text-2xl font-semibold ${
-						fullscreen && (hideControlsTimer > 0 || paused)
+					className={`text-2xl font-semibold p-2 ${
+						(fullscreen
 							? "fixed top-0 left-0 z-50 bg-black p-2 rounded-ee-xl bg-opacity-50"
-							: ""
+							: "") + (hideControlsTimer > 0 || paused ? "" : " opacity-0")
 					}`}
 				>
 					{video.title}
 				</p>
-				<div className="flex w-full border">
-					<SubscribeSection creator={video.creator} />
-				</div>
 			</div>
 		</div>
 	);

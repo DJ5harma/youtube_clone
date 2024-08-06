@@ -1,3 +1,4 @@
+import SubscribeSection from "@/components/SubscribeSection";
 import VideoPlayer from "@/components/Video/VideoPlayer";
 import dbConnect from "@/lib/dbConnect";
 import VIDEO from "@/models/VIDEO.model";
@@ -76,7 +77,9 @@ export default async function page({
 					createdAt: video.createdAt,
 				}}
 			/>
-			<div></div>
+			<div className="px-2">
+				<SubscribeSection creator={JSON.parse(JSON.stringify(video.creator))} />
+			</div>
 		</div>
 	);
 }
