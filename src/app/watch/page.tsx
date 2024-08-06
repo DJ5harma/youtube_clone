@@ -1,4 +1,5 @@
 import SubscribeSection from "@/components/SubscribeSection";
+import Description from "@/components/Video/Description";
 import VideoActions from "@/components/Video/VideoActions";
 import ActionButtons from "@/components/Video/VideoActions";
 import VideoCard from "@/components/Video/VideoCard";
@@ -44,14 +45,14 @@ export default async function page({
 
 	return (
 		<div className="flex-wrap sm:p-4 sm:gap-4 lg:flex-nowrap overflow-x-hidden border flex">
-			<div className="flex flex-col w-full lg:w-7/12 border">
+			<div className="flex flex-col w-full pb-2 lg:w-7/12 border">
 				<VideoPlayer
 					video={{
 						...JSON.parse(JSON.stringify(video)),
 						createdAt: video.createdAt,
 					}}
 				/>
-				<div className="px-2 flex w-full justify-between flex-col sm:flex-row gap-3">
+				<div className="px-2 flex w-full justify-between flex-col gap-3 sm:flex-row">
 					<SubscribeSection
 						creator={JSON.parse(JSON.stringify(video.creator))}
 						subscribed={subscribed ? true : false}
@@ -63,6 +64,10 @@ export default async function page({
 						video_id={video_id}
 					/>
 				</div>
+				<Description
+					createdAt={video.createdAt}
+					description={video.description}
+				/>
 			</div>
 			<div className="px-2 gap-2 border flex flex-wrap lg:flex-col lg:w-1/3">
 				{moreVideos.map((video) => (

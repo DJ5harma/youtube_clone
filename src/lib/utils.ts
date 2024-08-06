@@ -51,3 +51,17 @@ export const timeSince = (date: Date): string => {
 	if (yearsPast === 1) return `${yearsPast} year ago`;
 	return `${yearsPast} years ago`;
 };
+
+export const convertToHumanFriendlyDate = (dateObj: Date) => {
+	// const dateObj = new Date(dateStr);
+	const humanFriendlyDate = dateObj.toLocaleString("en-US", {
+		hour: "numeric",
+		minute: "2-digit",
+		hour12: true,
+		day: "2-digit",
+		month: "long",
+		year: "numeric",
+	});
+
+	return humanFriendlyDate;
+};
