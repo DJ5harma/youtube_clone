@@ -34,13 +34,13 @@ export default function RootLayout({
 						<UserProvider>
 							<Topbar />
 							<div
-								className="relative top-14 overflow-auto flex w-screen"
+								className="relative top-14 overflow-hidden flex w-screen"
 								style={{
 									height: "calc(100vh - 56px)",
 								}}
 							>
 								<SmallSidebar />
-								<div className="w-full">{children}</div>
+								<div className="w-full overflow-y-auto">{children}</div>
 							</div>
 						</UserProvider>
 					</ThemeProvider>

@@ -1,6 +1,7 @@
 import SubscribeSection from "@/components/SubscribeSection";
 import VideoActions from "@/components/Video/VideoActions";
 import ActionButtons from "@/components/Video/VideoActions";
+import VideoCard from "@/components/Video/VideoCard";
 import VideoPlayer from "@/components/Video/VideoPlayer";
 import dbConnect from "@/lib/dbConnect";
 import getUserIdFromJwt from "@/lib/getUserIdFromJwt";
@@ -42,8 +43,8 @@ export default async function page({
 	const userRating = test ? (test.videoRatings[0].isPositive ? 1 : -1) : 0;
 
 	return (
-		<div className="sm:p-4 overflow-x-hidden border">
-			<div className="flex flex-col w-full lg:w-7/12">
+		<div className="flex-wrap sm:p-4 sm:gap-4 lg:flex-nowrap overflow-x-hidden border flex">
+			<div className="flex flex-col w-full lg:w-7/12 border">
 				<VideoPlayer
 					video={{
 						...JSON.parse(JSON.stringify(video)),
@@ -62,6 +63,17 @@ export default async function page({
 						video_id={video_id}
 					/>
 				</div>
+			</div>
+			<div className="px-2 gap-2 border flex flex-wrap lg:flex-col lg:w-1/3">
+				{moreVideos.map((video) => (
+					<VideoCard
+						key={video._id}
+						video={{
+							...JSON.parse(JSON.stringify(video)),
+							createdAt: video.createdAt,
+						}}
+					/>
+				))}
 			</div>
 		</div>
 	);

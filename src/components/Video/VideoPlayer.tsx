@@ -31,14 +31,7 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 		videoRef.current.currentTime = val;
 		setCurrentTime(val);
 	}
-	// useEffect(() => {
-	// 	if (videoRef.current) {
-	// 		videoRef.current.src = "/sampleVideo.mp4";
-	// 		// video.video.secure_url;
-	// 		videoRef.current.load();
-	// 		setPaused(false);
-	// 	}
-	// }, [video]);
+
 	function toggleFullscreen() {
 		if (document.fullscreenElement) {
 			setFullscreen(false);
@@ -76,8 +69,8 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 				ref={videoRef}
 				muted
 				src={
-					"/sampleVideo.mp4"
-					// video.video.secure_url
+					// "/sampleVideo.mp4"
+					video.video.secure_url
 				}
 				onTimeUpdate={() => {
 					setCurrentTime(videoRef.current?.currentTime || 0);

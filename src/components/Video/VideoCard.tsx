@@ -9,10 +9,7 @@ const VideoCard = ({ video }: { video: CVideoCard }) => {
 	const [playVideo, setPlayVideo] = useState(false);
 	const videoRef = useRef<HTMLVideoElement | null>(null);
 	return (
-		<Link
-			href={`/watch?video_id=${video._id}`}
-			className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-2"
-		>
+		<Link href={`/watch?video_id=${video._id}`} className="w-full">
 			<video
 				src={video.video.secure_url}
 				ref={videoRef}
@@ -40,7 +37,7 @@ const VideoCard = ({ video }: { video: CVideoCard }) => {
 					// }, 1000);
 				}}
 			/>
-			<div className="flex gap-3">
+			<div className="flex gap-3 px-2 pt-1">
 				<Image
 					src={croppedAvatarUrl(video.creator.avatar.public_id)}
 					alt=""
