@@ -97,11 +97,8 @@ const ControlButtons = ({
 
 	return (
 		<div
-			style={{
-				minHeight: 60,
-			}}
-			className={`w-full justify-between items-center flex flex-col gap-2 pt-3 relative bottom-16 px-2 ${
-				fullscreen && "absolute bottom-0 left-0 pb-2"
+			className={`w-full min-h-16 pb-2 justify-between items-center flex flex-col gap-2 pt-3 relative bottom-16 px-2 ${
+				fullscreen && "fixed bottom-0 left-0"
 			}`}
 		>
 			{videoRef.current?.duration && (

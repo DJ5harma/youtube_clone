@@ -19,7 +19,7 @@ export function SheetSidebar() {
 			</SheetTrigger>
 			<SheetContent
 				side={"left"}
-				className="w-1/6 gap-0 flex flex-col px-0 items-start"
+				className="w-1/6 min-w-48 gap-0 flex flex-col px-0 items-start"
 			>
 				<SheetTitle className="w-full text-center my-2">Menu</SheetTitle>
 				<Button variant="ghost" className="gap-3 w-full justify-start py-6">

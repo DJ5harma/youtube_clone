@@ -67,7 +67,7 @@ export default async function page({
 	]);
 
 	return (
-		<div className="p-4">
+		<div className="p-4 overflow-x-hidden">
 			<VideoPlayer
 				video={{
 					...JSON.parse(JSON.stringify(video)),

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ControlButtons from "./ControlButtons";
 
 export default function VideoPlayer({
@@ -30,17 +30,17 @@ export default function VideoPlayer({
 		dislikes: number;
 	};
 }) {
-	const videoRef = React.useRef<HTMLVideoElement>(null);
-	const fullscreenContainer = React.useRef<HTMLDivElement>(null);
+	const videoRef = useRef<HTMLVideoElement>(null);
+	const fullscreenContainer = useRef<HTMLDivElement>(null);
 
-	const [paused, setPaused] = React.useState(false);
-	const [fullscreen, setFullscreen] = React.useState(false);
+	const [paused, setPaused] = useState(false);
+	const [fullscreen, setFullscreen] = useState(false);
 
-	const [currentTime, setCurrentTime] = React.useState<number>(
+	const [currentTime, setCurrentTime] = useState<number>(
 		videoRef.current?.currentTime || 0
 	);
 
-	const [hideControlsTimer, setHideControlsTimer] = React.useState(20);
+	const [hideControlsTimer, setHideControlsTimer] = useState(20);
 
 	function togglePlay() {
 		if (!videoRef.current) return;
@@ -53,35 +53,47 @@ export default function VideoPlayer({
 		setPaused(true);
 	}
 
-	function toggleFullscreen() {
-		setFullscreen(!fullscreen);
-		if (!fullscreen) fullscreenContainer.current?.requestFullscreen();
-		else document.exitFullscreen();
-	}
 	function handleSeek(val: number) {
 		if (!videoRef.current) return;
 		videoRef.current.currentTime = val;
 		setCurrentTime(val);
 	}
-	React.useEffect(() => {
+	useEffect(() => {
 		if (videoRef.current) {
 			videoRef.current.src = video.video.secure_url;
 			videoRef.current.load();
 			setPaused(false);
 		}
 	}, [video]);
+	function toggleFullscreen() {
+		if (document.fullscreenElement) {
+			setFullscreen(false);
+			document.exitFullscreen();
+		} else {
+			fullscreenContainer.current?.requestFullscreen();
+			setFullscreen(true);
+		}
+	}
+	useEffect(() => {
+		const handleFullscreenChange = () => {
+			if (document.fullscreenElement) setFullscreen(true);
+			else setFullscreen(false);
+		};
+		document.addEventListener("fullscreenchange", handleFullscreenChange);
+		return () => {
+			document.removeEventListener("fullscreenchange", handleFullscreenChange);
+		};
+	}, []);
 
 	return (
 		<div
-			className="items-start gap-1 flex-col overflow-hidden w-full sm:w-1/2"
+			className="items-start gap-1 flex-col sm:w-7/12"
 			ref={fullscreenContainer}
-			onMouseMove={() => setHideControlsTimer(7)}
+			onMouseMove={() => setHideControlsTimer(4)}
 			onMouseLeave={() => setHideControlsTimer(0)}
 		>
 			<video
-				className={`rounded-xl cursor-pointer ${
-					hideControlsTimer && fullscreen ? "opacity-60" : ""
-				}`}
+				className={`rounded-xl cursor-pointer`}
 				onClick={togglePlay}
 				playsInline
 				autoPlay
@@ -91,7 +103,6 @@ export default function VideoPlayer({
 					setCurrentTime(videoRef.current?.currentTime || 0);
 					if (hideControlsTimer > 0)
 						setHideControlsTimer(hideControlsTimer - 1);
-					console.log(videoRef.current?.currentTime);
 				}}
 				onDoubleClick={toggleFullscreen}
 			>
@@ -109,6 +120,22 @@ export default function VideoPlayer({
 					videoRef={videoRef}
 				/>
 			)}
+			<div
+				className={`pt-2 px-1 flex flex-col ${
+					hideControlsTimer > 0 || paused ? "relative bottom-16" : ""
+				}`}
+			>
+				<p
+					className={`text-2xl font-semibold ${
+						fullscreen && (hideControlsTimer > 0 || paused)
+							? "fixed top-4 left-4 z-50"
+							: ""
+					}`}
+				>
+					{video.title}
+				</p>
+				<div></div>
+			</div>
 		</div>
 	);
 }
