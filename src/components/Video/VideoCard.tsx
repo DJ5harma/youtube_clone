@@ -23,19 +23,14 @@ const VideoCard = ({
 	}
 
 	const [playVideo, setPlayVideo] = useState(false);
-	const [forceStop, setForceStop] = useState(false);
 	return (
 		<div
 			className="w-full"
 			onMouseEnter={() => {
-				setTimeout(() => {
-					if (forceStop && playVideo) return;
-					setPlayVideo(true);
-					videoRef.current?.play();
-				}, 1500);
+				setPlayVideo(true);
+				videoRef.current?.play();
 			}}
 			onMouseLeave={() => {
-				setForceStop(true);
 				setPlayVideo(false);
 				videoRef.current?.pause();
 			}}

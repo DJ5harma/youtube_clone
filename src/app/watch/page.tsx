@@ -67,8 +67,6 @@ export default async function page({
 		{ upsert: true }
 	).then(() => revalidatePath("/watchHistory")); // no need to wait for
 
-	console.log({ userRating });
-
 	return (
 		<div className="flex-wrap sm:p-4 sm:gap-4 lg:flex-nowrap overflow-x-hidden border flex">
 			<div className="flex flex-col w-full pb-2 lg:w-7/12">
@@ -96,16 +94,18 @@ export default async function page({
 				/>
 				<Comments comments={comments} video_id={video_id} />
 			</div>
-			<div className="px-2 gap-2 border flex flex-wrap lg:flex-col lg:w-1/3">
-				{moreVideos.map((video) => (
-					<VideoCard
-						key={video._id}
-						video={{
-							...JSON.parse(JSON.stringify(video)),
-							createdAt: video.createdAt,
-						}}
-					/>
-				))}
+			<div className="px-2 gap-2 flex flex-wrap lg:flex-col lg:w-1/3">
+				{moreVideos
+					.filter(({ _id }) => _id.toString() !== video_id)
+					.map((video) => (
+						<VideoCard
+							key={video._id}
+							video={{
+								...JSON.parse(JSON.stringify(video)),
+								createdAt: video.createdAt,
+							}}
+						/>
+					))}
 			</div>
 		</div>
 	);

@@ -69,8 +69,8 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 				ref={videoRef}
 				muted
 				src={
-					"/sampleVideo.mp4"
-					// video.video.secure_url
+					// "/sampleVideo.mp4"
+					video.video.secure_url
 				}
 				onTimeUpdate={() => {
 					setCurrentTime(videoRef.current?.currentTime || 0);

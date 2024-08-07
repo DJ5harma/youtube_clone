@@ -78,7 +78,7 @@ const VideoActions = ({
 
 	return (
 		<div className="flex items-center [&>*]:rounded-full overflow-y-hidden gap-2">
-			<div className="items-center flex gap-1 border px-4 h-full">
+			<div className="items-center flex gap-1 border px-4 p-1">
 				{shownUserRating === 1 ? (
 					<>
 						<CustomTooltip
