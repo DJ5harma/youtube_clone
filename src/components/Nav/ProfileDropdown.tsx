@@ -16,12 +16,25 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 import { MdAccountCircle } from "react-icons/md";
-import { useUser } from "@/app/providers/UserProvider";
+import { sampleUser, useUser } from "@/app/providers/UserProvider";
 import { croppedAvatarUrl } from "@/lib/utils";
 import Link from "next/link";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export function ProfileDropdown() {
-	const { user } = useUser();
+	const { user, setUser } = useUser();
+	const router = useRouter();
+	const handleLogout = async () => {
+		toast.loading("Logging you out");
+		const { errMessage } = (await axios.get("/api/auth/logout")).data;
+		toast.dismiss();
+		if (errMessage) return toast.error(errMessage);
+		toast.success("Logged out");
+		setUser(sampleUser);
+		router.push("/auth/login");
+	};
 
 	return (
 		<DropdownMenu>
@@ -89,7 +102,7 @@ export function ProfileDropdown() {
 				{user._id && (
 					<>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem>
+						<DropdownMenuItem onClick={() => console.log("click")}>
 							Log out
 							{/* <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut> */}
 						</DropdownMenuItem>

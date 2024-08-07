@@ -41,6 +41,10 @@ export default function Page() {
 	const router = useRouter();
 
 	const handleRegister = async () => {
+		if (form.password !== form.confirmPassword)
+			return toast.error("The passwords must match");
+		if (form.password.length < 6)
+			return toast.error("The password must have atleast 6 characters");
 		toast.loading("Signing you up...");
 		setLoading(true);
 		const { errMessage, user } = (await axios.post("/api/auth/register", form))
