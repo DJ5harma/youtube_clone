@@ -24,23 +24,20 @@ const VideoCard = ({
 
 	const [playVideo, setPlayVideo] = useState(false);
 	const [forceStop, setForceStop] = useState(false);
-	useEffect(() => {
-		if (playVideo) videoRef.current?.play();
-		else videoRef.current?.pause();
-	}, [playVideo, forceStop]);
 	return (
 		<div
 			className="w-full"
 			onMouseEnter={() => {
 				setTimeout(() => {
+					if (forceStop && playVideo) return;
 					setPlayVideo(true);
+					videoRef.current?.play();
 				}, 1500);
 			}}
 			onMouseLeave={() => {
 				setForceStop(true);
 				setPlayVideo(false);
-				// setTimeout(() => {
-				// }, 1500);
+				videoRef.current?.pause();
 			}}
 		>
 			<Link href={`/watch?video_id=${video._id}`}>
