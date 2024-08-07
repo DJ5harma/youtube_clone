@@ -43,24 +43,22 @@ export function ProfileDropdown() {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className="w-56">
-				<DropdownMenuLabel>My Account</DropdownMenuLabel>
+				<DropdownMenuLabel>
+					Hello {user._id ? user.username : "Guest"} !
+				</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				<DropdownMenuGroup>
+					{user._id && (
+						<DropdownMenuItem>
+							Profile
+							{/* <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut> */}
+						</DropdownMenuItem>
+					)}
 					<DropdownMenuItem>
-						Profile
-						{/* <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut> */}
-					</DropdownMenuItem>
-					<DropdownMenuItem>
-						Switch Account
+						<Link href="/auth/login">
+							{user._id ? "Switch Account" : "Sign in"}
+						</Link>
 						{/* <DropdownMenuShortcut>⌘B</DropdownMenuShortcut> */}
-					</DropdownMenuItem>
-					<DropdownMenuItem>
-						Settings
-						{/* <DropdownMenuShortcut>⌘S</DropdownMenuShortcut> */}
-					</DropdownMenuItem>
-					<DropdownMenuItem>
-						Keyboard shortcuts
-						{/* <DropdownMenuShortcut>⌘K</DropdownMenuShortcut> */}
 					</DropdownMenuItem>
 				</DropdownMenuGroup>
 				{/* <DropdownMenuSeparator />
@@ -83,14 +81,20 @@ export function ProfileDropdown() {
 					</DropdownMenuItem>
 				</DropdownMenuGroup> */}
 				<DropdownMenuSeparator />
-				<DropdownMenuItem>GitHub</DropdownMenuItem>
-				<DropdownMenuItem>Support</DropdownMenuItem>
-				<DropdownMenuItem disabled>API</DropdownMenuItem>
-				<DropdownMenuSeparator />
-				<DropdownMenuItem>
-					Log out
-					{/* <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut> */}
-				</DropdownMenuItem>
+				<a href="https://github.com/DJ5harma/youtube_clone" target="_blank">
+					<DropdownMenuItem>GitHub</DropdownMenuItem>
+				</a>
+				{/* <DropdownMenuItem>Support</DropdownMenuItem>
+				<DropdownMenuItem disabled>API</DropdownMenuItem> */}
+				{user._id && (
+					<>
+						<DropdownMenuSeparator />
+						<DropdownMenuItem>
+							Log out
+							{/* <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut> */}
+						</DropdownMenuItem>
+					</>
+				)}
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);

@@ -33,29 +33,43 @@ const VideoActions = ({
 	const { user } = useUser();
 
 	const updateRatingTo = async (
-		todo: "LIKE" | "DISLIKE" | "UNLIKE" | "UNDISLIKE"
+		val: "LIKE" | "DISLIKE" | "UNLIKE" | "UNDISLIKE"
 	) => {
 		if (!user?.email) return toast.error("SignIn to rate");
-		switch (todo) {
-			case "LIKE":
-				if (shownUserRating === -1) setShownDislikes((p) => p - 1);
-				setShownLikes((p) => p + 1);
-				setShownUserRating(1);
-				break;
-			case "DISLIKE":
-				if (shownUserRating === 1) setShownLikes((p) => p - 1);
-				setShownDislikes((p) => p + 1);
-				setShownUserRating(-1);
-				break;
-			case "UNLIKE":
-				setShownLikes((p) => p - 1);
-				setShownUserRating(0);
-				break;
-			case "UNDISLIKE":
-				setShownDislikes((p) => p - 1);
-				setShownUserRating(0);
-				break;
+		let todo:
+			| "LIKE"
+			| "DISLIKE"
+			| "UNLIKE"
+			| "UNDISLIKE"
+			| "LIKE_TO_DISLIKE"
+			| "DISLIKE_TO_LIKE"
+			| "" = "";
+
+		if (val === "LIKE") {
+			if (shownUserRating === -1) {
+				todo = "DISLIKE_TO_LIKE";
+				setShownDislikes(shownDislikes - 1);
+			} else todo = "LIKE";
+
+			setShownLikes(shownLikes + 1);
+			setShownUserRating(+1);
+		} else if (val === "DISLIKE") {
+			if (shownUserRating === +1) {
+				todo = "LIKE_TO_DISLIKE";
+				setShownLikes(shownLikes - 1);
+			} else todo = "DISLIKE";
+
+			setShownDislikes(shownDislikes + 1);
+			setShownUserRating(-1);
+		} else if (val === "UNLIKE" || val === "UNDISLIKE") {
+			if (val === "UNLIKE") setShownLikes(shownLikes - 1);
+			else if (val === "UNDISLIKE") setShownDislikes(shownDislikes - 1);
+			setShownUserRating(0);
+			todo = val;
 		}
+
+		if (!todo) return toast.error("Error! developer's fault");
+
 		const { errMessage } = (
 			await axios.post("/api/videos/updateRating", { todo, video_id })
 		).data;

@@ -13,8 +13,16 @@ export const POST = async (req: NextRequest) => {
 		const {
 			video_id,
 			todo,
-		}: { video_id: string; todo: "LIKE" | "DISLIKE" | "UNLIKE" | "UNDISLIKE" } =
-			await req.json();
+		}: {
+			video_id: string;
+			todo:
+				| "LIKE"
+				| "DISLIKE"
+				| "UNLIKE"
+				| "UNDISLIKE"
+				| "LIKE_TO_DISLIKE"
+				| "DISLIKE_TO_LIKE";
+		} = await req.json();
 		await dbConnect();
 
 		if (todo === "LIKE" || todo === "DISLIKE") {
@@ -29,20 +37,12 @@ export const POST = async (req: NextRequest) => {
 					},
 				}
 			);
-			if (todo === "LIKE")
-				await VIDEO.updateOne(
-					{ _id: video_id },
-					{
-						$inc: { likes: +1 },
-					}
-				);
-			else
-				await VIDEO.updateOne(
-					{ _id: video_id },
-					{
-						$inc: { dislikes: +1 },
-					}
-				);
+			await VIDEO.updateOne(
+				{ _id: video_id },
+				{
+					$inc: todo === "LIKE" ? { likes: +1 } : { dislikes: +1 },
+				}
+			);
 		} else if (todo === "UNLIKE" || todo === "UNDISLIKE") {
 			await USER.updateOne(
 				{ _id: user_id },
@@ -54,20 +54,31 @@ export const POST = async (req: NextRequest) => {
 					},
 				}
 			);
-			if (todo === "UNLIKE")
-				await VIDEO.updateOne(
-					{ _id: video_id },
-					{
-						$inc: { likes: -1 },
-					}
-				);
-			else
-				await VIDEO.updateOne(
-					{ _id: video_id },
-					{
-						$inc: { dislikes: -1 },
-					}
-				);
+			await VIDEO.updateOne(
+				{ _id: video_id },
+				{
+					$inc: todo === "UNLIKE" ? { likes: -1 } : { dislikes: -1 },
+				}
+			);
+		} else if (todo === "LIKE_TO_DISLIKE" || todo === "DISLIKE_TO_LIKE") {
+			await USER.updateOne(
+				{ _id: user_id, "videoRatings.video": video_id },
+				{
+					$set: {
+						"videoRatings.$.isPositive":
+							todo === "DISLIKE_TO_LIKE" ? true : false,
+					},
+				}
+			);
+			await VIDEO.updateOne(
+				{ _id: video_id },
+				{
+					$inc:
+						todo === "DISLIKE_TO_LIKE"
+							? { likes: +1, dislikes: -1 }
+							: { likes: -1, dislikes: +1 },
+				}
+			);
 		}
 		return NextResponse.json({});
 	} catch (error) {

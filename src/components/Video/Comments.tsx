@@ -45,6 +45,7 @@ const Comments = ({
 		};
 		if (errMessage) return toast.error(errMessage);
 		setShownComments([comment, ...shownComments]);
+		setBody("");
 	};
 
 	return (
@@ -77,26 +78,31 @@ const Comments = ({
 							size={30}
 						/>
 					</div>
-					{shownComments.map(({ body, commenter, createdAt }) => (
-						<div className="w-full flex gap-4" key={createdAt.toISOString()}>
-							<Link href={`/user/${commenter.email}`}>
-								<Image
-									src={croppedAvatarUrl(commenter.avatar.public_id)}
-									alt=""
-									width="40"
-									height="40"
-									className="rounded-full w-8 h-8"
-								/>
-							</Link>
-							<div className="w-full flex flex-col gap-2">
-								<div className="flex items-center gap-2">
-									<p className="text-base">{commenter.username}</p>●
-									<p className="opacity-75 text-xs">{timeSince(createdAt)}</p>
+					<div className="w-full gap-2 flex flex-col">
+						{shownComments.map(({ body, commenter, createdAt }) => (
+							<div
+								className="w-full flex gap-4 border rounded-xl p-4"
+								key={createdAt.toISOString()}
+							>
+								<Link href={`/user/${commenter.email}`}>
+									<Image
+										src={croppedAvatarUrl(commenter.avatar.public_id)}
+										alt=""
+										width="40"
+										height="40"
+										className="rounded-full w-8 h-8"
+									/>
+								</Link>
+								<div className="w-full flex flex-col gap-2">
+									<div className="flex items-center gap-2">
+										<p className="text-base">{commenter.username}</p>●
+										<p className="opacity-75 text-xs">{timeSince(createdAt)}</p>
+									</div>
+									<p className="break-words pr-4">{body}</p>
 								</div>
-								<p>{body}</p>
 							</div>
-						</div>
-					))}
+						))}
+					</div>
 				</AccordionContent>
 			</AccordionItem>
 		</Accordion>

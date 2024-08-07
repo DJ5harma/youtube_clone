@@ -67,6 +67,8 @@ export default async function page({
 		{ upsert: true }
 	).then(() => revalidatePath("/watchHistory")); // no need to wait for
 
+	console.log({ userRating });
+
 	return (
 		<div className="flex-wrap sm:p-4 sm:gap-4 lg:flex-nowrap overflow-x-hidden border flex">
 			<div className="flex flex-col w-full pb-2 lg:w-7/12">
