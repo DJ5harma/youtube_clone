@@ -22,36 +22,6 @@ export default async function page() {
 					/>
 				</div>
 			))}
-			{videos.map((video) => (
-				<div key={video._id} className="w-full sm:w-1/2 lg:w-1/3 2xl:w-1/4 p-2">
-					<VideoCard
-						video={{
-							...JSON.parse(JSON.stringify(video)),
-							createdAt: video.createdAt,
-						}}
-					/>
-				</div>
-			))}
-			{videos.map((video) => (
-				<div key={video._id} className="w-full sm:w-1/2 lg:w-1/3 2xl:w-1/4 p-2">
-					<VideoCard
-						video={{
-							...JSON.parse(JSON.stringify(video)),
-							createdAt: video.createdAt,
-						}}
-					/>
-				</div>
-			))}
-			{videos.map((video) => (
-				<div key={video._id} className="w-full sm:w-1/2 lg:w-1/3 2xl:w-1/4 p-2">
-					<VideoCard
-						video={{
-							...JSON.parse(JSON.stringify(video)),
-							createdAt: video.createdAt,
-						}}
-					/>
-				</div>
-			))}
 		</div>
 	);
 }

@@ -1,12 +1,12 @@
 import { uploadToCloudinary } from "@/lib/cloudinary/uploadFile";
-import getUserIdFromJwt from "@/lib/getUserIdFromJwt";
-import { cookies } from "next/headers";
+// import getUserIdFromJwt from "@/lib/getUserIdFromJwt";
+// import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
 	try {
-		const user_id = getUserIdFromJwt(cookies().get("token")?.value);
-		if (!user_id) throw new Error("Token missing");
+		// const user_id = getUserIdFromJwt(cookies().get("token")?.value);
+		// if (!user_id) throw new Error("Token missing");
 
 		const formData = await req.formData();
 

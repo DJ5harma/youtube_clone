@@ -3,7 +3,7 @@ import { CVideoCard } from "@/lib/types";
 import { croppedAvatarUrl, timeSince } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 const VideoCard = ({
 	video,
@@ -70,9 +70,9 @@ const VideoCard = ({
 			<Image
 				src={video.thumbnail.secure_url}
 				alt=""
-				width="640"
-				height="360"
-				className="rounded-2xl cursor-pointer"
+				width={1280}
+				height={720}
+				className="rounded-2xl cursor-pointer object-cover aspect-video"
 				style={{ width: playVideo ? "0%" : "100%" }}
 			/>
 			<div className="flex gap-3 px-2 pt-1">
