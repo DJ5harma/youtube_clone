@@ -34,3 +34,17 @@ export interface CVideoPlayable extends CVideoCard {
 	dislikes: number;
 	description: string;
 }
+export interface CComment {
+	commenter: {
+		username: string;
+		_id: string;
+		avatar: {
+			secure_url: string;
+			public_id: string;
+		};
+	};
+	body: string;
+	createdAt: Date;
+	likes: number;
+	dislikes: number;
+}

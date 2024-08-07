@@ -34,11 +34,11 @@ const SubscribeSection = ({
 				todo,
 			})
 		).data;
-		console.log({ errMessage });
+		if (errMessage) return toast.error(errMessage);
 	};
 
 	return (
-		<div className="flex gap-2 items-center w-full justify-between sm:w-fit sm:justify-start">
+		<div className="flex pt-1 pb-2 gap-2 items-center w-full justify-between sm:w-fit sm:justify-start">
 			<div className="flex gap-2 items-center">
 				<Image
 					src={croppedAvatarUrl(creator.avatar.public_id)}

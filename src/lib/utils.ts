@@ -24,8 +24,9 @@ export const timeSince = (date: Date): string => {
 	const secondsPast = Math.floor((now.getTime() - date.getTime()) / 1000);
 
 	if (secondsPast < 60) {
-		if (secondsPast === 1) return `${secondsPast} second ago`;
-		return `${secondsPast} seconds ago`;
+		return "just now";
+		// if (secondsPast === 1) return `${secondsPast} second ago`;
+		// return `${secondsPast} seconds ago`;
 	}
 	const minutesPast = Math.floor(secondsPast / 60);
 	if (minutesPast < 60) {
