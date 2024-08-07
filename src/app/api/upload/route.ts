@@ -15,7 +15,6 @@ export const POST = async (req: NextRequest) => {
 		await dbConnect();
 		await VIDEO.create(videoDoc);
 
-		console.log({ videoDoc });
 		return NextResponse.json({});
 	} catch (error) {
 		return NextResponse.json({

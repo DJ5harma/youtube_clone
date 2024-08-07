@@ -120,15 +120,18 @@ export default function Page() {
 								}
 							/>
 						</div>
-						<Button variant="outline" className="w-full">
-							<div className="absolute flex items-center gap-2">
-								<BiUpload size={20} />
-								Avatar
-								{" (optional)"}
-							</div>
+						<Button
+							variant="outline"
+							className="w-full flex items-center gap-2"
+							onClick={() => document.getElementById("avatar-input")?.click()}
+						>
+							<BiUpload size={20} />
+							Avatar
+							{" (optional)"}
 							<input
+								id="avatar-input"
 								type="file"
-								className="border-2 h-full w-full opacity-0 cursor-pointer"
+								className="absolute w-0 opacity-0"
 								accept=".png, .jpeg, .jpg, .webp"
 								onChange={(e) => {
 									if (e.target.files) handleAvatarUpload(e.target.files[0]);

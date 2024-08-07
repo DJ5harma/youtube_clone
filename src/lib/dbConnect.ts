@@ -1,3 +1,4 @@
+import COMMENT from "@/models/COMMENT.model";
 import USER from "@/models/USER.model";
 import VIDEO from "@/models/VIDEO.model";
 import mongoose from "mongoose";
@@ -15,6 +16,7 @@ export default async function dbConnect() {
 
 		if (!mongoose.models.USER) mongoose.model("USER", USER.schema);
 		if (!mongoose.models.VIDEO) mongoose.model("VIDEO", VIDEO.schema);
+		if (!mongoose.models.COMMENT) mongoose.model("COMMENT", COMMENT.schema);
 
 		isConnected = db.connections[0].readyState === 1;
 	} catch (error) {

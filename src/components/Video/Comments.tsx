@@ -29,7 +29,7 @@ const Comments = ({
 
 	const handleSubmit = async () => {
 		if (!user._id) return toast.error("Sign in required");
-		const { errMessage, comment_id } = (
+		const { errMessage } = (
 			await axios.post("/api/videos/addComment", {
 				body,
 				video_id,

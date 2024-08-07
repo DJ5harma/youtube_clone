@@ -10,6 +10,8 @@ import { CComment, CVideoCard, CVideoPlayable } from "@/lib/types";
 import COMMENT from "@/models/COMMENT.model";
 import USER from "@/models/USER.model";
 import VIDEO from "@/models/VIDEO.model";
+import WATCH_HISTORY from "@/models/WATCH_HISTORY";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import React from "react";
 
@@ -58,6 +60,13 @@ export default async function page({
 			? 1
 			: -1
 		: 0;
+	console.log({ userRating });
+
+	WATCH_HISTORY.findOneAndUpdate(
+		{ user: user_id, video: video_id },
+		{ lastWatched: Date.now() },
+		{ upsert: true }
+	).then(() => revalidatePath("/watchHistory")); // no need to wait for
 
 	return (
 		<div className="flex-wrap sm:p-4 sm:gap-4 lg:flex-nowrap overflow-x-hidden border flex">

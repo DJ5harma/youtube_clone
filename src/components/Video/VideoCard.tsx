@@ -5,7 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
 
-const VideoCard = ({ video }: { video: CVideoCard }) => {
+const VideoCard = ({
+	video,
+	extraInfo,
+}: {
+	video: CVideoCard;
+	extraInfo?: string;
+}) => {
 	const [playVideo, setPlayVideo] = useState(false);
 	const videoRef = useRef<HTMLVideoElement | null>(null);
 	return (
@@ -54,6 +60,7 @@ const VideoCard = ({ video }: { video: CVideoCard }) => {
 						<p className="text-xs opacity-75">
 							{video.views} views ● {timeSince(video.createdAt)}
 						</p>
+						<p>{extraInfo}</p>
 					</div>
 				</div>
 			</div>
