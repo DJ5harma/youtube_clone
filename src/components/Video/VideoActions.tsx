@@ -35,7 +35,7 @@ const VideoActions = ({
 	const updateRatingTo = async (
 		val: "LIKE" | "DISLIKE" | "UNLIKE" | "UNDISLIKE"
 	) => {
-		if (!user?.email) return toast.error("SignIn to rate");
+		if (!user?._id) return toast.error("SignIn to rate");
 		let todo:
 			| "LIKE"
 			| "DISLIKE"
