@@ -31,7 +31,7 @@ export default async function page({
 		)
 		.populate({
 			path: "creator",
-			select: "username _id avatar subscribers",
+			select: "username _id avatar subscribers email",
 		});
 	const user_id = getUserIdFromJwt(cookies().get("token")?.value);
 	const [subscribed, moreVideos, ratingByThisUser, comments]: [
@@ -60,7 +60,6 @@ export default async function page({
 			? 1
 			: -1
 		: 0;
-	console.log({ userRating });
 
 	WATCH_HISTORY.findOneAndUpdate(
 		{ user: user_id, video: video_id },

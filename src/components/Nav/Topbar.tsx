@@ -34,12 +34,16 @@ const Topbar = () => {
 				<Input placeholder="Search" />
 				<CustomTooltip icon={<BiSearch />} text="Search" />
 			</div>
-			<div className="flex h-full items-center gap-1 px-2 py-4">
+			<div className="flex h-full items-center gap-4 pl-2 pr-4">
 				<CustomTooltip icon={<ModeToggle />} text="Toggle theme" />
 				<Link href="/upload">
-					<CustomTooltip icon={<LuUpload />} text="Upload +" />
+					<CustomTooltip icon={<LuUpload />} text="Upload +" size={28} />
 				</Link>
-				<CustomTooltip icon={<ProfileDropdown />} text="Profile Menu" />
+				<CustomTooltip
+					icon={<ProfileDropdown />}
+					text="Profile Menu"
+					size={30}
+				/>
 			</div>
 		</aside>
 	);

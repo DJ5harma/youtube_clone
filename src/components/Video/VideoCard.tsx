@@ -25,7 +25,7 @@ const VideoCard = ({
 					// setTimeout(() => {
 					videoRef.current?.pause();
 					setPlayVideo(false);
-					// }, 1000);
+					// }, 1500);
 				}}
 			></video>
 
@@ -40,21 +40,26 @@ const VideoCard = ({
 					// setTimeout(() => {
 					videoRef.current?.play();
 					setPlayVideo(true);
-					// }, 1000);
+					// }, 1500);
 				}}
 			/>
 			<div className="flex gap-3 px-2 pt-1">
-				<Image
-					src={croppedAvatarUrl(video.creator.avatar.public_id)}
-					alt=""
-					width="40"
-					height="40"
-					className="rounded-full w-10 h-10 relative top-2"
-				/>
+				<Link href={`/user/${video.creator.email}`}>
+					<Image
+						src={croppedAvatarUrl(video.creator.avatar.public_id)}
+						alt=""
+						width="40"
+						height="40"
+						className="rounded-full w-10 h-10 relative top-2"
+					/>
+				</Link>
 				<div className="flex flex-col py-2">
 					<p>{video.title}</p>
 					<div className="text-sm gap-0.5 flex flex-col">
-						<p className="opacity-75 hover:opacity-100 w-fit cursor-pointer">
+						<p
+							// href={`/user/${video.creator.email}`}
+							className="opacity-75 hover:opacity-100 w-fit cursor-pointer"
+						>
 							{video.creator.username}
 						</p>
 						<p className="text-xs opacity-75">

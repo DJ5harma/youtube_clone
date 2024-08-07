@@ -23,7 +23,7 @@ export default async function page() {
 		select: "_id title creator thumbnail video views createdAt",
 		populate: {
 			path: "creator",
-			select: "username _id avatar",
+			select: "username _id avatar email",
 		},
 	});
 

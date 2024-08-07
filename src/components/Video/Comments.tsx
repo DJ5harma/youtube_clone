@@ -15,6 +15,7 @@ import { IoIosSend } from "react-icons/io";
 import toast from "react-hot-toast";
 import axios from "axios";
 import CustomTooltip from "../Nav/CustomTooltip";
+import Link from "next/link";
 
 const Comments = ({
 	comments,
@@ -56,13 +57,15 @@ const Comments = ({
 				</AccordionTrigger>
 				<AccordionContent>
 					<div className="flex items-center gap-2 mb-4">
-						<Image
-							src={croppedAvatarUrl(user.avatar.public_id)}
-							alt=""
-							width="40"
-							height="40"
-							className="rounded-full w-8 h-8"
-						/>
+						<Link href={`/user/${user.email}`}>
+							<Image
+								src={croppedAvatarUrl(user.avatar.public_id)}
+								alt=""
+								width="40"
+								height="40"
+								className="rounded-full w-8 h-8"
+							/>
+						</Link>
 						<Input
 							placeholder="Add comment..."
 							value={body}
@@ -76,13 +79,15 @@ const Comments = ({
 					</div>
 					{shownComments.map(({ body, commenter, createdAt }) => (
 						<div className="w-full flex gap-4" key={createdAt.toISOString()}>
-							<Image
-								src={croppedAvatarUrl(commenter.avatar.public_id)}
-								alt=""
-								width="40"
-								height="40"
-								className="rounded-full w-8 h-8"
-							/>
+							<Link href={`/user/${commenter.email}`}>
+								<Image
+									src={croppedAvatarUrl(commenter.avatar.public_id)}
+									alt=""
+									width="40"
+									height="40"
+									className="rounded-full w-8 h-8"
+								/>
+							</Link>
 							<div className="w-full flex flex-col gap-2">
 								<div className="flex items-center gap-2">
 									<p className="text-base">{commenter.username}</p>●

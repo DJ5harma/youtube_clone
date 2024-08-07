@@ -18,12 +18,15 @@ export default function Page() {
 		email: "",
 		password: "",
 	});
+	const [loading, setLoading] = useState(false);
 
 	const handleLogin = async () => {
 		toast.loading("Signing you in...");
+		setLoading(true);
 		const { errMessage, user } = (await axios.post("/api/auth/login", form))
 			.data;
 		toast.dismiss();
+		setLoading(false);
 		if (errMessage) return toast.error(errMessage);
 		setUser(user);
 		router.push("/");
@@ -68,9 +71,11 @@ export default function Page() {
 								onChange={(e) => setForm({ ...form, password: e.target.value })}
 							/>
 						</div>
-						<Button type="submit" className="w-full" onClick={handleLogin}>
-							Login
-						</Button>
+						{!loading && (
+							<Button type="submit" className="w-full" onClick={handleLogin}>
+								Login
+							</Button>
+						)}
 					</div>
 					<div className="mt-4 text-center text-sm">
 						Don&apos;t have an account?{" "}

@@ -20,15 +20,20 @@ export default function Page() {
 		email: "",
 		avatar: { secure_url: "", public_id: "" },
 	});
+
+	const [loading, setLoading] = useState(false);
+
 	const handleAvatarUpload = async (image: File) => {
 		if (!image) return toast.error("File not selected");
 		const formData = new FormData();
 		formData.append("image", image);
 		toast.loading("Uploading avatar");
+		setLoading(true);
 		const { errMessage, secure_url, public_id } = (
 			await axios.post("/api/upload/image", formData)
 		).data;
 		toast.dismiss();
+		setLoading(false);
 		if (errMessage) return toast.error(errMessage);
 		setForm({ ...form, avatar: { secure_url, public_id } });
 	};
@@ -37,13 +42,18 @@ export default function Page() {
 
 	const handleRegister = async () => {
 		toast.loading("Signing you up...");
+		setLoading(true);
 		const { errMessage, user } = (await axios.post("/api/auth/register", form))
 			.data;
 		toast.dismiss();
-		if (errMessage) return toast.error(errMessage);
-		setUser(user);
-		router.push("/");
-		toast.success("Registered");
+		if (errMessage) {
+			setLoading(false);
+			toast.error(errMessage);
+		} else {
+			setUser(user);
+			router.push("/");
+			toast.success("Registered");
+		}
 	};
 
 	return (
@@ -138,9 +148,11 @@ export default function Page() {
 								}}
 							/>
 						</Button>
-						<Button onClick={handleRegister} className="w-full">
-							Register
-						</Button>
+						{!loading && (
+							<Button onClick={handleRegister} className="w-full">
+								Register
+							</Button>
+						)}
 					</div>
 					<div className="mt-4 text-center text-sm">
 						Already have an account?{" "}

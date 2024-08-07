@@ -8,6 +8,7 @@ export interface CVideoCard {
 			secure_url: string;
 			public_id: string;
 		};
+		email: string;
 	};
 	thumbnail: {
 		secure_url: string;
@@ -28,6 +29,7 @@ export interface CVideoPlayable extends CVideoCard {
 			secure_url: string;
 			public_id: string;
 		};
+		email: string;
 		subscribers: number;
 	};
 	likes: number;
@@ -42,6 +44,7 @@ export interface CComment {
 			secure_url: string;
 			public_id: string;
 		};
+		email: string;
 	};
 	body: string;
 	createdAt: Date;

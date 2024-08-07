@@ -9,7 +9,7 @@ export default async function page() {
 	const videos: CVideoCard[] = await VIDEO.find()
 		.limit(10)
 		.select("_id title creator thumbnail video views createdAt")
-		.populate({ path: "creator", select: "username _id avatar" });
+		.populate({ path: "creator", select: "username _id avatar email" });
 	return (
 		<div className="flex w-full flex-wrap">
 			{videos.map((video) => (

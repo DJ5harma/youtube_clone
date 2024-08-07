@@ -6,6 +6,8 @@ export const POST = async (req: NextRequest) => {
 
 	const video = formData.get("video") as unknown as File;
 
+	if (!video) return NextResponse.json({ errMessage: "Video didn't arrive" });
+
 	const { errMessage, result } = await uploadToCloudinary(video, "video");
 
 	if (errMessage) return NextResponse.json({ errMessage });

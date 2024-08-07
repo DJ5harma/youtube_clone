@@ -99,7 +99,7 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 			</div>
 			<div>
 				<p
-					className={`text-xl sm:text-2xl font-semibold p-2 ${
+					className={`text-xl sm:text-2xl sm:mt-1 font-semibold p-2 ${
 						fullscreen
 							? "fixed top-0 left-0 z-50 bg-black p-2 rounded-ee-xl bg-opacity-50"
 							: ""

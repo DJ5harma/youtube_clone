@@ -1,10 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import { BiFastForward, BiPause, BiPlay } from "react-icons/bi";
-import { HiMiniSpeakerWave, HiMiniSpeakerXMark } from "react-icons/hi2";
 import { MdFullscreen, MdFullscreenExit } from "react-icons/md";
 import CustomTooltip from "../Nav/CustomTooltip";
 import { getSeekbarTime } from "@/lib/utils";
+import {
+	PiSpeakerHighFill,
+	PiSpeakerLowFill,
+	PiSpeakerSimpleXFill,
+} from "react-icons/pi";
 
 const ControlButtons = ({
 	paused,
@@ -147,9 +151,11 @@ const ControlButtons = ({
 						<CustomTooltip
 							icon={
 								muted ? (
-									<HiMiniSpeakerXMark onClick={toggleMute} />
+									<PiSpeakerSimpleXFill onClick={toggleMute} />
+								) : volume < 0.5 ? (
+									<PiSpeakerLowFill onClick={toggleMute} />
 								) : (
-									<HiMiniSpeakerWave onClick={toggleMute} />
+									<PiSpeakerHighFill onClick={toggleMute} />
 								)
 							}
 							text={muted ? "Unmute" : "Mute"}

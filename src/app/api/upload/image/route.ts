@@ -6,6 +6,8 @@ export const POST = async (req: NextRequest) => {
 
 	const image = formData.get("image") as unknown as File;
 
+	if (!image) return NextResponse.json({ errMessage: "Image didn't arrive" });
+
 	const { errMessage, result } = await uploadToCloudinary(image, "image");
 
 	if (errMessage) return NextResponse.json({ errMessage });

@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import axios from "axios";
 import { useUser } from "@/app/providers/UserProvider";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 const SubscribeSection = ({
 	creator,
@@ -16,6 +17,7 @@ const SubscribeSection = ({
 		subscribers: number;
 		username: string;
 		_id: string;
+		email: string;
 	};
 	subscribed: boolean;
 }) => {
@@ -40,13 +42,15 @@ const SubscribeSection = ({
 	return (
 		<div className="flex pt-1 pb-2 gap-2 items-center w-full justify-between sm:w-fit sm:justify-start">
 			<div className="flex gap-2 items-center">
-				<Image
-					src={croppedAvatarUrl(creator.avatar.public_id)}
-					height={40}
-					width={40}
-					alt=""
-					className="rounded-full w-10 h-10"
-				/>
+				<Link href={`/user/${creator.email}`}>
+					<Image
+						src={croppedAvatarUrl(creator.avatar.public_id)}
+						height={40}
+						width={40}
+						alt=""
+						className="rounded-full w-10 h-10"
+					/>
+				</Link>
 				<div className="gap-0.5 flex flex-col">
 					<p className="hover:opacity-100 w-fit cursor-pointer">
 						{creator.username}

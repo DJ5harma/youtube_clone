@@ -6,22 +6,40 @@ import {
 	DropdownMenuGroup,
 	DropdownMenuItem,
 	DropdownMenuLabel,
-	DropdownMenuPortal,
+	// DropdownMenuPortal,
 	DropdownMenuSeparator,
-	DropdownMenuShortcut,
-	DropdownMenuSub,
-	DropdownMenuSubContent,
-	DropdownMenuSubTrigger,
+	// DropdownMenuShortcut,
+	// DropdownMenuSub,
+	// DropdownMenuSubContent,
+	// DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Image from "next/image";
 import { MdAccountCircle } from "react-icons/md";
+import { useUser } from "@/app/providers/UserProvider";
+import { croppedAvatarUrl } from "@/lib/utils";
+import Link from "next/link";
 
 export function ProfileDropdown() {
+	const { user } = useUser();
+
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<Button variant="ghost" className="p-0">
-					<MdAccountCircle size={25} />
+					{user.avatar.public_id ? (
+						<Link href={`/user/${user.email}`}>
+							<Image
+								src={croppedAvatarUrl(user.avatar.public_id)}
+								alt=""
+								width="40"
+								height="40"
+								className="rounded-full min-w-8 min-h-8"
+							/>
+						</Link>
+					) : (
+						<MdAccountCircle size={25} />
+					)}
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className="w-56">
@@ -30,22 +48,22 @@ export function ProfileDropdown() {
 				<DropdownMenuGroup>
 					<DropdownMenuItem>
 						Profile
-						<DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+						{/* <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut> */}
 					</DropdownMenuItem>
 					<DropdownMenuItem>
-						Billing
-						<DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+						Switch Account
+						{/* <DropdownMenuShortcut>⌘B</DropdownMenuShortcut> */}
 					</DropdownMenuItem>
 					<DropdownMenuItem>
 						Settings
-						<DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+						{/* <DropdownMenuShortcut>⌘S</DropdownMenuShortcut> */}
 					</DropdownMenuItem>
 					<DropdownMenuItem>
 						Keyboard shortcuts
-						<DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+						{/* <DropdownMenuShortcut>⌘K</DropdownMenuShortcut> */}
 					</DropdownMenuItem>
 				</DropdownMenuGroup>
-				<DropdownMenuSeparator />
+				{/* <DropdownMenuSeparator />
 				<DropdownMenuGroup>
 					<DropdownMenuItem>Team</DropdownMenuItem>
 					<DropdownMenuSub>
@@ -63,7 +81,7 @@ export function ProfileDropdown() {
 						New Team
 						<DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
 					</DropdownMenuItem>
-				</DropdownMenuGroup>
+				</DropdownMenuGroup> */}
 				<DropdownMenuSeparator />
 				<DropdownMenuItem>GitHub</DropdownMenuItem>
 				<DropdownMenuItem>Support</DropdownMenuItem>
@@ -71,7 +89,7 @@ export function ProfileDropdown() {
 				<DropdownMenuSeparator />
 				<DropdownMenuItem>
 					Log out
-					<DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+					{/* <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut> */}
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
