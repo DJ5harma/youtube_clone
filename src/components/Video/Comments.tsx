@@ -30,6 +30,7 @@ const Comments = ({
 
 	const handleSubmit = async () => {
 		if (!user._id) return toast.error("Sign in required");
+		if (!body) return toast.error("Comment body can't be empty");
 		const { errMessage } = (
 			await axios.post("/api/videos/addComment", {
 				body,
@@ -65,7 +66,7 @@ const Comments = ({
 								alt=""
 								width="40"
 								height="40"
-								className="rounded-full w-8 h-8"
+								className="rounded-full min-w-8 min-h-8 aspect-square"
 							/>
 						</Link>
 						<Input
@@ -91,7 +92,7 @@ const Comments = ({
 										alt=""
 										width="40"
 										height="40"
-										className="rounded-full w-8 h-8"
+										className="rounded-full aspect-square"
 									/>
 								</Link>
 								<div className="w-full flex flex-col gap-2">
