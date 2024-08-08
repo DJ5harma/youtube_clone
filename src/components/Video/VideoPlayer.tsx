@@ -70,8 +70,8 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 					loop
 					ref={videoRef}
 					src={
-						"/sampleVideo.mp4"
-						// video.video.secure_url
+						// "/sampleVideo.mp4"
+						video.video.secure_url
 					}
 					onTimeUpdate={() => {
 						if (videoRef.current) videoRef.current.muted = false;
@@ -84,7 +84,7 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 					video tag not supported on this browser
 				</video>
 				{hideControlsTimer !== 0 && (
-					<div className="h-full w-full top-0 left-0 absolute flex justify-around items-center [&>div]:flex [&>div]:items-center [&>div]:gap-2 [&>div]:z-30 [&>div]:opacity-80 bg-black bg-opacity-20">
+					<div className="h-full w-full top-0 left-0 absolute flex justify-around items-center [&>div]:flex [&>div]:items-center [&>div]:gap-2 [&>div]:z-30 [&>div]:opacity-80 bg-black bg-opacity-20 text-white">
 						<div
 							onClick={() => {
 								if (videoRef.current && videoRef.current.currentTime - 5 >= 0)
@@ -109,8 +109,8 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 					</div>
 				)}
 				<div
-					className="lg:hidden h-full w-full top-0 left-0 absolute flex items-end z-20"
-					// style={{ height: "calc(100% - 64px)" }} //64px is ControlButtons' height
+					className="lg:hidden h-full w-full top-0 left-0 absolute flex items-end z-20 text-white"
+					style={{ height: "calc(100% - 64px)" }} //64px is ControlButtons' height
 				>
 					<MobileControlButtons
 						paused={paused}
@@ -123,7 +123,7 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 				</div>
 
 				<div
-					className="h-full w-full top-0 left-0 absolute flex items-end"
+					className="h-full w-full top-0 left-0 absolute flex items-end pb-2"
 					onDoubleClick={toggleFullscreen}
 					onClick={togglePlay}
 				>

@@ -19,11 +19,10 @@ const MobileControlButtons = ({
 	return (
 		<div
 			className="w-full h-full absolute top-0 flex justify-between"
-			onClick={() => setHideControlsTimer((prev) => (prev === 0 ? 8 : 0))}
+			onClick={() => setHideControlsTimer((prev) => (prev === 0 ? 4 : 0))}
 		>
 			<div
 				className="h-full flex-1 flex justify-center items-center"
-				// onClick={(e) => e.stopPropagation()}
 				onDoubleClick={(e) => {
 					e.stopPropagation();
 					setHideControlsTimer(2);
@@ -32,7 +31,7 @@ const MobileControlButtons = ({
 				}}
 			></div>
 			<div
-				className={`h-full flex justify-center items-center ${
+				className={`h-full flex justify-center items-center mt-8 ${
 					hideControlsTimer === 0 ? "opacity-0" : ""
 				}`}
 			>
@@ -56,7 +55,6 @@ const MobileControlButtons = ({
 			</div>
 			<div
 				className="h-full flex-1 flex justify-center items-center"
-				// onClick={(e) => e.stopPropagation()}
 				onDoubleClick={(e) => {
 					e.stopPropagation();
 					setHideControlsTimer(2);

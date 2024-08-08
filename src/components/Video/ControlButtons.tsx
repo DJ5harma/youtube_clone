@@ -106,7 +106,7 @@ const ControlButtons = ({
 
 	return (
 		<div
-			className={`h-16 w-full text-white pb-2 justify-between items-center flex flex-col gap-2 pt-3 px-2 ${
+			className={`h-16 w-full text-white justify-between items-center flex flex-col gap-2 pt-3 px-2 ${
 				fullscreen && "fixed bottom-0 left-0 rounded-none"
 			}`}
 			onClick={(e) => e.stopPropagation()}
