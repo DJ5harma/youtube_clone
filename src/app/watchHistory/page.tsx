@@ -1,3 +1,4 @@
+import ErrorComponent from "@/components/ErrorComponent";
 import VideoCard from "@/components/Video/VideoCard";
 import dbConnect from "@/lib/dbConnect";
 import getUserIdFromJwt from "@/lib/getUserIdFromJwt";
@@ -9,6 +10,14 @@ import React from "react";
 
 export default async function page() {
 	const user_id = getUserIdFromJwt(cookies().get("token")?.value);
+
+	if (!user_id)
+		return (
+			<ErrorComponent
+				message="An account is needed to posses a WatchHistory"
+				showForm
+			/>
+		);
 
 	await dbConnect();
 	const history: { video: CVideoCard; lastWatched: Date }[] =
@@ -25,6 +34,10 @@ export default async function page() {
 				},
 			})
 			.sort("-lastWatched");
+	if (!history || history.length === 0)
+		return (
+			<ErrorComponent message="Seems like you don't posses a WatchHistory" />
+		);
 	return (
 		<>
 			<h1 className="p-2 text-2xl font-semibold">Your watch history :</h1>

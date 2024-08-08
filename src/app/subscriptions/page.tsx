@@ -1,3 +1,5 @@
+import ErrorComponent from "@/components/ErrorComponent";
+
 export default function page() {
-	throw new Error("Not implemented");
+	return <ErrorComponent message="Not yet implemented" showForm />;
 }

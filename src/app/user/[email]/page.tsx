@@ -1,3 +1,4 @@
+import ErrorComponent from "@/components/ErrorComponent";
 import SubscribeSection from "@/components/SubscribeSection";
 import VideoCard from "@/components/Video/VideoCard";
 import getUserIdFromJwt from "@/lib/getUserIdFromJwt";
@@ -15,9 +16,17 @@ export default async function page({
 	const user_id = getUserIdFromJwt(cookies().get("token")?.value);
 	email = email.split("%40")[0] + "@" + email.split("%40")[1];
 
+	if (!email)
+		return (
+			<ErrorComponent message="Looks like you're lost or this user doesn't exist" />
+		);
+
 	const creator = await USER.findOne({ email })
 		.select("avatar _id username subscribers")
 		.populate("avatar");
+
+	if (!creator)
+		return <ErrorComponent message="Looks like this user doesn't exist" />;
 
 	const [subscribed, videos] = await Promise.all([
 		USER.exists({

@@ -1,3 +1,4 @@
+import ErrorComponent from "@/components/ErrorComponent";
 import SubscribeSection from "@/components/SubscribeSection";
 import Comments from "@/components/Video/Comments";
 import Description from "@/components/Video/Description";
@@ -33,6 +34,8 @@ export default async function page({
 			path: "creator",
 			select: "username _id avatar subscribers email",
 		});
+	if (!video)
+		return <ErrorComponent message="Looks like this video doesn't exist..." />;
 	const user_id = getUserIdFromJwt(cookies().get("token")?.value);
 	const [subscribed, moreVideos, ratingByThisUser, comments]: [
 		{ _id: string } | null,

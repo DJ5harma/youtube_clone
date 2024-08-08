@@ -1,3 +1,4 @@
+import ErrorComponent from "@/components/ErrorComponent";
 import VideoCard from "@/components/Video/VideoCard";
 import dbConnect from "@/lib/dbConnect";
 import getUserIdFromJwt from "@/lib/getUserIdFromJwt";
@@ -8,7 +9,10 @@ import React from "react";
 
 export default async function page() {
 	const user_id = getUserIdFromJwt(cookies().get("token")?.value);
-	if (!user_id) throw new Error("An account is needed to rate videos");
+	if (!user_id)
+		return (
+			<ErrorComponent message="An account is needed to rate videos" showForm />
+		);
 
 	await dbConnect();
 	const data: {
@@ -24,7 +28,13 @@ export default async function page() {
 			select: "username _id avatar email",
 		},
 	});
-	if (!data) throw new Error("An account is needed to rate videos");
+	if (!data)
+		return (
+			<ErrorComponent
+				message="Your account has not rated anything it seems"
+				showForm
+			/>
+		);
 
 	const likedVideos = data.videoRatings.filter(
 		({ isPositive }) => isPositive === true
