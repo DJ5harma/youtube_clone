@@ -51,12 +51,11 @@ const RegisterForm = () => {
 		toast.dismiss();
 		if (errMessage) {
 			setLoading(false);
-			toast.error(errMessage);
-		} else {
-			setUser(user);
-			router.push("/");
-			toast.success("Registered");
+			return toast.error(errMessage);
 		}
+		setUser(user);
+		if (window.location.href.endsWith("/auth/login")) router.push("/");
+		toast.success("Registered");
 	};
 	return (
 		<div className="w-full h-full flex justify-around gap-4">

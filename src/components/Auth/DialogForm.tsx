@@ -6,6 +6,7 @@ import {
 	DialogContent,
 	DialogFooter,
 	DialogTitle,
+	DialogTrigger,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import LoginForm from "./LoginForm";
@@ -14,39 +15,46 @@ import RegisterForm from "./RegisterForm";
 const DialogForm = () => {
 	const { setShowForm } = useUser();
 	return (
-		<Dialog defaultOpen>
-			{/* <DialogTrigger asChild>
+		<div onClick={() => setShowForm(false)}>
+			<Dialog open>
+				{/* <DialogTrigger asChild>
 				<Button variant="outline">Edit Profile</Button>
-			</DialogTrigger> */}
-			<DialogContent className="">
-				<Tabs defaultValue="Register" className="w-full">
-					<div className="w-full flex justify-center mb-4">
+				</DialogTrigger> */}
+				{/* <div
+				className="absolute top-0 left-0 w-screen h-screen bg-red-700 z-50"
+				onClick={() => setShowForm(false)}
+				></div> */}
+				<DialogContent onClick={(e) => e.stopPropagation()} className="p-0">
+					<Tabs defaultValue="Register" className="w-full p-4">
 						<DialogTitle>
-							<TabsList className="flex justify-center w-fit">
-								<TabsTrigger value="Login">Login</TabsTrigger>
-								<TabsTrigger value="Register">Register</TabsTrigger>
-							</TabsList>
+							<div className="w-full flex justify-center mb-4">
+								<TabsList className="flex justify-center w-full z-10">
+									<TabsTrigger value="Login">Login</TabsTrigger>
+									<TabsTrigger value="Register">Register</TabsTrigger>
+								</TabsList>
+							</div>
 						</DialogTitle>
-					</div>
-					<TabsContent value="Login">
-						<LoginForm />
-					</TabsContent>
-					<TabsContent value="Register">
-						<RegisterForm />
-					</TabsContent>
-				</Tabs>
+						<TabsContent value="Login">
+							<LoginForm />
+						</TabsContent>
+						<TabsContent value="Register">
+							<RegisterForm />
+						</TabsContent>
 
-				<DialogFooter>
-					<Button
-						type="submit"
-						variant="secondary"
-						onClick={() => setShowForm(false)}
-					>
-						Or remain as guest
-					</Button>
-				</DialogFooter>
-			</DialogContent>
-		</Dialog>
+						<DialogFooter>
+							<Button
+								type="submit"
+								variant="secondary"
+								onClick={() => setShowForm(false)}
+								className="mt-4"
+							>
+								Or remain as guest
+							</Button>
+						</DialogFooter>
+					</Tabs>
+				</DialogContent>
+			</Dialog>
+		</div>
 	);
 };
 export default DialogForm;

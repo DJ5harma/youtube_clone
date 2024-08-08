@@ -26,7 +26,7 @@ const LoginForm = () => {
 		if (errMessage) return toast.error(errMessage);
 		setUser(user);
 		setShowForm(false);
-		router.push("/");
+		if (window.location.href.endsWith("/auth/login")) router.push("/");
 		toast.success("Logged In");
 	};
 

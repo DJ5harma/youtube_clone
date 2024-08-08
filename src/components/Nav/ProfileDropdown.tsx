@@ -1,21 +1,14 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuGroup,
 	DropdownMenuItem,
 	DropdownMenuLabel,
-	// DropdownMenuPortal,
 	DropdownMenuSeparator,
-	// DropdownMenuShortcut,
-	// DropdownMenuSub,
-	// DropdownMenuSubContent,
-	// DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
-import { MdAccountCircle } from "react-icons/md";
 import { sampleUser, useUser } from "@/providers/UserProvider";
 import { croppedAvatarUrl } from "@/lib/utils";
 import Link from "next/link";
@@ -24,7 +17,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 export function ProfileDropdown() {
-	const { user, setUser } = useUser();
+	const { user, setShowForm, setUser } = useUser();
 	const router = useRouter();
 	const handleLogout = async () => {
 		toast.loading("Logging you out");
@@ -33,7 +26,6 @@ export function ProfileDropdown() {
 		if (errMessage) return toast.error(errMessage);
 		toast.success("Logged out");
 		setUser(sampleUser);
-		router.push("/auth/login");
 	};
 
 	return (
@@ -61,12 +53,10 @@ export function ProfileDropdown() {
 							</DropdownMenuItem>
 						)}
 					</Link>
-					<Link href="/auth/login">
-						<DropdownMenuItem>
-							{user._id ? "Switch Account" : "Sign in"}
-							{/* <DropdownMenuShortcut>⌘B</DropdownMenuShortcut> */}
-						</DropdownMenuItem>
-					</Link>
+					<DropdownMenuItem onClick={() => setShowForm(true)}>
+						{user._id ? "Switch Account" : "Sign in"}
+						{/* <DropdownMenuShortcut>⌘B</DropdownMenuShortcut> */}
+					</DropdownMenuItem>
 				</DropdownMenuGroup>
 				{/* <DropdownMenuSeparator />
 				<DropdownMenuGroup>
@@ -96,7 +86,7 @@ export function ProfileDropdown() {
 				{user._id && (
 					<>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem onClick={() => console.log("click")}>
+						<DropdownMenuItem onClick={handleLogout}>
 							Log out
 							{/* <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut> */}
 						</DropdownMenuItem>

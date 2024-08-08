@@ -30,12 +30,17 @@ const VideoActions = ({
 		userRating
 	);
 
-	const { user } = useUser();
+	const { user, setShowForm } = useUser();
 
 	const updateRatingTo = async (
 		val: "LIKE" | "DISLIKE" | "UNLIKE" | "UNDISLIKE"
 	) => {
-		if (!user?._id) return toast.error("SignIn to rate");
+		if (!user?._id) {
+			{
+				setShowForm(true);
+				return toast.error("SignIn to rate");
+			}
+		}
 		let todo:
 			| "LIKE"
 			| "DISLIKE"
@@ -79,7 +84,7 @@ const VideoActions = ({
 	return (
 		<div className="flex items-center [&>*]:rounded-full overflow-y-hidden gap-2">
 			<div className="items-center flex gap-1 border px-4 p-1">
-				{shownUserRating === 1 ? (
+				{shownUserRating === 1 && user._id ? (
 					<>
 						<CustomTooltip
 							icon={<BiSolidLike onClick={() => updateRatingTo("UNLIKE")} />}
@@ -96,7 +101,7 @@ const VideoActions = ({
 				)}
 				<p className="text-sm font-medium">{shownLikes}</p>
 				<p className="text-2xl mx-1">|</p>
-				{shownUserRating === -1 ? (
+				{shownUserRating === -1 && user._id ? (
 					<CustomTooltip
 						icon={
 							<BiSolidDislike onClick={() => updateRatingTo("UNDISLIKE")} />

@@ -21,12 +21,15 @@ const SubscribeSection = ({
 	};
 	subscribed: boolean;
 }) => {
-	const { user } = useUser();
+	const { user, setShowForm } = useUser();
 	const [isSubscribed, setIsSubscribed] = useState(subscribed);
 	const [shownSubCount, setShownSubCount] = useState(creator.subscribers);
 
 	const handleClick = async () => {
-		if (!user._id) return toast.error("Sign in required");
+		if (!user._id) {
+			setShowForm(true);
+			return toast.error("Sign in required");
+		}
 		const todo = isSubscribed ? "UNSUBSCRIBE" : "SUBSCRIBE";
 		setShownSubCount((prev) => (todo === "SUBSCRIBE" ? prev + 1 : prev - 1));
 		setIsSubscribed(!isSubscribed);
@@ -61,13 +64,12 @@ const SubscribeSection = ({
 					</p>
 				</div>
 			</div>
-
 			<Button
 				className="rounded-full"
-				variant={isSubscribed ? "outline" : "default"}
+				variant={isSubscribed && user._id ? "outline" : "default"}
 				onClick={handleClick}
 			>
-				{"Subscribe" + (isSubscribed ? "d" : "")}
+				{"Subscribe" + (isSubscribed && user._id ? "d" : "")}
 			</Button>
 		</div>
 	);

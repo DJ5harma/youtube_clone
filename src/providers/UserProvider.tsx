@@ -45,7 +45,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 				token = cookies[i + 1];
 				break;
 			}
-		if (!token) return;
+		if (!token) return setShowForm(true);
 		toast.loading("Logging you in...");
 		const { errMessage, user } = (await axios.get("/api/auth/login")).data;
 		toast.dismiss();
