@@ -16,15 +16,16 @@ const Description = ({
 	createdAt: Date;
 }) => {
 	return (
-		<Accordion type="single" collapsible>
+		<Accordion type="single" collapsible defaultValue="item-1">
 			<AccordionItem value="item-1" className="px-4 border-4 rounded-xl my-2">
 				<AccordionTrigger>
-					<div className="flex justify-between w-full pr-2">
-						<p>Description</p>
-						<p>Published: {convertToHumanFriendlyDate(createdAt)}</p>
+					<div className="flex flex-col items-start w-full pr-2">
+						<p>Description | {convertToHumanFriendlyDate(createdAt)}</p>
 					</div>
 				</AccordionTrigger>
-				<AccordionContent>{description}</AccordionContent>
+				<AccordionContent>
+					<p>{description}</p>
+				</AccordionContent>
 			</AccordionItem>
 		</Accordion>
 	);

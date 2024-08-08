@@ -7,7 +7,9 @@ export function cn(...inputs: ClassValue[]) {
 export const public_cloudname = "dkoh3aq60";
 
 export const croppedAvatarUrl = (public_id: string) =>
-	`https://res.cloudinary.com/${public_cloudname}/image/upload/c_crop,w_300,h_300/${public_id}.jpg`;
+	public_id
+		? `https://res.cloudinary.com/${public_cloudname}/image/upload/c_crop,w_300,h_300/${public_id}.jpg`
+		: "/profile.png";
 
 export const getSeekbarTime = (time: number): string => {
 	const hours = time / 3600;

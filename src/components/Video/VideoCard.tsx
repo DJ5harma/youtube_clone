@@ -22,33 +22,45 @@ const VideoCard = ({
 		setCurrentTime(val);
 	}
 
-	const [playVideo, setPlayVideo] = useState(false);
+	const [isHovered, setIsHovered] = useState(false);
+	const [videoLoaded, setVideoLoaded] = useState(false);
 	return (
 		<div
 			className="w-full"
 			onMouseEnter={() => {
-				setPlayVideo(true);
+				setIsHovered(true);
+				setVideoLoaded(true);
 				videoRef.current?.play();
 			}}
-			onMouseLeave={() => {
-				setPlayVideo(false);
-				videoRef.current?.pause();
-			}}
+			onMouseLeave={() => setIsHovered(false)}
 		>
 			<Link href={`/watch?video_id=${video._id}`}>
-				<video
-					src={video.video.secure_url}
-					ref={videoRef}
-					className="rounded-2xl cursor-pointer"
-					style={{ width: playVideo ? "100%" : "0%" }}
-					onTimeUpdate={() =>
-						setCurrentTime(videoRef.current?.currentTime || 0)
-					}
-				></video>
+				{videoLoaded && (
+					<video
+						src={video.video.secure_url}
+						ref={videoRef}
+						className={`${!isHovered ? "w-0" : ""} rounded cursor-pointer`}
+						autoPlay
+						onTimeUpdate={() => {
+							if (!isHovered) videoRef.current?.pause();
+							setCurrentTime(videoRef.current?.currentTime || 0);
+						}}
+					></video>
+				)}
+
+				<Image
+					src={video.thumbnail.secure_url}
+					alt=""
+					width={1280}
+					height={720}
+					className={`rounded cursor-pointer object-cover aspect-video ${
+						isHovered ? "w-0" : ""
+					}`}
+				/>
 			</Link>
-			{playVideo && videoRef.current && (
+			{videoLoaded && videoRef.current && isHovered && (
 				<input
-					className="h-5 w-full cursor-pointer"
+					className="h-6 w-full cursor-pointer relative bottom-3.5"
 					type="range"
 					min={0}
 					max={videoRef.current.duration}
@@ -66,16 +78,7 @@ const VideoCard = ({
 					onChange={(e) => handleSeek(parseFloat(e.target.value))}
 				/>
 			)}
-
-			<Image
-				src={video.thumbnail.secure_url}
-				alt=""
-				width={1280}
-				height={720}
-				className="rounded-2xl cursor-pointer object-cover aspect-video"
-				style={{ width: playVideo ? "0%" : "100%" }}
-			/>
-			<div className="flex gap-3 px-2 pt-1">
+			<div className={`flex gap-3 px-2 ${isHovered ? "-mt-6" : ""}`}>
 				<Link href={`/user/${video.creator.email}`}>
 					<Image
 						src={croppedAvatarUrl(video.creator.avatar.public_id)}

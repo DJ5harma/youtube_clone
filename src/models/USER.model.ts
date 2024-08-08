@@ -24,7 +24,7 @@ const USER =
 						public_id: String,
 					},
 					default: {
-						secure_url: "https://avatars.githubusercontent.com/u/5172592?v=4",
+						secure_url: "",
 						public_id: "",
 					},
 					_id: false,

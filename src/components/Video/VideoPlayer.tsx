@@ -61,7 +61,7 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 			onMouseLeave={() => setHideControlsTimer(0)}
 		>
 			<video
-				className={`rounded-lg cursor-pointer`}
+				className={`rounded-lg cursor-pointer aspect-video`}
 				onClick={togglePlay}
 				playsInline
 				autoPlay
@@ -82,21 +82,23 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 				<source />
 				video tag not supported on this browser
 			</video>
-			<div
-				className={`relative bottom-16 -mb-16 ${
-					hideControlsTimer > 0 || paused ? "" : "opacity-0"
-				}`}
-			>
-				<ControlButtons
-					currentTime={currentTime}
-					fullscreen={fullscreen}
-					paused={paused}
-					toggleFullscreen={toggleFullscreen}
-					togglePlay={togglePlay}
-					handleSeek={handleSeek}
-					videoRef={videoRef}
-				/>
-			</div>
+			{videoRef.current && (
+				<div
+					className={`relative bottom-16 -mb-16 ${
+						hideControlsTimer > 0 || paused ? "" : "opacity-0"
+					}`}
+				>
+					<ControlButtons
+						currentTime={currentTime}
+						fullscreen={fullscreen}
+						paused={paused}
+						toggleFullscreen={toggleFullscreen}
+						togglePlay={togglePlay}
+						handleSeek={handleSeek}
+						videoRef={videoRef}
+					/>
+				</div>
+			)}
 			<div>
 				<p
 					className={`text-xl sm:text-2xl font-semibold p-2 ${

@@ -39,21 +39,15 @@ export function ProfileDropdown() {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button variant="ghost" className="p-0">
-					{user.avatar.public_id ? (
-						<Link href={`/user/${user.email}`}>
-							<Image
-								src={croppedAvatarUrl(user.avatar.public_id)}
-								alt=""
-								width="40"
-								height="40"
-								className="rounded-full min-w-8 min-h-8"
-							/>
-						</Link>
-					) : (
-						<MdAccountCircle size={25} />
-					)}
-				</Button>
+				<Link href={`/user/${user.email}`}>
+					<Image
+						src={croppedAvatarUrl(user.avatar.public_id)}
+						alt="profile icon"
+						width="40"
+						height="40"
+						className="min-w-8 min-h-8"
+					/>
+				</Link>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className="w-56">
 				<DropdownMenuLabel>
