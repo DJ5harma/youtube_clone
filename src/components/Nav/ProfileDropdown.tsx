@@ -14,11 +14,9 @@ import { croppedAvatarUrl } from "@/lib/utils";
 import Link from "next/link";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 
 export function ProfileDropdown() {
 	const { user, setShowForm, setUser } = useUser();
-	const router = useRouter();
 	const handleLogout = async () => {
 		toast.loading("Logging you out");
 		const { errMessage } = (await axios.get("/api/auth/logout")).data;

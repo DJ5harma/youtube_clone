@@ -57,14 +57,15 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 	}, [video]);
 
 	return (
-		<div className="items-start gap-1 flex-col" ref={fullscreenContainer}>
+		<div className="items-start gap-1 flex-col">
 			<div
-				className="relative"
+				className="relative flex items-center"
 				onMouseLeave={() => setHideControlsTimer(0)}
 				onMouseMove={() => setHideControlsTimer(4)}
+				ref={fullscreenContainer}
 			>
 				<video
-					className="rounded-lg cursor-pointer aspect-video"
+					className="rounded-lg cursor-pointer aspect-video w-full"
 					playsInline
 					autoPlay
 					loop
@@ -92,7 +93,7 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 							}}
 						>
 							5s
-							<FaBackward size={40} />
+							<FaBackward />
 						</div>
 						<div
 							onClick={() => {
@@ -103,7 +104,7 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 									handleSeek(videoRef.current.currentTime + 5);
 							}}
 						>
-							<FaForward size={40} />
+							<FaForward />
 							5s
 						</div>
 					</div>
@@ -123,7 +124,7 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 				</div>
 
 				<div
-					className="h-full w-full top-0 left-0 absolute flex items-end pb-2"
+					className="h-full w-full top-0 left-0 absolute flex items-end"
 					onDoubleClick={toggleFullscreen}
 					onClick={togglePlay}
 				>

@@ -37,7 +37,7 @@ const MobileControlButtons = ({
 			>
 				{paused ? (
 					<BiPlay
-						size={80}
+						size={40}
 						onClick={(e) => {
 							e.stopPropagation();
 							hideControlsTimer === 0 ? setHideControlsTimer(8) : togglePlay();
@@ -45,7 +45,7 @@ const MobileControlButtons = ({
 					/>
 				) : (
 					<BiPause
-						size={80}
+						size={40}
 						onClick={(e) => {
 							e.stopPropagation();
 							hideControlsTimer === 0 ? setHideControlsTimer(8) : togglePlay();

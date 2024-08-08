@@ -6,9 +6,7 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from "@/components/ui/sheet";
-import { useUser } from "@/providers/UserProvider";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { BiHome, BiMenu, BiSolidLike } from "react-icons/bi";
 import { FaRegClock } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
@@ -18,7 +16,9 @@ export function SheetSidebar() {
 	return (
 		<Sheet>
 			<SheetTrigger asChild>
-				<BiMenu />
+				<div>
+					<BiMenu />
+				</div>
 			</SheetTrigger>
 			<SheetContent
 				side={"left"}

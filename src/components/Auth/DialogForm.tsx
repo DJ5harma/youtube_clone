@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
+	DialogDescription,
 	DialogFooter,
 	DialogTitle,
 	// DialogTrigger,
@@ -26,6 +27,7 @@ const DialogForm = () => {
 				onClick={() => setShowForm(false)}
 				></div> */}
 				<DialogContent onClick={(e) => e.stopPropagation()} className="p-0">
+					<DialogDescription className="hidden"></DialogDescription>
 					<Tabs defaultValue="Register" className="w-full p-4">
 						<DialogTitle>
 							<div className="w-full flex justify-center mb-4">
@@ -41,7 +43,6 @@ const DialogForm = () => {
 						<TabsContent value="Register">
 							<RegisterForm />
 						</TabsContent>
-
 						<DialogFooter>
 							<Button
 								type="submit"

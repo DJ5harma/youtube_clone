@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiFastForward, BiPause, BiPlay } from "react-icons/bi";
 import { MdFullscreen, MdFullscreenExit } from "react-icons/md";
 import CustomTooltip from "../Nav/CustomTooltip";
@@ -50,7 +50,7 @@ const ControlButtons = ({
 		else if (muted) setMuted(false);
 	}
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const volume = localStorage.getItem("volume");
 		updateVolumeTo(volume ? parseFloat(volume) : 0.5);
 
@@ -60,33 +60,41 @@ const ControlButtons = ({
 				activeElement &&
 				(activeElement.tagName === "INPUT" ||
 					activeElement.tagName === "TEXTAREA")
-			)
+			) {
 				return;
+			}
 
 			if (videoRef.current) {
 				switch (e.key.toUpperCase()) {
 					case " ":
+						e.preventDefault();
 						togglePlay();
 						break;
 					case "F":
+						e.preventDefault();
 						toggleFullscreen();
 						break;
 					case "M":
+						e.preventDefault();
 						toggleMute();
 						break;
 					case "ARROWLEFT":
+						e.preventDefault();
 						if (videoRef.current.currentTime - 5 >= 0)
 							handleSeek(videoRef.current.currentTime - 5);
 						break;
 					case "ARROWRIGHT":
+						e.preventDefault();
 						if (videoRef.current.currentTime + 5 <= videoRef.current.duration)
 							handleSeek(videoRef.current.currentTime + 5);
 						break;
 					case "ARROWUP":
+						e.preventDefault();
 						if (videoRef.current.volume + 0.05 <= 1)
 							updateVolumeTo(videoRef.current.volume + 0.05);
 						break;
 					case "ARROWDOWN":
+						e.preventDefault();
 						if (videoRef.current.volume - 0.05 >= 0)
 							updateVolumeTo(videoRef.current.volume - 0.05);
 						break;
@@ -95,9 +103,17 @@ const ControlButtons = ({
 				}
 			}
 		};
+
 		document.addEventListener("keydown", handleKeyPress);
 		return () => document.removeEventListener("keydown", handleKeyPress);
-	}, []);
+	}, [
+		videoRef,
+		togglePlay,
+		toggleFullscreen,
+		toggleMute,
+		handleSeek,
+		updateVolumeTo,
+	]);
 
 	const [HideVolumeBarOnLargeScreens, setHideVolumeBarOnLargeScreens] =
 		useState(true);
@@ -106,9 +122,7 @@ const ControlButtons = ({
 
 	return (
 		<div
-			className={`h-16 w-full text-white justify-between items-center flex flex-col gap-2 pt-3 px-2 ${
-				fullscreen && "fixed bottom-0 left-0 rounded-none"
-			}`}
+			className={`h-16 w-full text-white justify-end items-center flex flex-col lg:gap-2 px-1 lg:pb-2`}
 			onClick={(e) => e.stopPropagation()}
 		>
 			<input
