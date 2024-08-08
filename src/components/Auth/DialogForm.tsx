@@ -1,6 +1,4 @@
 "use client";
-import { LoginForm } from "@/app/auth/login/page";
-import { RegisterForm } from "@/app/auth/register/page";
 import { useUser } from "@/providers/UserProvider";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,6 +8,8 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
 
 const DialogForm = () => {
 	const { setShowForm } = useUser();

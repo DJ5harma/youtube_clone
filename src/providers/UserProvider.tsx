@@ -1,5 +1,5 @@
 "use client";
-import DialogForm from "@/components/DialogForm";
+import DialogForm from "@/components/Auth/DialogForm";
 import axios from "axios";
 import React, {
 	createContext,
