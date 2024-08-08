@@ -32,7 +32,7 @@ export default async function page({
 	]);
 	return (
 		<div className="flex flex-wrap">
-			<div className="flex justify-center p-2">
+			<div className="flex flex-col items-center p-2 w-full">
 				<Image
 					src={creator.avatar.secure_url}
 					height={600}
@@ -40,7 +40,7 @@ export default async function page({
 					alt=""
 					className="max-w-full rounded-2xl"
 				/>
-				<div className="absolute top-0 right-5">
+				<div className="absolute top-4">
 					<div className="p-4 bg-neutral-500 backdrop-blur-xl bg-opacity-50 rounded-2xl">
 						<SubscribeSection
 							creator={{
@@ -51,6 +51,11 @@ export default async function page({
 						/>
 					</div>
 				</div>
+				<h1 className="text-2xl font-semibold my-4">{`${
+					videos.length === 0
+						? "No videos posted till now"
+						: `Videos posted by ${creator.username} :`
+				}`}</h1>
 			</div>
 			{videos.map((video) => (
 				<div key={video._id} className="w-full sm:w-1/2 lg:w-1/3 2xl:w-1/4 p-2">
@@ -62,11 +67,7 @@ export default async function page({
 					/>
 				</div>
 			))}
-			<p className="p-2 fixed right-0 bottom-0">{`${
-				videos.length === 0
-					? "No videos posted till now"
-					: `Are the videos posted by ${creator.username}`
-			}`}</p>
+			<p className="p-2 fixed right-0 bottom-0"></p>
 		</div>
 	);
 }

@@ -39,15 +39,13 @@ export function ProfileDropdown() {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Link href={`/user/${user.email}`}>
-					<Image
-						src={croppedAvatarUrl(user.avatar.public_id)}
-						alt="profile icon"
-						width="40"
-						height="40"
-						className="min-w-8 min-h-8 rounded-full"
-					/>
-				</Link>
+				<Image
+					src={croppedAvatarUrl(user.avatar.public_id)}
+					alt="profile icon"
+					width="40"
+					height="40"
+					className="min-w-8 min-h-8 rounded-full"
+				/>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className="w-56">
 				<DropdownMenuLabel>
@@ -55,12 +53,14 @@ export function ProfileDropdown() {
 				</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				<DropdownMenuGroup>
-					{user._id && (
-						<DropdownMenuItem>
-							Profile
-							{/* <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut> */}
-						</DropdownMenuItem>
-					)}
+					<Link href={`/user/${user.email}`}>
+						{user._id && (
+							<DropdownMenuItem>
+								Profile
+								{/* <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut> */}
+							</DropdownMenuItem>
+						)}
+					</Link>
 					<Link href="/auth/login">
 						<DropdownMenuItem>
 							{user._id ? "Switch Account" : "Sign in"}
@@ -70,16 +70,16 @@ export function ProfileDropdown() {
 				</DropdownMenuGroup>
 				{/* <DropdownMenuSeparator />
 				<DropdownMenuGroup>
-					<DropdownMenuItem>Team</DropdownMenuItem>
-					<DropdownMenuSub>
-						<DropdownMenuSubTrigger>Invite users</DropdownMenuSubTrigger>
-						<DropdownMenuPortal>
-							<DropdownMenuSubContent>
-								<DropdownMenuItem>Email</DropdownMenuItem>
-								<DropdownMenuItem>Message</DropdownMenuItem>
-								<DropdownMenuSeparator />
-								<DropdownMenuItem>More...</DropdownMenuItem>
-							</DropdownMenuSubContent>
+				<DropdownMenuItem>Team</DropdownMenuItem>
+				<DropdownMenuSub>
+				<DropdownMenuSubTrigger>Invite users</DropdownMenuSubTrigger>
+				<DropdownMenuPortal>
+				<DropdownMenuSubContent>
+				<DropdownMenuItem>Email</DropdownMenuItem>
+				<DropdownMenuItem>Message</DropdownMenuItem>
+				<DropdownMenuSeparator />
+				<DropdownMenuItem>More...</DropdownMenuItem>
+				</DropdownMenuSubContent>
 						</DropdownMenuPortal>
 					</DropdownMenuSub>
 					<DropdownMenuItem>
