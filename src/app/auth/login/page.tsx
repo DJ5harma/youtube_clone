@@ -1,18 +1,17 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useUser } from "@/app/providers/UserProvider";
+import { useUser } from "@/providers/UserProvider";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function Page() {
-	const { setUser } = useUser();
+export const LoginForm = () => {
+	const { setUser, setShowForm } = useUser();
 	const router = useRouter();
 	const [form, setForm] = useState({
 		email: "",
@@ -29,13 +28,55 @@ export default function Page() {
 		setLoading(false);
 		if (errMessage) return toast.error(errMessage);
 		setUser(user);
+		setShowForm(false);
 		router.push("/");
 		toast.success("Logged In");
 	};
 
 	return (
+		<>
+			<div className="grid gap-4">
+				<div className="grid gap-2">
+					<Label htmlFor="email">Email</Label>
+					<Input
+						id="email"
+						type="email"
+						placeholder="m@example.com"
+						required
+						onChange={(e) => setForm({ ...form, email: e.target.value })}
+					/>
+				</div>
+				<div className="grid gap-2">
+					<div className="flex items-center">
+						<Label htmlFor="password">Password</Label>
+						{/* <Link
+							href="/forgot-password"
+							className="ml-auto inline-block text-sm underline"
+						>
+							Forgot your password?
+						</Link> */}
+					</div>
+					<Input
+						id="password"
+						type="password"
+						required
+						onChange={(e) => setForm({ ...form, password: e.target.value })}
+					/>
+				</div>
+				{!loading && (
+					<Button type="submit" className="w-full" onClick={handleLogin}>
+						Login
+					</Button>
+				)}
+			</div>
+		</>
+	);
+};
+
+export default function Page() {
+	return (
 		<div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
-			<div className="flex items-center justify-center py-12">
+			<div className="flex items-start justify-center py-12">
 				<div className="mx-auto grid w-[350px] gap-6">
 					<div className="grid gap-2 text-center">
 						<h1 className="text-3xl font-bold">Login</h1>
@@ -43,40 +84,7 @@ export default function Page() {
 							Enter your email below to login to your account
 						</p>
 					</div>
-					<div className="grid gap-4">
-						<div className="grid gap-2">
-							<Label htmlFor="email">Email</Label>
-							<Input
-								id="email"
-								type="email"
-								placeholder="m@example.com"
-								required
-								onChange={(e) => setForm({ ...form, email: e.target.value })}
-							/>
-						</div>
-						<div className="grid gap-2">
-							<div className="flex items-center">
-								<Label htmlFor="password">Password</Label>
-								<Link
-									href="/forgot-password"
-									className="ml-auto inline-block text-sm underline"
-								>
-									Forgot your password?
-								</Link>
-							</div>
-							<Input
-								id="password"
-								type="password"
-								required
-								onChange={(e) => setForm({ ...form, password: e.target.value })}
-							/>
-						</div>
-						{!loading && (
-							<Button type="submit" className="w-full" onClick={handleLogin}>
-								Login
-							</Button>
-						)}
-					</div>
+					<LoginForm />
 					<div className="mt-4 text-center text-sm">
 						Don&apos;t have an account?{" "}
 						<Link href="/auth/register" className="underline">

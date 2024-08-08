@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 import { MdAccountCircle } from "react-icons/md";
-import { sampleUser, useUser } from "@/app/providers/UserProvider";
+import { sampleUser, useUser } from "@/providers/UserProvider";
 import { croppedAvatarUrl } from "@/lib/utils";
 import Link from "next/link";
 import axios from "axios";
@@ -45,7 +45,7 @@ export function ProfileDropdown() {
 						alt="profile icon"
 						width="40"
 						height="40"
-						className="min-w-8 min-h-8"
+						className="min-w-8 min-h-8 rounded-full"
 					/>
 				</Link>
 			</DropdownMenuTrigger>
@@ -61,12 +61,12 @@ export function ProfileDropdown() {
 							{/* <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut> */}
 						</DropdownMenuItem>
 					)}
-					<DropdownMenuItem>
-						<Link href="/auth/login">
+					<Link href="/auth/login">
+						<DropdownMenuItem>
 							{user._id ? "Switch Account" : "Sign in"}
-						</Link>
-						{/* <DropdownMenuShortcut>⌘B</DropdownMenuShortcut> */}
-					</DropdownMenuItem>
+							{/* <DropdownMenuShortcut>⌘B</DropdownMenuShortcut> */}
+						</DropdownMenuItem>
+					</Link>
 				</DropdownMenuGroup>
 				{/* <DropdownMenuSeparator />
 				<DropdownMenuGroup>

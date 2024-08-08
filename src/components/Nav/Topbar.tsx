@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { SheetSidebar } from "@/components/Nav/SheetSidebar";
 import CustomTooltip from "@/components/Nav/CustomTooltip";
 import React from "react";
-import { ModeToggle } from "@/app/providers/ThemeProvider";
+import { ModeToggle } from "@/providers/ThemeProvider";
 import { BiSearch } from "react-icons/bi";
 import Link from "next/link";
 

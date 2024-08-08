@@ -25,7 +25,7 @@ export const POST = async (req: NextRequest) => {
 		return NextResponse.json({ user });
 	} catch (error) {
 		return NextResponse.json({
-			errMessage: (error as Error).message || "Internal server Error",
+			errMessage: (error as Error).message || "Internal server error",
 		});
 	}
 };
@@ -44,6 +44,8 @@ export const GET = async () => {
 
 		return NextResponse.json({ user });
 	} catch (error) {
-		return NextResponse.json({});
+		return NextResponse.json({
+			errMessage: (error as Error).message || "Internal server error",
+		});
 	}
 };

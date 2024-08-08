@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,10 +8,10 @@ import { BiUpload } from "react-icons/bi";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useState } from "react";
-import { useUser } from "@/app/providers/UserProvider";
+import { useUser } from "@/providers/UserProvider";
 import { useRouter } from "next/navigation";
 
-export default function Page() {
+export const RegisterForm = () => {
 	const [form, setForm] = useState({
 		username: "",
 		password: "",
@@ -21,6 +20,8 @@ export default function Page() {
 		avatar: { secure_url: "", public_id: "" },
 	});
 
+	const { setUser, setShowForm } = useUser();
+	const router = useRouter();
 	const [loading, setLoading] = useState(false);
 
 	const handleAvatarUpload = async (image: File) => {
@@ -36,9 +37,9 @@ export default function Page() {
 		setLoading(false);
 		if (errMessage) return toast.error(errMessage);
 		setForm({ ...form, avatar: { secure_url, public_id } });
+		setShowForm(false);
+		toast.success("Registered");
 	};
-	const { setUser } = useUser();
-	const router = useRouter();
 
 	const handleRegister = async () => {
 		if (form.password !== form.confirmPassword)
@@ -59,7 +60,93 @@ export default function Page() {
 			toast.success("Registered");
 		}
 	};
+	return (
+		<div className="w-full h-full flex justify-around gap-4">
+			{!form.avatar.secure_url && (
+				<Image
+					src={form.avatar.secure_url || "/profile.png"}
+					width="300"
+					height="300"
+					alt="image_not_visible"
+					className="rounded-full max-h-20 max-w-20"
+				/>
+			)}
+			<div className="grid gap-4 w-full">
+				<div className="grid gap-2">
+					<Label htmlFor="username">Username</Label>
+					<Input
+						id="username"
+						type="username"
+						placeholder="e.g.: oggydoggy779"
+						required
+						onChange={(e) => setForm({ ...form, username: e.target.value })}
+					/>
+				</div>
+				<div className="grid gap-2">
+					<Label htmlFor="email">Email</Label>
+					<Input
+						id="email"
+						type="email"
+						placeholder="m@example.com"
+						required
+						onChange={(e) => setForm({ ...form, email: e.target.value })}
+					/>
+				</div>
+				<div className="grid gap-2">
+					<div className="flex items-center">
+						<Label htmlFor="password">Password</Label>
+					</div>
+					<Input
+						id="password"
+						type="password"
+						placeholder="min 6 characters"
+						required
+						onChange={(e) => setForm({ ...form, password: e.target.value })}
+					/>
+				</div>
+				<div className="grid gap-2">
+					<div className="flex items-center">
+						<Label htmlFor="confirmPassword">Confirm Password</Label>
+					</div>
+					<Input
+						id="confirmPassword"
+						type="password"
+						placeholder="same as Password"
+						required
+						onChange={(e) =>
+							setForm({ ...form, confirmPassword: e.target.value })
+						}
+					/>
+				</div>
+				<Button
+					variant="outline"
+					className="w-full flex items-center gap-2"
+					onClick={() => document.getElementById("avatar-input")?.click()}
+				>
+					<BiUpload size={20} />
+					Avatar
+					{" (optional)"}
+					<input
+						id="avatar-input"
+						type="file"
+						className="absolute w-0 opacity-0"
+						accept=".png, .jpeg, .jpg, .webp"
+						onChange={(e) => {
+							if (e.target.files) handleAvatarUpload(e.target.files[0]);
+						}}
+					/>
+				</Button>
+				{!loading && (
+					<Button onClick={handleRegister} className="w-full">
+						Register
+					</Button>
+				)}
+			</div>
+		</div>
+	);
+};
 
+export default function Page() {
 	return (
 		<div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
 			<div className="hidden bg-muted lg:block">
@@ -71,93 +158,15 @@ export default function Page() {
 					className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
 				/>
 			</div>
-			<div className="flex items-center justify-center py-12">
+			<div className="flex items-start justify-center py-12">
 				<div className="mx-auto grid w-[350px] gap-6">
-					{!form.avatar.secure_url ? (
-						<div className="grid gap-2 text-center">
-							<h1 className="text-3xl font-bold">Register</h1>
-							<p className="text-balance text-muted-foreground">
-								Enter your information to create an account
-							</p>
-						</div>
-					) : (
-						<Image
-							src={form.avatar.secure_url}
-							width="1000"
-							height="1000"
-							alt="image_not_visible"
-							className="rounded-full"
-						/>
-					)}
-					<div className="grid gap-4">
-						<div className="grid gap-2">
-							<Label htmlFor="username">Username</Label>
-							<Input
-								id="username"
-								type="username"
-								placeholder="e.g.: oggydoggy779"
-								required
-								onChange={(e) => setForm({ ...form, username: e.target.value })}
-							/>
-						</div>
-						<div className="grid gap-2">
-							<Label htmlFor="email">Email</Label>
-							<Input
-								id="email"
-								type="email"
-								placeholder="m@example.com"
-								required
-								onChange={(e) => setForm({ ...form, email: e.target.value })}
-							/>
-						</div>
-						<div className="grid gap-2">
-							<div className="flex items-center">
-								<Label htmlFor="password">Password</Label>
-							</div>
-							<Input
-								id="password"
-								type="password"
-								required
-								onChange={(e) => setForm({ ...form, password: e.target.value })}
-							/>
-						</div>
-						<div className="grid gap-2">
-							<div className="flex items-center">
-								<Label htmlFor="confirmPassword">Confirm Password</Label>
-							</div>
-							<Input
-								id="confirmPassword"
-								type="password"
-								required
-								onChange={(e) =>
-									setForm({ ...form, confirmPassword: e.target.value })
-								}
-							/>
-						</div>
-						<Button
-							variant="outline"
-							className="w-full flex items-center gap-2"
-							onClick={() => document.getElementById("avatar-input")?.click()}
-						>
-							<BiUpload size={20} />
-							Avatar
-							{" (optional)"}
-							<input
-								id="avatar-input"
-								type="file"
-								className="absolute w-0 opacity-0"
-								accept=".png, .jpeg, .jpg, .webp"
-								onChange={(e) => {
-									if (e.target.files) handleAvatarUpload(e.target.files[0]);
-								}}
-							/>
-						</Button>
-						{!loading && (
-							<Button onClick={handleRegister} className="w-full">
-								Register
-							</Button>
-						)}
+					<div className="grid gap-2 text-center">
+						<h1 className="text-3xl font-bold">Register</h1>
+						<p className="text-balance text-muted-foreground">
+							Enter your information to create an account
+						</p>
 					</div>
+					<RegisterForm />
 					<div className="mt-4 text-center text-sm">
 						Already have an account?{" "}
 						<Link href="/auth/login" className="underline">

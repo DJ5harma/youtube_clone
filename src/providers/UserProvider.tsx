@@ -1,5 +1,5 @@
 "use client";
-
+import DialogForm from "@/components/DialogForm";
 import axios from "axios";
 import React, {
 	createContext,
@@ -26,28 +26,46 @@ export const sampleUser: CUser = {
 const context = createContext<{
 	user: CUser;
 	setUser: Dispatch<SetStateAction<CUser>>;
+	setShowForm: Dispatch<SetStateAction<boolean>>;
 }>({
 	user: sampleUser,
 	setUser: () => {},
+	setShowForm: () => {},
 });
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 	const [user, setUser] = useState<CUser>(sampleUser);
-	const autoLogin = async () => {
-		toast.loading("Auto logging...");
-		const { user } = (await axios.get("/api/auth/login")).data;
-		toast.dismiss();
-		console.log({ user });
+	const [showForm, setShowForm] = useState(false);
 
-		if (!user) return;
+	const autoLogin = async () => {
+		const cookies = document.cookie.split("=");
+		let token = "";
+		for (let i = 0; i < cookies.length; i++)
+			if (cookies[i] === "token") {
+				token = cookies[i + 1];
+				break;
+			}
+		if (!token) return;
+		toast.loading("Logging you in...");
+		const { errMessage, user } = (await axios.get("/api/auth/login")).data;
+		toast.dismiss();
+		if (!user || errMessage) return toast.error(errMessage);
 		setUser(user);
-		toast.success("Logged in automatically");
+		toast.success(`Logged in automatically as ${user.username}`);
 	};
 	useEffect(() => {
+		if (
+			window.location.href.endsWith("/auth/login") ||
+			window.location.href.endsWith("/auth/register")
+		)
+			return;
 		autoLogin();
 	}, []);
 	return (
-		<context.Provider value={{ user, setUser }}>{children}</context.Provider>
+		<context.Provider value={{ user, setUser, setShowForm }}>
+			{showForm && <DialogForm />}
+			{children}
+		</context.Provider>
 	);
 };
 

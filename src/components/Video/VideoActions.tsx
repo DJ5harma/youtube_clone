@@ -8,7 +8,7 @@ import {
 	BiSolidLike,
 } from "react-icons/bi";
 import { CiMenuKebab } from "react-icons/ci";
-import { useUser } from "@/app/providers/UserProvider";
+import { useUser } from "@/providers/UserProvider";
 import toast from "react-hot-toast";
 import CustomTooltip from "../Nav/CustomTooltip";
 import axios from "axios";

@@ -1,6 +1,7 @@
 import COMMENT from "@/models/COMMENT.model";
 import USER from "@/models/USER.model";
 import VIDEO from "@/models/VIDEO.model";
+import WATCH_HISTORY from "@/models/WATCH_HISTORY";
 import mongoose from "mongoose";
 
 const { MONGO_URI } = process.env;
@@ -17,6 +18,8 @@ export default async function dbConnect() {
 		if (!mongoose.models.USER) mongoose.model("USER", USER.schema);
 		if (!mongoose.models.VIDEO) mongoose.model("VIDEO", VIDEO.schema);
 		if (!mongoose.models.COMMENT) mongoose.model("COMMENT", COMMENT.schema);
+		if (!mongoose.models.WATCH_HISTORY)
+			mongoose.model("WATCH_HISTORY", WATCH_HISTORY.schema);
 
 		isConnected = db.connections[0].readyState === 1;
 	} catch (error) {

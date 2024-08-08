@@ -34,7 +34,7 @@ export const POST = async (req: NextRequest) => {
 		});
 	} catch (error) {
 		return NextResponse.json({
-			errMessage: (error as Error).message || "Internal Server Error",
+			errMessage: (error as Error).message || "Internal server error",
 		});
 	}
 };

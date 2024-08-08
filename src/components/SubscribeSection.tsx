@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { Button } from "./ui/button";
 import axios from "axios";
-import { useUser } from "@/app/providers/UserProvider";
+import { useUser } from "@/providers/UserProvider";
 import toast from "react-hot-toast";
 import Link from "next/link";
 

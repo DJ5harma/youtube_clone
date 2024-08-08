@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import { CComment } from "@/lib/types";
 import { Input } from "../ui/input";
-import { useUser } from "@/app/providers/UserProvider";
+import { useUser } from "@/providers/UserProvider";
 import { croppedAvatarUrl, timeSince } from "@/lib/utils";
 import Image from "next/image";
 import { IoIosSend } from "react-icons/io";
