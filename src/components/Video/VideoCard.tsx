@@ -60,7 +60,7 @@ const VideoCard = ({
 						onTimeUpdate={() => {
 							setCurrentTime(videoRef.current?.currentTime || 0);
 						}}
-						muted
+						muted={false}
 					></video>
 				)}
 
