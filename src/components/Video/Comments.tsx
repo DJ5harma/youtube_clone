@@ -37,6 +37,7 @@ const Comments = ({
 			})
 		).data;
 		const comment: CComment = {
+			_id: Math.random().toString(),
 			body,
 			commenter: user,
 			createdAt: new Date(),

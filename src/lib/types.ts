@@ -37,9 +37,9 @@ export interface CVideoPlayable extends CVideoCard {
 	description: string;
 }
 export interface CComment {
+	_id: string;
 	commenter: {
 		username: string;
-		_id: string;
 		avatar: {
 			secure_url: string;
 			public_id: string;

@@ -8,6 +8,7 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 
 	const [paused, setPaused] = useState(false);
 	const [fullscreen, setFullscreen] = useState(false);
+	const [muted, setMuted] = useState(false);
 
 	const [currentTime, setCurrentTime] = useState<number>(
 		videoRef.current?.currentTime || 0
@@ -54,12 +55,7 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 	}, [video]);
 
 	return (
-		<div
-			className="items-start gap-1 flex-col"
-			ref={fullscreenContainer}
-			onMouseMove={() => setHideControlsTimer(4)}
-			onMouseLeave={() => setHideControlsTimer(0)}
-		>
+		<div className="items-start gap-1 flex-col" ref={fullscreenContainer}>
 			<video
 				className={`rounded-lg cursor-pointer aspect-video`}
 				onClick={togglePlay}
@@ -67,12 +63,13 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 				autoPlay
 				loop
 				ref={videoRef}
-				muted
 				src={
-					// "/sampleVideo.mp4"
-					video.video.secure_url
+					"/sampleVideo.mp4"
+					// video.video.secure_url
 				}
+				onMouseMove={() => setHideControlsTimer(4)}
 				onTimeUpdate={() => {
+					if (!muted && videoRef.current) videoRef.current.muted = false;
 					setCurrentTime(videoRef.current?.currentTime || 0);
 					if (hideControlsTimer > 0)
 						setHideControlsTimer(hideControlsTimer - 1);
@@ -82,11 +79,11 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 				<source />
 				video tag not supported on this browser
 			</video>
-			{videoRef.current && (
+			{videoRef.current && hideControlsTimer ? (
 				<div
-					className={`relative bottom-16 -mb-16 ${
-						hideControlsTimer > 0 || paused ? "" : "opacity-0"
-					}`}
+					className={`relative bottom-16 -mb-16`}
+					onMouseLeave={() => setHideControlsTimer(0)}
+					onMouseMove={() => setHideControlsTimer(4)}
 				>
 					<ControlButtons
 						currentTime={currentTime}
@@ -98,18 +95,18 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 						videoRef={videoRef}
 					/>
 				</div>
+			) : (
+				<></>
 			)}
-			<div>
-				<p
-					className={`text-xl sm:text-2xl font-semibold p-2 ${
-						fullscreen
-							? "fixed top-0 left-0 z-50 bg-black p-2 rounded-ee-xl bg-opacity-50"
-							: ""
-					}`}
-				>
-					{video.title}
-				</p>
-			</div>
+			<p
+				className={`text-xl sm:text-2xl font-semibold p-2 ${
+					fullscreen
+						? "fixed top-0 left-0 z-50 bg-black p-2 rounded-ee-xl bg-opacity-50"
+						: ""
+				}`}
+			>
+				{video.title}
+			</p>
 		</div>
 	);
 }

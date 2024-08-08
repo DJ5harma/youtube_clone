@@ -52,8 +52,8 @@ export default async function page({
 			{ "videoRatings.$": 1 }
 		).select("-_id"),
 		COMMENT.find({ video: video_id })
-			.select("_id body commenter likes dislikes")
-			.populate({ path: "commenter", select: "username _id avatar" }),
+			.select("_id body commenter createdAt")
+			.populate({ path: "commenter", select: "username -_id avatar email" }),
 	]);
 	const userRating = ratingByThisUser
 		? ratingByThisUser.videoRatings[0].isPositive
@@ -92,7 +92,16 @@ export default async function page({
 					createdAt={video.createdAt}
 					description={video.description}
 				/>
-				<Comments comments={comments} video_id={video_id} />
+				<Comments
+					comments={comments.map((comment) => {
+						return {
+							...JSON.parse(JSON.stringify(comment)),
+							createdAt: comment.createdAt,
+							_id: comment._id.toString(),
+						};
+					})}
+					video_id={video_id}
+				/>
 			</div>
 			<div className="px-2 gap-2 flex flex-wrap lg:flex-col lg:w-1/3">
 				{moreVideos

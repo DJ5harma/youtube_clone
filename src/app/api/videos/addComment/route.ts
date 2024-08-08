@@ -11,12 +11,12 @@ export const POST = async (req: NextRequest) => {
 		const { video_id, body }: { video_id: string; body: string } =
 			await req.json();
 		await dbConnect();
-		const comment = await COMMENT.create({
-			video_id,
+		await COMMENT.create({
+			video: video_id,
 			body,
 			commenter: user_id,
 		});
-		return NextResponse.json({ comment_id: comment._id });
+		return NextResponse.json({});
 	} catch (error) {
 		return NextResponse.json({
 			errMessage: (error as Error).message || "Internal server Error",
