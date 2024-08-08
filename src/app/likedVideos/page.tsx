@@ -2,18 +2,16 @@ import VideoCard from "@/components/Video/VideoCard";
 import dbConnect from "@/lib/dbConnect";
 import getUserIdFromJwt from "@/lib/getUserIdFromJwt";
 import { CVideoCard } from "@/lib/types";
-import { timeSince } from "@/lib/utils";
 import USER from "@/models/USER.model";
 import { cookies } from "next/headers";
 import React from "react";
 
 export default async function page() {
 	const user_id = getUserIdFromJwt(cookies().get("token")?.value);
+	if (!user_id) throw new Error("An account is needed to rate videos");
 
 	await dbConnect();
-	const {
-		videoRatings,
-	}: {
+	const data: {
 		videoRatings: {
 			isPositive: boolean;
 			video: CVideoCard;
@@ -26,11 +24,12 @@ export default async function page() {
 			select: "username _id avatar email",
 		},
 	});
+	if (!data) throw new Error("An account is needed to rate videos");
 
-	const likedVideos = videoRatings.filter(
+	const likedVideos = data.videoRatings.filter(
 		({ isPositive }) => isPositive === true
 	);
-	const dislikedVideos = videoRatings.filter(
+	const dislikedVideos = data.videoRatings.filter(
 		({ isPositive }) => isPositive === false
 	);
 

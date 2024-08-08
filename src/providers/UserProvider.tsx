@@ -27,9 +27,11 @@ const context = createContext<{
 	user: CUser;
 	setUser: Dispatch<SetStateAction<CUser>>;
 	setShowForm: Dispatch<SetStateAction<boolean>>;
+	showForm: boolean;
 }>({
 	user: sampleUser,
 	setUser: () => {},
+	showForm: false,
 	setShowForm: () => {},
 });
 
@@ -62,7 +64,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 		autoLogin();
 	}, []);
 	return (
-		<context.Provider value={{ user, setUser, setShowForm }}>
+		<context.Provider value={{ user, setUser, showForm, setShowForm }}>
 			{showForm && <DialogForm />}
 			{children}
 		</context.Provider>

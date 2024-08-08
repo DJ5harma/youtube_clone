@@ -14,7 +14,12 @@ export const SmallSidebar = () => {
 				<Link href="/">
 					<CustomTooltip icon={<BiHome />} text="Home" />
 				</Link>
-				<CustomTooltip icon={<MdOutlineSubscriptions />} text="Subscriptions" />
+				<Link href="/subscriptions">
+					<CustomTooltip
+						icon={<MdOutlineSubscriptions />}
+						text="Subscriptions"
+					/>
+				</Link>
 				<Link href="/watchHistory">
 					<CustomTooltip icon={<FaRegClock />} text="Watch History" />
 				</Link>
@@ -23,7 +28,9 @@ export const SmallSidebar = () => {
 				</Link>
 			</nav>
 			<nav className="flex flex-col items-center gap-4 px-2 py-4">
-				<CustomTooltip icon={<IoMdSettings />} text="Settings" />
+				<Link href="/settings">
+					<CustomTooltip icon={<IoMdSettings />} text="Settings" />
+				</Link>
 			</nav>
 		</aside>
 	);

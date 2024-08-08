@@ -6,14 +6,15 @@ import {
 	DialogContent,
 	DialogFooter,
 	DialogTitle,
-	DialogTrigger,
+	// DialogTrigger,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 
 const DialogForm = () => {
-	const { setShowForm } = useUser();
+	const { showForm, setShowForm } = useUser();
+	if (!showForm) return <></>;
 	return (
 		<div onClick={() => setShowForm(false)}>
 			<Dialog open>
