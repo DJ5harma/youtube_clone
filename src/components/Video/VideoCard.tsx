@@ -25,16 +25,16 @@ const VideoCard = ({
 	const [isHovered, setIsHovered] = useState(false);
 	const [videoLoaded, setVideoLoaded] = useState(false);
 	return (
-		<div
-			className="w-full"
-			onMouseEnter={() => {
-				setIsHovered(true);
-				setVideoLoaded(true);
-				videoRef.current?.play();
-			}}
-			onMouseLeave={() => setIsHovered(false)}
-		>
-			<Link href={`/watch?video_id=${video._id}`}>
+		<div className="w-full">
+			<Link
+				href={`/watch?video_id=${video._id}`}
+				onMouseEnter={() => {
+					setIsHovered(true);
+					setVideoLoaded(true);
+					videoRef.current?.play();
+				}}
+				onMouseLeave={() => setIsHovered(false)}
+			>
 				{videoLoaded && (
 					<video
 						src={video.video.secure_url}
@@ -76,6 +76,11 @@ const VideoCard = ({
 						}%)`,
 					}}
 					onChange={(e) => handleSeek(parseFloat(e.target.value))}
+					onMouseEnter={() => {
+						setIsHovered(true);
+						setVideoLoaded(true);
+						videoRef.current?.play();
+					}}
 				/>
 			)}
 			<div className={`flex gap-3 px-2 ${isHovered ? "-mt-6" : ""}`}>
