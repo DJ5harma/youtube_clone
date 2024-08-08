@@ -2,6 +2,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import ControlButtons from "./ControlButtons";
 import { CVideoPlayable } from "@/lib/types";
+import MobileControlButtons from "./MobileControlButtons";
+import { FaBackward, FaForward } from "react-icons/fa";
 export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 	const videoRef = useRef<HTMLVideoElement>(null);
 	const fullscreenContainer = useRef<HTMLDivElement>(null);
@@ -28,6 +30,7 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 
 	function handleSeek(val: number) {
 		if (!videoRef.current) return;
+		setHideControlsTimer(10);
 		videoRef.current.currentTime = val;
 		setCurrentTime(val);
 	}
@@ -55,36 +58,74 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 
 	return (
 		<div className="items-start gap-1 flex-col" ref={fullscreenContainer}>
-			<video
-				className={`rounded-lg cursor-pointer aspect-video`}
-				onClick={togglePlay}
-				playsInline
-				autoPlay
-				loop
-				ref={videoRef}
-				src={
-					// "/sampleVideo.mp4"
-					video.video.secure_url
-				}
+			<div
+				className="relative"
+				onMouseLeave={() => setHideControlsTimer(0)}
 				onMouseMove={() => setHideControlsTimer(4)}
-				onTimeUpdate={() => {
-					if (videoRef.current) videoRef.current.muted = false;
-					setCurrentTime(videoRef.current?.currentTime || 0);
-					if (hideControlsTimer > 0)
-						setHideControlsTimer(hideControlsTimer - 1);
-				}}
-				onDoubleClick={toggleFullscreen}
 			>
-				<source />
-				video tag not supported on this browser
-			</video>
-			{videoRef.current ? (
+				<video
+					className="rounded-lg cursor-pointer aspect-video"
+					playsInline
+					autoPlay
+					loop
+					ref={videoRef}
+					src={
+						"/sampleVideo.mp4"
+						// video.video.secure_url
+					}
+					onTimeUpdate={() => {
+						if (videoRef.current) videoRef.current.muted = false;
+						setCurrentTime(videoRef.current?.currentTime || 0);
+						if (hideControlsTimer > 0)
+							setHideControlsTimer(hideControlsTimer - 1);
+					}}
+				>
+					<source />
+					video tag not supported on this browser
+				</video>
+				{hideControlsTimer !== 0 && (
+					<div className="h-full w-full top-0 left-0 absolute flex justify-around items-center [&>div]:flex [&>div]:items-center [&>div]:gap-2 [&>div]:z-30 [&>div]:opacity-80 bg-black bg-opacity-20">
+						<div
+							onClick={() => {
+								if (videoRef.current && videoRef.current.currentTime - 5 >= 0)
+									handleSeek(videoRef.current.currentTime - 5);
+							}}
+						>
+							5s
+							<FaBackward size={40} />
+						</div>
+						<div
+							onClick={() => {
+								if (
+									videoRef.current &&
+									videoRef.current.currentTime + 5 <= videoRef.current.duration
+								)
+									handleSeek(videoRef.current.currentTime + 5);
+							}}
+						>
+							<FaForward size={40} />
+							5s
+						</div>
+					</div>
+				)}
 				<div
-					className={`relative lg:bottom-16 lg:-mb-16 ${
-						!hideControlsTimer ? "lg:hidden" : ""
-					}`}
-					onMouseLeave={() => setHideControlsTimer(0)}
-					onMouseMove={() => setHideControlsTimer(4)}
+					className="lg:hidden h-full w-full top-0 left-0 absolute flex items-end z-20"
+					// style={{ height: "calc(100% - 64px)" }} //64px is ControlButtons' height
+				>
+					<MobileControlButtons
+						paused={paused}
+						togglePlay={togglePlay}
+						handleSeek={handleSeek}
+						videoRef={videoRef}
+						hideControlsTimer={hideControlsTimer}
+						setHideControlsTimer={setHideControlsTimer}
+					/>
+				</div>
+
+				<div
+					className="h-full w-full top-0 left-0 absolute flex items-end"
+					onDoubleClick={toggleFullscreen}
+					onClick={togglePlay}
 				>
 					<ControlButtons
 						currentTime={currentTime}
@@ -94,11 +135,10 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 						togglePlay={togglePlay}
 						handleSeek={handleSeek}
 						videoRef={videoRef}
+						hideControlsTimer={hideControlsTimer}
 					/>
 				</div>
-			) : (
-				<></>
-			)}
+			</div>
 			<p
 				className={`text-xl sm:text-2xl font-semibold p-2 ${
 					fullscreen

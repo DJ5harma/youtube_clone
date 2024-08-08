@@ -18,6 +18,7 @@ const ControlButtons = ({
 	toggleFullscreen,
 	handleSeek,
 	videoRef,
+	hideControlsTimer,
 }: {
 	paused: boolean;
 	currentTime: number;
@@ -26,6 +27,7 @@ const ControlButtons = ({
 	toggleFullscreen: () => void;
 	handleSeek: (val: number) => void;
 	videoRef: React.RefObject<HTMLVideoElement>;
+	hideControlsTimer: number;
 }) => {
 	const [volume, setVolume] = React.useState(videoRef.current?.volume || 50);
 	const [muted, setMuted] = React.useState(false);
@@ -97,37 +99,38 @@ const ControlButtons = ({
 		return () => document.removeEventListener("keydown", handleKeyPress);
 	}, []);
 
-	const [hideVolumeBar, setHideVolumeBar] = useState(true);
+	const [HideVolumeBarOnLargeScreens, setHideVolumeBarOnLargeScreens] =
+		useState(true);
+
+	if (hideControlsTimer === 0 || !videoRef.current) return <></>;
 
 	return (
 		<div
-			className={`lg:text-white lg:bg-black lg:bg-opacity-60 rounded-b-lg w-full min-h-16 pb-2 justify-between items-center flex flex-col gap-2 pt-3 px-2 ${
-				fullscreen &&
-				"fixed bottom-0 left-0 text-white bg-black bg-opacity-60 rounded-none"
+			className={`h-16 w-full text-white pb-2 justify-between items-center flex flex-col gap-2 pt-3 px-2 ${
+				fullscreen && "fixed bottom-0 left-0 rounded-none"
 			}`}
+			onClick={(e) => e.stopPropagation()}
 		>
-			{videoRef.current?.duration && (
-				<input
-					className="h-1 w-full cursor-pointer"
-					type="range"
-					min={0}
-					max={videoRef.current.duration}
-					step={0.01}
-					value={currentTime}
-					style={{
-						background: `linear-gradient(to right, blue ${
-							(currentTime / videoRef.current.duration) * 100
-						}%, grey ${
-							((videoRef.current.duration - currentTime) /
-								videoRef.current.duration) *
-							100
-						}%)`,
-					}}
-					onChange={(e) => handleSeek(parseFloat(e.target.value))}
-				/>
-			)}
+			<input
+				className="h-2 w-full cursor-pointer"
+				type="range"
+				min={0}
+				max={videoRef.current.duration}
+				step={0.01}
+				value={currentTime}
+				style={{
+					background: `linear-gradient(to right, blue ${
+						(currentTime / videoRef.current.duration) * 100
+					}%, grey ${
+						((videoRef.current.duration - currentTime) /
+							videoRef.current.duration) *
+						100
+					}%)`,
+				}}
+				onChange={(e) => handleSeek(parseFloat(e.target.value))}
+			/>
 			<div className="items-center justify-between w-full px-1 flex">
-				<div className="items-center z-10 flex gap-2">
+				<div className="items-center flex gap-2">
 					<CustomTooltip
 						size={30}
 						icon={
@@ -145,8 +148,8 @@ const ControlButtons = ({
 						text="Play next ->"
 					/>
 					<div
-						onMouseEnter={() => setHideVolumeBar(false)}
-						onMouseLeave={() => setHideVolumeBar(true)}
+						onMouseEnter={() => setHideVolumeBarOnLargeScreens(false)}
+						onMouseLeave={() => setHideVolumeBarOnLargeScreens(true)}
 						className="flex items-center w-fit"
 					>
 						<CustomTooltip
@@ -162,17 +165,17 @@ const ControlButtons = ({
 							text={muted ? "Unmute" : "Mute"}
 						/>
 
-						{!hideVolumeBar && (
-							<input
-								className="w-16 h-1 cursor-pointer"
-								type="range"
-								min={0}
-								max={1}
-								step={0.01}
-								value={muted ? 0 : volume}
-								onChange={(e) => updateVolumeTo(parseFloat(e.target.value))}
-							/>
-						)}
+						<input
+							className={`w-16 h-1 cursor-pointer ${
+								HideVolumeBarOnLargeScreens ? "lg:hidden" : ""
+							}`}
+							type="range"
+							min={0}
+							max={1}
+							step={0.01}
+							value={muted ? 0 : volume}
+							onChange={(e) => updateVolumeTo(parseFloat(e.target.value))}
+						/>
 					</div>
 					<div className="text-xs gap-1 ml-3 flex">
 						{getSeekbarTime(currentTime)}
@@ -180,7 +183,6 @@ const ControlButtons = ({
 						{getSeekbarTime(videoRef.current?.duration || 0)}
 					</div>
 				</div>
-
 				<CustomTooltip
 					size={30}
 					icon={
