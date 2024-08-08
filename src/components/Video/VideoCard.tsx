@@ -24,27 +24,43 @@ const VideoCard = ({
 
 	const [isHovered, setIsHovered] = useState(false);
 	const [videoLoaded, setVideoLoaded] = useState(false);
+
+	const handleMouseEnter = () => {
+		if (!videoLoaded)
+			setTimeout(() => {
+				setIsHovered(true);
+				setVideoLoaded(true);
+				videoRef.current?.play();
+			}, 1500);
+		else {
+			setIsHovered(true);
+			videoRef.current?.play();
+		}
+	};
+	const handleMouseLeave = () => {
+		videoRef.current?.pause();
+		setIsHovered(false);
+	};
+
 	return (
-		<div className="w-full">
-			<Link
-				href={`/watch?video_id=${video._id}`}
-				onMouseEnter={() => {
-					setIsHovered(true);
-					setVideoLoaded(true);
-					videoRef.current?.play();
-				}}
-				onMouseLeave={() => setIsHovered(false)}
-			>
+		<div
+			className="w-full"
+			onMouseEnter={handleMouseEnter}
+			onMouseLeave={handleMouseLeave}
+		>
+			<Link href={`/watch?video_id=${video._id}`}>
 				{videoLoaded && (
 					<video
 						src={video.video.secure_url}
 						ref={videoRef}
-						className={`${!isHovered ? "w-0" : ""} rounded cursor-pointer`}
+						className={`${
+							!isHovered ? "w-0" : ""
+						} rounded cursor-pointer object-cover aspect-video`}
 						autoPlay
 						onTimeUpdate={() => {
-							if (!isHovered) videoRef.current?.pause();
 							setCurrentTime(videoRef.current?.currentTime || 0);
 						}}
+						muted
 					></video>
 				)}
 
@@ -76,11 +92,7 @@ const VideoCard = ({
 						}%)`,
 					}}
 					onChange={(e) => handleSeek(parseFloat(e.target.value))}
-					onMouseEnter={() => {
-						setIsHovered(true);
-						setVideoLoaded(true);
-						videoRef.current?.play();
-					}}
+					// onMouseEnter={handleMouseEnter}
 				/>
 			)}
 			<div className={`flex gap-3 px-2 ${isHovered ? "-mt-6" : ""}`}>
