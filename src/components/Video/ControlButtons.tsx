@@ -101,8 +101,9 @@ const ControlButtons = ({
 
 	return (
 		<div
-			className={`rounded-b-lg text-white bg-black bg-opacity-60 w-full min-h-16 pb-2 justify-between items-center flex flex-col gap-2 pt-3 px-2 ${
-				fullscreen && "fixed bottom-0 left-0"
+			className={`lg:text-white lg:bg-black lg:bg-opacity-60 rounded-b-lg w-full min-h-16 pb-2 justify-between items-center flex flex-col gap-2 pt-3 px-2 ${
+				fullscreen &&
+				"fixed bottom-0 left-0 text-white bg-black bg-opacity-60 rounded-none"
 			}`}
 		>
 			{videoRef.current?.duration && (

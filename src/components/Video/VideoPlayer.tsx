@@ -8,7 +8,6 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 
 	const [paused, setPaused] = useState(false);
 	const [fullscreen, setFullscreen] = useState(false);
-	const [muted, setMuted] = useState(false);
 
 	const [currentTime, setCurrentTime] = useState<number>(
 		videoRef.current?.currentTime || 0
@@ -64,12 +63,12 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 				loop
 				ref={videoRef}
 				src={
-					"/sampleVideo.mp4"
-					// video.video.secure_url
+					// "/sampleVideo.mp4"
+					video.video.secure_url
 				}
 				onMouseMove={() => setHideControlsTimer(4)}
 				onTimeUpdate={() => {
-					if (!muted && videoRef.current) videoRef.current.muted = false;
+					if (videoRef.current) videoRef.current.muted = false;
 					setCurrentTime(videoRef.current?.currentTime || 0);
 					if (hideControlsTimer > 0)
 						setHideControlsTimer(hideControlsTimer - 1);
@@ -79,9 +78,11 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 				<source />
 				video tag not supported on this browser
 			</video>
-			{videoRef.current && hideControlsTimer ? (
+			{videoRef.current ? (
 				<div
-					className={`relative bottom-16 -mb-16`}
+					className={`relative lg:bottom-16 lg:-mb-16 ${
+						!hideControlsTimer ? "lg:hidden" : ""
+					}`}
 					onMouseLeave={() => setHideControlsTimer(0)}
 					onMouseMove={() => setHideControlsTimer(4)}
 				>
