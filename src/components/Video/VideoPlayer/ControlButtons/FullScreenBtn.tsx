@@ -11,7 +11,7 @@ const FullScreenBtn = ({
 	const [inFullscreen, setInFullscreen] = useState(false);
 	return (
 		<div
-			className="flex justify-center items-center"
+			className="flex justify-center items-center [&>*]:w-[25px] sm:[&>*]:w-[40px]"
 			onClick={() => setInFullscreen(toggleFullscreen())}
 		>
 			<CustomTooltip

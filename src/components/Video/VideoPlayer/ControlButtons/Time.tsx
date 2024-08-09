@@ -1,5 +1,5 @@
 import { getSeekbarTime } from "@/lib/utils";
-import React, { RefObject, Suspense, useEffect, useRef } from "react";
+import React, { RefObject, useEffect, useRef } from "react";
 
 const Time = ({ videoRef }: { videoRef: RefObject<HTMLVideoElement> }) => {
 	const CurrTimeRef = useRef<HTMLParagraphElement>(null);
@@ -19,7 +19,7 @@ const Time = ({ videoRef }: { videoRef: RefObject<HTMLVideoElement> }) => {
 		};
 	}, [videoRef]);
 	return (
-		<div className="text-xs gap-1 ml-3 flex">
+		<div className="text-xs gap-1 ml-1 flex items-center">
 			<p ref={CurrTimeRef}>
 				{getSeekbarTime(videoRef.current?.currentTime || 0)}
 			</p>

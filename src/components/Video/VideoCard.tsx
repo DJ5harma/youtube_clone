@@ -25,19 +25,20 @@ const VideoCard = ({
 	const [isHovered, setIsHovered] = useState(false);
 	const [videoLoaded, setVideoLoaded] = useState(false);
 
-	let allowPlay = false;
+	let lock = false;
 	const handleMouseEnter = () => {
-		allowPlay = true;
+		lock = false;
 		setTimeout(() => {
-			if (allowPlay) {
-				setIsHovered(true);
-				setVideoLoaded(true);
-				videoRef.current?.play();
-			}
+			if (lock) return;
+			lock = true;
+			setIsHovered(true);
+			setVideoLoaded(true);
+			videoRef.current?.play();
+			lock = false;
 		}, 1200);
 	};
 	const handleMouseLeave = () => {
-		allowPlay = false;
+		lock = true;
 		videoRef.current?.pause();
 		setIsHovered(false);
 	};

@@ -5,9 +5,11 @@ import { BiPause, BiPlay } from "react-icons/bi";
 export default function PlayPause({
 	videoRef,
 	togglePlay,
+	size,
 }: {
 	videoRef: RefObject<HTMLVideoElement>;
 	togglePlay: () => boolean;
+	size?: number;
 }) {
 	const [paused, setPaused] = useState(videoRef.current?.paused);
 
@@ -29,8 +31,8 @@ export default function PlayPause({
 	return (
 		<div onClick={() => setPaused(!togglePlay())}>
 			<CustomTooltip
-				size={30}
-				icon={paused ? <BiPlay /> : <BiPause />}
+				size={size || 30}
+				icon={paused ? <BiPlay className="pl-1" /> : <BiPause />}
 				text={paused ? "Play" : "Pause"}
 			/>
 		</div>

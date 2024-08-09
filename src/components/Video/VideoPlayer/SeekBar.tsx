@@ -17,14 +17,17 @@ const SeekBar = ({ videoRef }: { videoRef: RefObject<HTMLVideoElement> }) => {
 	}, [videoRef]);
 
 	return (
-		<div className="z-10 backdrop-blur-lg bg-black bg-opacity-75 flex items-end px-3 py-2 -my-[2px]">
+		<div
+			className="z-10 backdrop-blur-lg bg-black bg-opacity-75 flex items-end px-3 pt-2 sm:py-2 sm:-my-[2px]"
+			onClick={(e) => e.stopPropagation()}
+		>
 			<input
 				type="range"
 				min={0}
 				max={1}
 				step="0.000001"
 				ref={SeekBarRef}
-				className="h-1.5 w-full p-0"
+				className="h-1 sm:h-1.5 w-full cursor-pointer"
 				onChange={() => {
 					if (videoRef.current && SeekBarRef.current)
 						videoRef.current.currentTime =

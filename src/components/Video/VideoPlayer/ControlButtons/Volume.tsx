@@ -11,7 +11,17 @@ import { Input } from "@/components/ui/input";
 const Volume = ({ videoRef }: { videoRef: RefObject<HTMLVideoElement> }) => {
 	const [volume, setVolume] = useState(videoRef.current?.volume || 1);
 	const [isMuted, setIsMuted] = useState(videoRef.current?.muted || false);
-	("");
+
+	const toggleMute = () => {
+		if (videoRef.current)
+			if (videoRef.current.volume === 0) {
+				videoRef.current.volume = volume;
+				setIsMuted(false);
+			} else {
+				videoRef.current.volume = 0;
+				setIsMuted(true);
+			}
+	};
 
 	useEffect(() => {
 		if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
@@ -39,13 +49,7 @@ const Volume = ({ videoRef }: { videoRef: RefObject<HTMLVideoElement> }) => {
 						break;
 					case "M":
 						e.preventDefault();
-						if (videoRef.current.volume === 0) {
-							videoRef.current.volume = volume;
-							setIsMuted(false);
-						} else {
-							videoRef.current.volume = 0;
-							setIsMuted(true);
-						}
+						toggleMute();
 						break;
 					default:
 						break;
@@ -58,18 +62,20 @@ const Volume = ({ videoRef }: { videoRef: RefObject<HTMLVideoElement> }) => {
 
 	return (
 		<div className="flex items-center w-fit h-full">
-			<CustomTooltip
-				icon={
-					volume === 0 || videoRef.current?.muted || isMuted ? (
-						<PiSpeakerSimpleXFill />
-					) : volume < 0.5 ? (
-						<PiSpeakerLowFill />
-					) : (
-						<PiSpeakerHighFill />
-					)
-				}
-				text={true ? "Unmute" : "Mute"}
-			/>
+			<div onClick={toggleMute}>
+				<CustomTooltip
+					icon={
+						volume === 0 || videoRef.current?.muted || isMuted ? (
+							<PiSpeakerSimpleXFill />
+						) : volume < 0.5 ? (
+							<PiSpeakerLowFill />
+						) : (
+							<PiSpeakerHighFill />
+						)
+					}
+					text={true ? "Unmute" : "Mute"}
+				/>
+			</div>
 
 			<Input
 				type="range"
@@ -82,12 +88,13 @@ const Volume = ({ videoRef }: { videoRef: RefObject<HTMLVideoElement> }) => {
 					videoRef.current?.volume ||
 					0
 				}
-				className="h-2 w-20"
+				className="w-20 cursor-pointer hidden md:flex"
 				onChange={(e) => {
 					if (videoRef.current) {
 						const newVol = (videoRef.current.volume = e.target.valueAsNumber);
 						setVolume(newVol);
-						localStorage.setItem("volume", newVol.toString());
+						if (window.innerWidth > 640)
+							localStorage.setItem("volume", newVol.toString());
 					}
 				}}
 			/>

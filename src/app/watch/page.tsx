@@ -73,12 +73,7 @@ export default async function page({
 	return (
 		<div className="flex-wrap sm:p-4 sm:gap-4 lg:flex-nowrap overflow-x-hidden border flex">
 			<div className="flex flex-col w-full pb-2 lg:w-7/12">
-				<VideoPlayer
-					video={{
-						...JSON.parse(JSON.stringify(video)),
-						createdAt: video.createdAt,
-					}}
-				/>
+				<VideoPlayer secure_url={video.video.secure_url} title={video.title} />
 				<div className="px-2 flex w-full justify-between flex-col gap-3 sm:flex-row">
 					<SubscribeSection
 						creator={JSON.parse(JSON.stringify(video.creator))}
@@ -94,6 +89,7 @@ export default async function page({
 				<Description
 					createdAt={video.createdAt}
 					description={video.description}
+					views={video.views}
 				/>
 				<Comments
 					comments={comments.map((comment) => {
