@@ -1,5 +1,5 @@
 "use client";
-import { croppedAvatarUrl } from "@/lib/utils";
+import { croppedAvatarUrl, getSrc } from "@/lib/utils";
 import Image from "next/image";
 import React, { useState } from "react";
 import { Button } from "./ui/button";
@@ -47,7 +47,7 @@ const SubscribeSection = ({
 			<div className="flex gap-2 items-center">
 				<Link href={`/user/${creator.email}`}>
 					<Image
-						src={croppedAvatarUrl(creator.avatar.public_id)}
+						src={getSrc(croppedAvatarUrl(creator.avatar.public_id), "image")}
 						height={40}
 						width={40}
 						alt=""

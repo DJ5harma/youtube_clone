@@ -12,11 +12,13 @@ export default function ErrorComponent({
 	showForm?: boolean;
 }) {
 	const { setShowForm } = useUser();
+
 	return (
 		<div className="w-full h-full flex justify-center">
-			<h1 className="p-2 text-2xl font-semibold flex gap-2 flex-col">
-				{(message ||
-					"Either you need an account here or I've not implemented this page yet") +
+			<h1 className="p-2 text-2xl font-semibold flex gap-2 flex-col items-center">
+				{" : " +
+					(message ||
+						"Either you need an account here or I've not implemented this page yet") +
 					" : "}
 				<Link href="/">
 					<Button>Go Home</Button>

@@ -1,6 +1,6 @@
 "use client";
 import { CVideoCard } from "@/lib/types";
-import { croppedAvatarUrl, timeSince } from "@/lib/utils";
+import { croppedAvatarUrl, getSrc, timeSince } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
@@ -51,7 +51,7 @@ const VideoCard = ({
 			<Link href={`/watch?video_id=${video._id}`}>
 				{videoLoaded && (
 					<video
-						src={video.video.secure_url}
+						src={getSrc(video.video.secure_url, "video")}
 						ref={videoRef}
 						className={`${
 							!isHovered ? "w-0" : ""
@@ -65,7 +65,7 @@ const VideoCard = ({
 				)}
 
 				<Image
-					src={video.thumbnail.secure_url}
+					src={getSrc(video.thumbnail.secure_url, "image")}
 					alt=""
 					width={1280}
 					height={720}
@@ -98,7 +98,7 @@ const VideoCard = ({
 			<div className={`flex gap-3 px-2 ${isHovered ? "-mt-6" : ""}`}>
 				<Link href={`/user/${video.creator.email}`}>
 					<Image
-						src={croppedAvatarUrl(video.creator.avatar.public_id)}
+						src={getSrc("/sampleImage.jpg", "image")}
 						alt=""
 						width="40"
 						height="40"

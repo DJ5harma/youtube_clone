@@ -6,11 +6,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 export const public_cloudname = "dkoh3aq60";
 
-export const croppedAvatarUrl = (public_id: string) =>
-	public_id
-		? `https://res.cloudinary.com/${public_cloudname}/image/upload/c_crop,w_300,h_300/${public_id}.jpg`
-		: "/profile.png";
-
 export const getSeekbarTime = (time: number): string => {
 	const hours = time / 3600;
 	time = time % 3600;
@@ -67,4 +62,21 @@ export const convertToHumanFriendlyDate = (dateObj: Date) => {
 	});
 
 	return humanFriendlyDate;
+};
+
+export const croppedAvatarUrl = (public_id: string) =>
+	public_id
+		? `https://res.cloudinary.com/${public_cloudname}/image/upload/c_crop,w_300,h_300/${public_id}.jpg`
+		: "/profile.png";
+
+export const getSrc = (
+	actualPath: string,
+	file: "video" | "image",
+	localPath?: string
+) => {
+	return process.env.NODE_ENV === "development"
+		? localPath || file === "image"
+			? "/sampleImage.jpg"
+			: "/sampleVideo.mp4"
+		: actualPath;
 };

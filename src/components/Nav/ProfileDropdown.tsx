@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 import { sampleUser, useUser } from "@/providers/UserProvider";
-import { croppedAvatarUrl } from "@/lib/utils";
+import { croppedAvatarUrl, getSrc } from "@/lib/utils";
 import Link from "next/link";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -30,7 +30,7 @@ export function ProfileDropdown() {
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<Image
-					src={croppedAvatarUrl(user.avatar.public_id)}
+					src={getSrc(croppedAvatarUrl(user.avatar.public_id), "image")}
 					alt="profile icon"
 					width="40"
 					height="40"

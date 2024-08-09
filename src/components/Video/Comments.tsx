@@ -9,7 +9,7 @@ import {
 import { CComment } from "@/lib/types";
 import { Input } from "../ui/input";
 import { useUser } from "@/providers/UserProvider";
-import { croppedAvatarUrl, timeSince } from "@/lib/utils";
+import { croppedAvatarUrl, getSrc, timeSince } from "@/lib/utils";
 import Image from "next/image";
 import { IoIosSend } from "react-icons/io";
 import toast from "react-hot-toast";
@@ -62,7 +62,11 @@ const Comments = ({
 					<div className="flex items-center gap-2 mb-4">
 						<Link href={`/user/${user.email}`}>
 							<Image
-								src={croppedAvatarUrl(user.avatar.public_id)}
+								src={
+									process.env.NODE_ENV === "development"
+										? "/sampleImage.jpg"
+										: croppedAvatarUrl(user.avatar.public_id)
+								}
 								alt=""
 								width="40"
 								height="40"
@@ -88,7 +92,10 @@ const Comments = ({
 							>
 								<Link href={`/user/${commenter.email}`}>
 									<Image
-										src={croppedAvatarUrl(commenter.avatar.public_id)}
+										src={getSrc(
+											croppedAvatarUrl(commenter.avatar.public_id),
+											"image"
+										)}
 										alt=""
 										width="40"
 										height="40"

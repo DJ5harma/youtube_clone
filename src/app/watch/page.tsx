@@ -4,7 +4,7 @@ import Comments from "@/components/Video/Comments";
 import Description from "@/components/Video/Description";
 import VideoActions from "@/components/Video/VideoActions";
 import VideoCard from "@/components/Video/VideoCard";
-import VideoPlayer from "@/components/Video/VideoPlayer";
+import VideoPlayer from "@/components/Video/VideoPlayer/VideoPlayer";
 import dbConnect from "@/lib/dbConnect";
 import getUserIdFromJwt from "@/lib/getUserIdFromJwt";
 import { CComment, CVideoCard, CVideoPlayable } from "@/lib/types";
