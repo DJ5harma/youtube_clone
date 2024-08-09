@@ -107,6 +107,7 @@ export default async function page({
 				/>
 			</div>
 			<div className="px-2 gap-2 flex flex-wrap lg:flex-col lg:w-1/3">
+				<h2 className="text-xl font-semibold py-2">More Videos</h2>
 				{moreVideos
 					.filter(({ _id }) => _id.toString() !== video_id)
 					.map((video) => (

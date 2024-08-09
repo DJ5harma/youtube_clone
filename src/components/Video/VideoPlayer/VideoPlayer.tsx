@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { CVideoPlayable } from "@/lib/types";
 import MobileControlButtons from "./MobileControlButtons";
 import SeekBar from "./SeekBar";
@@ -32,6 +32,16 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 			return false;
 		}
 	};
+	const seekBy = (seconds: number) => {
+		if (!videoRef.current) return;
+		if (
+			seconds > 0 &&
+			videoRef.current?.currentTime + seconds < videoRef.current?.duration
+		)
+			videoRef.current.currentTime += seconds;
+		else if (seconds < 0 && videoRef.current.currentTime - seconds > 0)
+			videoRef.current.currentTime -= seconds;
+	};
 
 	useEffect(() => {
 		const video = videoRef.current;
@@ -45,11 +55,11 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 						break;
 					case "ARROWRIGHT":
 						e.preventDefault();
-						if (video.currentTime + 5 < video.duration) video.currentTime += 5;
+						seekBy(+5);
 						break;
 					case "ARROWLEFT":
 						e.preventDefault();
-						if (video.currentTime - 5 > 0) video.currentTime -= 5;
+						seekBy(-5);
 						break;
 					case " ":
 						e.preventDefault();
@@ -74,11 +84,6 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 					loop
 					ref={videoRef}
 					src={getSrc(video.video.secure_url, "video")}
-					onClick={() => {
-						if (videoRef.current?.paused) videoRef.current.play();
-						else videoRef.current?.pause();
-						console.log("clickj");
-					}}
 				>
 					<source />
 					video tag not supported on this browser
@@ -98,12 +103,13 @@ export default function VideoPlayer({ video }: { video: CVideoPlayable }) {
 					)} */}
 					<div
 						className="w-full h-full"
-						onClick={() => {
-							if (videoRef.current?.paused) videoRef.current.play();
-							else videoRef.current?.pause();
-						}}
+						onClick={togglePlay}
+						onDoubleClick={toggleFullscreen}
+						// onMouseMove={()=>{}}
 					></div>
-					{/* <MobileControlButtons /> */}
+					{/* <div className="flex sm:hidden flex-1">
+						<MobileControlButtons videoRef={videoRef} />
+					</div> */}
 					<SeekBar videoRef={videoRef} />
 					<div className="h-10 md:h-12 w-full bg-black text-white items-center flex [&>div]:h-full justify-between bg-opacity-75 backdrop-blur-lg px-2">
 						<div className="items-center flex w-full lg:gap-2">

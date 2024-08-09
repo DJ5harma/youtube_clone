@@ -1,8 +1,11 @@
-import React from "react";
-import { BiPause, BiPlay } from "react-icons/bi";
+import React, { RefObject } from "react";
 import { FaBackward, FaForward } from "react-icons/fa";
 
-const MobileControlButtons = ({}: {}) => {
+const MobileControlButtons = ({
+	videoRef,
+}: {
+	videoRef: RefObject<HTMLVideoElement>;
+}) => {
 	return (
 		<div className="bg-green-600 flex-1 flex items-center w-full h-full pt-8">
 			<div className="bg-green-400 h-full flex-1 flex justify-center items-center">
