@@ -43,17 +43,21 @@ export default async function page({
 		{ videoRatings: [{ isPositive: boolean }] } | null,
 		CComment[]
 	] = await Promise.all([
-		USER.exists({
-			_id: user_id,
-			subscriptions: { $in: [video.creator._id] },
-		}),
+		user_id
+			? USER.exists({
+					_id: user_id,
+					subscriptions: { $in: [video.creator._id] },
+			  })
+			: null,
 		VIDEO.find()
 			.select("_id title creator thumbnail video views createdAt")
 			.populate({ path: "creator", select: "username _id avatar" }),
-		USER.findOne(
-			{ "videoRatings.video": video_id },
-			{ "videoRatings.$": 1 }
-		).select("-_id"),
+		user_id
+			? USER.findOne(
+					{ "videoRatings.video": video_id },
+					{ "videoRatings.$": 1 }
+			  ).select("-_id")
+			: null,
 		COMMENT.find({ video: video_id })
 			.select("_id body commenter createdAt")
 			.populate({ path: "commenter", select: "username -_id avatar email" }),
@@ -63,12 +67,12 @@ export default async function page({
 			? 1
 			: -1
 		: 0;
-
-	WATCH_HISTORY.findOneAndUpdate(
-		{ user: user_id, video: video_id },
-		{ lastWatched: Date.now() },
-		{ upsert: true }
-	).then(() => revalidatePath("/watchHistory")); // no need to wait for
+	if (user_id)
+		WATCH_HISTORY.findOneAndUpdate(
+			{ user: user_id, video: video_id },
+			{ lastWatched: Date.now() },
+			{ upsert: true }
+		).then(() => revalidatePath("/watchHistory")); // no need to wait for
 
 	return (
 		<div className="flex-wrap sm:p-4 sm:gap-4 lg:flex-nowrap overflow-x-hidden border flex">
