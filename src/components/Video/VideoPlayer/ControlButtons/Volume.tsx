@@ -7,6 +7,7 @@ import {
 } from "react-icons/pi";
 import CustomTooltip from "@/components/Nav/CustomTooltip";
 import { Input } from "@/components/ui/input";
+import toast from "react-hot-toast";
 
 const Volume = ({ videoRef }: { videoRef: RefObject<HTMLVideoElement> }) => {
 	const [volume, setVolume] = useState(videoRef.current?.volume || 1);
@@ -35,16 +36,42 @@ const Volume = ({ videoRef }: { videoRef: RefObject<HTMLVideoElement> }) => {
 				switch (e.key.toUpperCase()) {
 					case "ARROWUP":
 						e.preventDefault();
+						toast.dismiss();
 						if (videoRef.current.volume + 0.05 <= 1) {
 							videoRef.current.volume += 0.05;
 							setVolume(videoRef.current.volume);
+							toast.success(
+								"Volume increased to " +
+									(videoRef.current.volume * 100).toFixed(0) +
+									" %",
+								{
+									duration: 1000,
+								}
+							);
+						} else {
+							toast.error("Volume is maximum!", {
+								duration: 1000,
+							});
 						}
 						break;
 					case "ARROWDOWN":
 						e.preventDefault();
+						toast.dismiss();
 						if (videoRef.current.volume - 0.05 > 0) {
 							videoRef.current.volume -= 0.05;
 							setVolume(videoRef.current.volume);
+							toast.success(
+								"Volume decreased to " +
+									(videoRef.current.volume * 100).toFixed(0) +
+									" %",
+								{
+									duration: 1000,
+								}
+							);
+						} else {
+							toast.error("Volume is minimum!", {
+								duration: 1000,
+							});
 						}
 						break;
 					case "M":
@@ -95,6 +122,15 @@ const Volume = ({ videoRef }: { videoRef: RefObject<HTMLVideoElement> }) => {
 						setVolume(newVol);
 						if (window.innerWidth > 640)
 							localStorage.setItem("volume", newVol.toString());
+						toast.dismiss();
+						toast.success(
+							"Volume set to " +
+								(e.target.valueAsNumber * 100).toFixed(0) +
+								" %",
+							{
+								duration: 1000,
+							}
+						);
 					}
 				}}
 			/>

@@ -9,6 +9,7 @@ import Time from "./ControlButtons/Time";
 import { getSrc } from "@/lib/utils";
 import { FaBackward, FaForward } from "react-icons/fa";
 import FullScreenBtn from "./ControlButtons/FullScreenBtn";
+import toast from "react-hot-toast";
 
 export default function VideoPlayer({
 	secure_url,
@@ -50,7 +51,10 @@ export default function VideoPlayer({
 		else if (seconds < 0 && videoRef.current.currentTime - seconds > 0)
 			videoRef.current.currentTime += seconds;
 	};
-
+	useEffect(() => {
+		toast.dismiss();
+		toast.success("Video loaded!");
+	}, [secure_url]);
 	useEffect(() => {
 		const video = videoRef.current;
 		if (!video) return;
@@ -88,13 +92,21 @@ export default function VideoPlayer({
 
 	let lock = false;
 	const handleControlsShow = () => {
-		if (controlsRef.current) controlsRef.current.style.opacity = "100%";
+		if (!controlsRef.current || !videoRef.current) return;
+		controlsRef.current.style.opacity = "100%";
+		// mobileControlsRef.current &&
+		// (mobileControlsRef.current.style.zIndex = "50");
 		if (!lock) {
 			lock = true;
 			setTimeout(
 				() => {
-					if (controlsRef.current && !videoRef.current?.paused) {
+					if (
+						controlsRef.current &&
+						!videoRef.current?.paused &&
+						mobileControlsRef.current
+					) {
 						controlsRef.current.style.opacity = "0";
+						// mobileControlsRef.current.style.zIndex = "0";
 					}
 					lock = false;
 				},
@@ -104,6 +116,8 @@ export default function VideoPlayer({
 	};
 	const handleHideControls = () => {
 		if (controlsRef.current) controlsRef.current.style.opacity = "0";
+		// if (mobileControlsRef.current)
+		// mobileControlsRef.current.style.zIndex = "0";
 	};
 
 	return (
@@ -126,12 +140,7 @@ export default function VideoPlayer({
 					onMouseLeave={handleHideControls}
 					onMouseMove={handleControlsShow}
 					onMouseEnter={handleControlsShow}
-					onClick={() => {
-						handleControlsShow();
-						mobileControlsRef.current?.style &&
-							(mobileControlsRef.current.style.zIndex =
-								mobileControlsRef.current.style.zIndex === "50" ? "-50" : "50");
-					}}
+					onClick={handleControlsShow}
 				>
 					<p className="fixed top-0 left-0 bg-black w-full bg-opacity-45 backdrop-blur-3xl sm:text-2xl font-semibold p-4 -z-50 sm:z-10">
 						{title}

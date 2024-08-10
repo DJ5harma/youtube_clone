@@ -4,6 +4,7 @@ import { croppedAvatarUrl, getSrc, timeSince } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
+import toast from "react-hot-toast";
 
 const VideoCard = ({
 	video,
@@ -49,7 +50,10 @@ const VideoCard = ({
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
 		>
-			<Link href={`/watch?video_id=${video._id}`}>
+			<Link
+				href={`/watch?video_id=${video._id}`}
+				onClick={() => toast.loading("Loading video")}
+			>
 				{videoLoaded && (
 					<video
 						src={getSrc(video.video.secure_url, "video")}

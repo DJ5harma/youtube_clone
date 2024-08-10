@@ -1,14 +1,14 @@
-import React, { RefObject, useEffect, useRef } from "react";
+"use client";
+import React, { RefObject, useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 
 const SeekBar = ({ videoRef }: { videoRef: RefObject<HTMLVideoElement> }) => {
-	const SeekBarRef = useRef<HTMLInputElement>(null);
+	const [currentTime, setCurrentTime] = useState(0);
 	useEffect(() => {
 		const video = videoRef.current;
 		if (!video) return;
-		SeekBarRef.current && (SeekBarRef.current.value = "0");
 		const handleTimeUpdate = () => {
-			const newVal = (video.currentTime / video.duration).toFixed(6);
-			SeekBarRef.current && (SeekBarRef.current.value = newVal);
+			setCurrentTime(video.currentTime / video.duration);
 		};
 		video.addEventListener("timeupdate", handleTimeUpdate);
 		return () => {
@@ -25,15 +25,21 @@ const SeekBar = ({ videoRef }: { videoRef: RefObject<HTMLVideoElement> }) => {
 				type="range"
 				min={0}
 				max={1}
-				value={SeekBarRef.current?.value}
+				value={currentTime}
 				step="0.000001"
-				ref={SeekBarRef}
 				className="h-1 sm:h-1.5 w-full cursor-pointer"
-				onChange={() => {
-					videoRef.current &&
-						SeekBarRef.current &&
-						(videoRef.current.currentTime =
-							videoRef.current.duration * parseFloat(SeekBarRef.current.value));
+				onChange={(e) => {
+					if (!videoRef.current) return;
+					videoRef.current.currentTime =
+						e.target.valueAsNumber * videoRef.current.duration;
+					setCurrentTime(e.target.valueAsNumber);
+					toast.dismiss();
+					toast.success(
+						"Seeked to " + (e.target.valueAsNumber * 100).toFixed(0) + " %",
+						{
+							duration: 1000,
+						}
+					);
 				}}
 			/>
 		</div>
