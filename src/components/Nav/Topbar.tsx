@@ -17,7 +17,7 @@ import Link from "next/link";
 
 const Topbar = () => {
 	return (
-		<aside className="fixed inset-y-0 right-0 top-0 z-50 border-2 bg-background flex justify-between w-screen h-14">
+		<aside className="fixed inset-y-0 right-0 top-0 z-50 sm:border-2 bg-background flex justify-between w-screen h-14">
 			<div className="flex items-center gap-4 px-2 py-4">
 				<CustomTooltip icon={<SheetSidebar />} text="Menu" />
 				<Tooltip>

@@ -20,6 +20,7 @@ export default function VideoPlayer({
 	const videoRef = useRef<HTMLVideoElement>(null);
 	const fullscreenContainer = useRef<HTMLDivElement>(null);
 	const controlsRef = useRef<HTMLDivElement>(null);
+	const mobileControlsRef = useRef<HTMLDivElement>(null);
 
 	const toggleFullscreen = () => {
 		if (document.fullscreenElement) {
@@ -125,7 +126,12 @@ export default function VideoPlayer({
 					onMouseLeave={handleHideControls}
 					onMouseMove={handleControlsShow}
 					onMouseEnter={handleControlsShow}
-					onClick={handleControlsShow}
+					onClick={() => {
+						handleControlsShow();
+						mobileControlsRef.current?.style &&
+							(mobileControlsRef.current.style.zIndex =
+								mobileControlsRef.current.style.zIndex === "50" ? "-50" : "50");
+					}}
 				>
 					<p className="fixed top-0 left-0 bg-black w-full bg-opacity-45 backdrop-blur-3xl sm:text-2xl font-semibold p-4 -z-50 sm:z-10">
 						{title}
@@ -140,7 +146,8 @@ export default function VideoPlayer({
 						}}
 					></div>
 					<div
-						className="flex-1 flex items-center w-full h-full pt-8 sm:hidden [&>*]:select-none"
+						ref={mobileControlsRef}
+						className="z-50 flex-1 flex items-center w-full h-full pt-8 sm:hidden [&>*]:select-none"
 						style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
 						onClick={handleHideControls}
 					>
@@ -177,7 +184,7 @@ export default function VideoPlayer({
 						</div>
 					</div>
 					<SeekBar videoRef={videoRef} />
-					<div className="h-8 sm:h-12 bg-black text-white items-center flex [&>div]:h-full bg-opacity-75 backdrop-blur-lg px-2">
+					<div className="h-8 sm:h-12 bg-black text-white items-center flex [&>div]:h-full bg-opacity-75 backdrop-blur-lg pl-1 pr-2">
 						<div className="items-center flex w-full sm:gap-2">
 							<PlayPause videoRef={videoRef} togglePlay={togglePlay} />
 							<CustomTooltip
