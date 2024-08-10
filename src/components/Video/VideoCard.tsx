@@ -55,7 +55,7 @@ const VideoCard = ({
 						src={getSrc(video.video.secure_url, "video")}
 						ref={videoRef}
 						className={`${
-							!isHovered ? "w-0" : ""
+							!isHovered && "w-0"
 						} rounded cursor-pointer object-cover aspect-video`}
 						autoPlay
 						onTimeUpdate={() => {
@@ -71,7 +71,7 @@ const VideoCard = ({
 					width={1280}
 					height={720}
 					className={`rounded cursor-pointer object-cover aspect-video ${
-						isHovered ? "w-0" : ""
+						isHovered && "w-0"
 					}`}
 				/>
 			</Link>
@@ -83,17 +83,7 @@ const VideoCard = ({
 					max={videoRef.current.duration}
 					step={0.01}
 					value={currentTime}
-					style={{
-						background: `linear-gradient(to right, blue ${
-							(currentTime / videoRef.current.duration) * 100
-						}%, grey ${
-							((videoRef.current.duration - currentTime) /
-								videoRef.current.duration) *
-							100
-						}%)`,
-					}}
 					onChange={(e) => handleSeek(parseFloat(e.target.value))}
-					// onMouseEnter={handleMouseEnter}
 				/>
 			)}
 			<div className={`flex gap-3 px-2 ${isHovered ? "-mt-6" : ""}`}>

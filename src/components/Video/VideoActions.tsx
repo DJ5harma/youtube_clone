@@ -36,10 +36,8 @@ const VideoActions = ({
 		val: "LIKE" | "DISLIKE" | "UNLIKE" | "UNDISLIKE"
 	) => {
 		if (!user?._id) {
-			{
-				setShowForm(true);
-				return toast.error("SignIn to rate");
-			}
+			setShowForm(true);
+			return toast.error("Sign in to " + val.toLowerCase());
 		}
 		let todo:
 			| "LIKE"

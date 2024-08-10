@@ -1,6 +1,6 @@
 "use client";
 import CustomTooltip from "@/components/Nav/CustomTooltip";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdFullscreen, MdFullscreenExit } from "react-icons/md";
 
 const FullScreenBtn = ({
@@ -9,10 +9,17 @@ const FullScreenBtn = ({
 	toggleFullscreen: () => boolean;
 }) => {
 	const [inFullscreen, setInFullscreen] = useState(false);
+	useEffect(() => {
+		const handleFullscreenChange = () =>
+			setInFullscreen(!!document.fullscreenElement);
+		document.addEventListener("fullscreenchange", handleFullscreenChange);
+		return () =>
+			document.removeEventListener("fullscreenchange", handleFullscreenChange);
+	}, []);
 	return (
 		<div
 			className="flex justify-center items-center [&>*]:w-[25px] sm:[&>*]:w-[40px]"
-			onClick={() => setInFullscreen(toggleFullscreen())}
+			onClick={() => toggleFullscreen()}
 		>
 			<CustomTooltip
 				size={30}

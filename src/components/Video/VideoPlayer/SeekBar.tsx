@@ -5,10 +5,10 @@ const SeekBar = ({ videoRef }: { videoRef: RefObject<HTMLVideoElement> }) => {
 	useEffect(() => {
 		const video = videoRef.current;
 		if (!video) return;
-		if (SeekBarRef.current) SeekBarRef.current.value = "0";
+		SeekBarRef.current && (SeekBarRef.current.value = "0");
 		const handleTimeUpdate = () => {
 			const newVal = (video.currentTime / video.duration).toFixed(6);
-			if (SeekBarRef.current) SeekBarRef.current.value = newVal;
+			SeekBarRef.current && (SeekBarRef.current.value = newVal);
 		};
 		video.addEventListener("timeupdate", handleTimeUpdate);
 		return () => {
@@ -25,13 +25,15 @@ const SeekBar = ({ videoRef }: { videoRef: RefObject<HTMLVideoElement> }) => {
 				type="range"
 				min={0}
 				max={1}
+				value={SeekBarRef.current?.value}
 				step="0.000001"
 				ref={SeekBarRef}
 				className="h-1 sm:h-1.5 w-full cursor-pointer"
 				onChange={() => {
-					if (videoRef.current && SeekBarRef.current)
-						videoRef.current.currentTime =
-							videoRef.current.duration * parseFloat(SeekBarRef.current.value);
+					videoRef.current &&
+						SeekBarRef.current &&
+						(videoRef.current.currentTime =
+							videoRef.current.duration * parseFloat(SeekBarRef.current.value));
 				}}
 			/>
 		</div>

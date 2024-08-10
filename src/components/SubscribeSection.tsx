@@ -28,7 +28,7 @@ const SubscribeSection = ({
 	const handleClick = async () => {
 		if (!user._id) {
 			setShowForm(true);
-			return toast.error("Sign in required");
+			return toast.error("Sign in to Subscribe");
 		}
 		const todo = isSubscribed ? "UNSUBSCRIBE" : "SUBSCRIBE";
 		setShownSubCount((prev) => (todo === "SUBSCRIBE" ? prev + 1 : prev - 1));

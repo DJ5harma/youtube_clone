@@ -6,9 +6,9 @@ import CustomTooltip from "@/components/Nav/CustomTooltip";
 import { BiFastForward } from "react-icons/bi";
 import Volume from "./ControlButtons/Volume";
 import Time from "./ControlButtons/Time";
-import FullScreenBtn from "./ControlButtons/FullScreenBtn";
 import { getSrc } from "@/lib/utils";
 import { FaBackward, FaForward } from "react-icons/fa";
+import FullScreenBtn from "./ControlButtons/FullScreenBtn";
 
 export default function VideoPlayer({
 	secure_url,
@@ -53,7 +53,10 @@ export default function VideoPlayer({
 	useEffect(() => {
 		const video = videoRef.current;
 		if (!video) return;
-		if (typeof window !== "undefined") video.play();
+		if (typeof window !== "undefined") {
+			video.muted = false;
+			video.play();
+		}
 		const handleKeyPress = (e: KeyboardEvent) => {
 			if (video && document.activeElement?.tagName !== "INPUT") {
 				switch (e.key.toUpperCase()) {
@@ -89,8 +92,9 @@ export default function VideoPlayer({
 			lock = true;
 			setTimeout(
 				() => {
-					if (controlsRef.current && !videoRef.current?.paused)
+					if (controlsRef.current && !videoRef.current?.paused) {
 						controlsRef.current.style.opacity = "0";
+					}
 					lock = false;
 				},
 				window.innerWidth < 640 ? 1500 : 3000
@@ -123,6 +127,9 @@ export default function VideoPlayer({
 					onMouseEnter={handleControlsShow}
 					onClick={handleControlsShow}
 				>
+					<p className="fixed top-0 left-0 bg-black w-full bg-opacity-45 backdrop-blur-3xl sm:text-2xl font-semibold p-4 -z-50 sm:z-10">
+						{title}
+					</p>
 					<div
 						className="w-full h-full hidden sm:flex"
 						onClick={() => {
@@ -142,7 +149,7 @@ export default function VideoPlayer({
 							className="h-full flex-1 flex justify-center items-center"
 						>
 							<div
-								className="flex items-center gap-2"
+								className="flex items-center gap-2 cursor-pointer"
 								onClick={() => lock && seekBy(-5)}
 							>
 								5s
@@ -161,7 +168,7 @@ export default function VideoPlayer({
 							className="h-full flex-1 flex justify-center items-center"
 						>
 							<div
-								className="flex items-center gap-2"
+								className="flex items-center gap-2 cursor-pointer"
 								onClick={() => lock && seekBy(+5)}
 							>
 								5s
@@ -185,15 +192,7 @@ export default function VideoPlayer({
 					</div>
 				</div>
 			</div>
-			<p
-				className={`text-xl sm:text-2xl font-semibold p-2 ${
-					false
-						? "fixed top-0 left-0 z-50 bg-black p-2 rounded-ee-xl bg-opacity-50"
-						: ""
-				}`}
-			>
-				{title}
-			</p>
+			<p className="text-xl sm:text-2xl font-semibold p-2">{title}</p>
 		</div>
 	);
 }
