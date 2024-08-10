@@ -9,6 +9,7 @@ import Time from "./ControlButtons/Time";
 import FullScreenBtn from "./ControlButtons/FullScreenBtn";
 import { getSrc } from "@/lib/utils";
 import { FaBackward, FaForward } from "react-icons/fa";
+
 export default function VideoPlayer({
 	secure_url,
 	title,
@@ -123,8 +124,12 @@ export default function VideoPlayer({
 				>
 					<div
 						className="w-full h-full hidden sm:flex"
-						onClick={togglePlay}
-						onDoubleClick={toggleFullscreen}
+						onClick={() => {
+							if (window.innerWidth >= 640) togglePlay();
+						}}
+						onDoubleClick={() => {
+							if (window.innerWidth >= 640) toggleFullscreen();
+						}}
 					></div>
 					<div
 						className="flex-1 flex items-center w-full h-full pt-8 sm:hidden [&>*]:select-none"
