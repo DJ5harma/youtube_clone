@@ -99,7 +99,10 @@ const VideoCard = ({
 			<div className={`flex gap-3 px-2 ${isHovered ? "-mt-6" : ""}`}>
 				<Link href={`/user/${video.creator.email}`}>
 					<Image
-						src={getSrc(video.creator.avatar.public_id, "image")}
+						src={getSrc(
+							croppedAvatarUrl(video.creator.avatar.public_id),
+							"image"
+						)}
 						alt=""
 						width="40"
 						height="40"

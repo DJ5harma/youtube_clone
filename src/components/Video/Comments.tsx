@@ -52,7 +52,10 @@ const Comments = ({
 
 	return (
 		<Accordion type="single" collapsible defaultValue="item-1">
-			<AccordionItem value="item-1" className="px-4 border-4 rounded-xl">
+			<AccordionItem
+				value="item-1"
+				className="px-4 border-2 sm:border-4 rounded-xl"
+			>
 				<AccordionTrigger>
 					<div className="flex justify-between w-full pr-2">
 						<p>Comments</p>

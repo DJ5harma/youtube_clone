@@ -5,6 +5,7 @@ const Time = ({ videoRef }: { videoRef: RefObject<HTMLVideoElement> }) => {
 	const CurrTimeRef = useRef<HTMLParagraphElement>(null);
 	const DurationRef = useRef<HTMLParagraphElement>(null);
 	useEffect(() => {
+		if (typeof window === "undefined") return;
 		const video = videoRef.current;
 		if (!video) return;
 		if (DurationRef.current)

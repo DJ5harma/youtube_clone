@@ -53,6 +53,7 @@ export default function VideoPlayer({
 	useEffect(() => {
 		const video = videoRef.current;
 		if (!video) return;
+		if (typeof window !== "undefined") video.play();
 		const handleKeyPress = (e: KeyboardEvent) => {
 			if (video && document.activeElement?.tagName !== "INPUT") {
 				switch (e.key.toUpperCase()) {

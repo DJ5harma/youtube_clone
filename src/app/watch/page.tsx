@@ -75,7 +75,7 @@ export default async function page({
 		).then(() => revalidatePath("/watchHistory")); // no need to wait for
 
 	return (
-		<div className="flex-wrap sm:p-4 sm:gap-4 lg:flex-nowrap overflow-x-hidden border flex">
+		<div className="flex-wrap sm:p-4 sm:gap-4 lg:flex-nowrap overflow-x-hidden flex">
 			<div className="flex flex-col w-full pb-2 lg:w-7/12">
 				<VideoPlayer secure_url={video.video.secure_url} title={video.title} />
 				<div className="px-2 flex w-full justify-between flex-col gap-3 sm:flex-row">
