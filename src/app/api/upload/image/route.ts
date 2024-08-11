@@ -14,6 +14,11 @@ export const POST = async (req: NextRequest) => {
 
 		if (!image) throw new Error("Image didn't arrive");
 
+		const SIZE_LIMIT = 5 * 1024 * 1024; // 5MB
+
+		if (image.size > SIZE_LIMIT)
+			throw new Error("Image size exceeds the limit of 5MB");
+
 		const { errMessage, result } = await uploadToCloudinary(image, "image");
 
 		if (errMessage) throw new Error(errMessage);

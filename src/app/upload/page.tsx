@@ -85,7 +85,7 @@ export default function Page() {
 			<Button variant="outline" className="w-full">
 				<div className="absolute flex items-center gap-2">
 					<BiUpload size={20} />
-					Video
+					Video {"Max: 100MB"}
 				</div>
 				<input
 					type="file"
