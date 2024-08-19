@@ -13,6 +13,8 @@ import toast from "react-hot-toast";
 import CustomTooltip from "../Nav/CustomTooltip";
 import axios from "axios";
 
+// the functionality here will work in similar fashion to the SubscribeSection component (updating the db after showing the response to the user asap)
+
 const VideoActions = ({
 	likes,
 	dislikes,
@@ -38,7 +40,8 @@ const VideoActions = ({
 		if (!user?._id) {
 			setShowForm(true);
 			return toast.error("Sign in to " + val.toLowerCase());
-		}
+		} // a loose user's id check to save bandwidth
+
 		let todo:
 			| "LIKE"
 			| "DISLIKE"
@@ -46,7 +49,7 @@ const VideoActions = ({
 			| "UNDISLIKE"
 			| "LIKE_TO_DISLIKE"
 			| "DISLIKE_TO_LIKE"
-			| "" = "";
+			| "" = ""; // the actions which are possible
 
 		if (val === "LIKE") {
 			if (shownUserRating === -1) {
@@ -75,7 +78,8 @@ const VideoActions = ({
 
 		const { errMessage } = (
 			await axios.post("/api/videos/updateRating", { todo, video_id })
-		).data;
+		).data; // update the rating of this user on this video. The api route handles the rest
+
 		if (errMessage) toast.error(errMessage);
 	};
 
@@ -121,7 +125,7 @@ const VideoActions = ({
 					<BiLink
 						onClick={() =>
 							navigator.clipboard
-								.writeText(window.location.href)
+								.writeText(window.location.href) // just copies the specified string (href) to client's clipboard
 								.then(() => toast.success("Link copied to clipboard!"))
 						}
 					/>

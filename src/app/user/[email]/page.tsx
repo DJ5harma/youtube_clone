@@ -4,7 +4,6 @@ import VideoCard from "@/components/Video/VideoCard";
 import getUserIdFromJwt from "@/lib/getUserIdFromJwt";
 import USER from "@/models/USER.model";
 import VIDEO from "@/models/VIDEO.model";
-import { cookies } from "next/headers";
 import Image from "next/image";
 import React from "react";
 
@@ -13,7 +12,7 @@ export default async function page({
 }: {
 	params: { email: string };
 }) {
-	const user_id = getUserIdFromJwt(cookies().get("token")?.value);
+	const user_id = await getUserIdFromJwt();
 	email = email.split("%40")[0] + "@" + email.split("%40")[1];
 
 	if (!email)
@@ -23,7 +22,7 @@ export default async function page({
 
 	const creator = await USER.findOne({ email })
 		.select("avatar _id username subscribers")
-		.populate("avatar");
+		.populate("avatar"); // getting the creator
 
 	if (!creator)
 		return <ErrorComponent message="Looks like this user doesn't exist" />;
@@ -52,10 +51,7 @@ export default async function page({
 				<div className="absolute top-4">
 					<div className="p-4 bg-neutral-500 backdrop-blur-xl bg-opacity-50 rounded-2xl">
 						<SubscribeSection
-							creator={{
-								...JSON.parse(JSON.stringify(creator)),
-								email,
-							}}
+							creator={JSON.parse(JSON.stringify(creator))}
 							subscribed={subscribed ? true : false}
 						/>
 					</div>
@@ -68,12 +64,7 @@ export default async function page({
 			</div>
 			{videos.map((video) => (
 				<div key={video._id} className="w-full sm:w-1/2 lg:w-1/3 2xl:w-1/4 p-2">
-					<VideoCard
-						video={{
-							...JSON.parse(JSON.stringify(video)),
-							createdAt: video.createdAt,
-						}}
-					/>
+					<VideoCard video={JSON.parse(JSON.stringify(video))} />
 				</div>
 			))}
 			<p className="p-2 fixed right-0 bottom-0"></p>

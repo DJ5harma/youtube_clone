@@ -13,6 +13,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 
+// This form (and/will) appear hovering on any page when triggered by the showForm state so that users can sign in without leaving the page they are currently in
+
 const DialogForm = () => {
 	const { showForm, setShowForm } = useUser();
 	if (!showForm) return <></>;

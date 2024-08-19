@@ -1,12 +1,11 @@
 import dbConnect from "@/lib/dbConnect";
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import VIDEO from "@/models/VIDEO.model";
 import getUserIdFromJwt from "@/lib/getUserIdFromJwt";
 
 export const POST = async (req: NextRequest) => {
 	try {
-		const user_id = getUserIdFromJwt(cookies().get("token")?.value);
+		const user_id = await getUserIdFromJwt();
 		if (!user_id) throw new Error("token missing");
 
 		const videoDoc = await req.json();

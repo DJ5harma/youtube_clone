@@ -19,11 +19,11 @@ export function ProfileDropdown() {
 	const { user, setShowForm, setUser } = useUser();
 	const handleLogout = async () => {
 		toast.loading("Logging you out");
-		const { errMessage } = (await axios.get("/api/auth/logout")).data;
+		const { errMessage } = (await axios.get("/api/auth/logout")).data; // this api route will delete the token from client's cookies
 		toast.dismiss();
 		if (errMessage) return toast.error(errMessage);
 		toast.success("Logged out");
-		setUser(sampleUser);
+		setUser(sampleUser); // this will set the details of this user as guest as the user has logged out
 	};
 
 	return (

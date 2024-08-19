@@ -19,13 +19,17 @@ const LoginForm = () => {
 	const handleLogin = async () => {
 		toast.loading("Signing you in...");
 		setLoading(true);
+
 		const { errMessage, user } = (await axios.post("/api/auth/login", form))
-			.data;
+			.data; // will register the user and send back user's certain details to be used in the whole app's state
+
 		toast.dismiss();
 		setLoading(false);
 		if (errMessage) return toast.error(errMessage);
-		setUser(user);
+
+		setUser(user); // sets the details received so that every children of UserProvider can access them
 		setShowForm(false);
+
 		if (window.location.href.endsWith("/auth/login")) router.push("/");
 		toast.success("Logged In");
 	};

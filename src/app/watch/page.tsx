@@ -13,7 +13,6 @@ import USER from "@/models/USER.model";
 import VIDEO from "@/models/VIDEO.model";
 import WATCH_HISTORY from "@/models/WATCH_HISTORY";
 import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
 import React from "react";
 
 export default async function page({
@@ -36,7 +35,9 @@ export default async function page({
 		});
 	if (!video)
 		return <ErrorComponent message="Looks like this video doesn't exist..." />;
-	const user_id = getUserIdFromJwt(cookies().get("token")?.value);
+
+	const user_id = await getUserIdFromJwt();
+
 	const [subscribed, moreVideos, ratingByThisUser, comments]: [
 		{ _id: string } | null,
 		CVideoCard[],
@@ -61,18 +62,20 @@ export default async function page({
 		COMMENT.find({ video: video_id })
 			.select("_id body commenter createdAt")
 			.populate({ path: "commenter", select: "username -_id avatar email" }),
-	]);
-	const userRating = ratingByThisUser
-		? ratingByThisUser.videoRatings[0].isPositive
-			? 1
-			: -1
-		: 0;
+	]); // all of them are
+
 	if (user_id)
 		WATCH_HISTORY.findOneAndUpdate(
 			{ user: user_id, video: video_id },
 			{ lastWatched: Date.now() },
 			{ upsert: true }
-		).then(() => revalidatePath("/watchHistory")); // no need to wait for
+		).then(() => revalidatePath("/watchHistory"));
+
+	const userRating = ratingByThisUser
+		? ratingByThisUser.videoRatings[0].isPositive
+			? 1
+			: -1
+		: 0;
 
 	return (
 		<div className="flex-wrap sm:p-4 sm:gap-4 lg:flex-nowrap overflow-x-hidden flex">
@@ -113,10 +116,7 @@ export default async function page({
 					.map((video) => (
 						<VideoCard
 							key={video._id}
-							video={{
-								...JSON.parse(JSON.stringify(video)),
-								createdAt: video.createdAt,
-							}}
+							video={JSON.parse(JSON.stringify(video))}
 						/>
 					))}
 			</div>

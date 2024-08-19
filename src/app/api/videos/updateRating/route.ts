@@ -3,12 +3,11 @@ import getUserIdFromJwt from "@/lib/getUserIdFromJwt";
 import USER from "@/models/USER.model";
 import VIDEO from "@/models/VIDEO.model";
 import mongoose from "mongoose";
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
 	try {
-		const user_id = getUserIdFromJwt(cookies().get("token")?.value);
+		const user_id = await getUserIdFromJwt();
 		if (!user_id) throw new Error("Token missing");
 		const {
 			video_id,

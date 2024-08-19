@@ -14,7 +14,7 @@ const Description = ({
 	views,
 }: {
 	description: string;
-	createdAt: Date;
+	createdAt: string | Date;
 	views: number;
 }) => {
 	return (

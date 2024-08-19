@@ -24,17 +24,23 @@ const RegisterForm = () => {
 
 	const handleAvatarUpload = async (image: File) => {
 		if (!image) return toast.error("File not selected");
+
 		const formData = new FormData();
 		formData.append("image", image);
+
 		toast.loading("Uploading avatar");
 		setLoading(true);
+
 		const { errMessage, secure_url, public_id } = (
 			await axios.post("/api/upload/image", formData)
-		).data;
+		).data; // will upload the user's image selected by the interaction by OS
+
 		toast.dismiss();
 		setLoading(false);
 		if (errMessage) return toast.error(errMessage);
+
 		setForm({ ...form, avatar: { secure_url, public_id } });
+
 		setShowForm(false);
 		toast.success("Registered");
 	};
@@ -46,14 +52,16 @@ const RegisterForm = () => {
 			return toast.error("The password must have atleast 6 characters");
 		toast.loading("Signing you up...");
 		setLoading(true);
+
 		const { errMessage, user } = (await axios.post("/api/auth/register", form))
-			.data;
+			.data; // will register the user and send back user's certain details to be used in the whole app's state
+
 		toast.dismiss();
 		if (errMessage) {
 			setLoading(false);
 			return toast.error(errMessage);
 		}
-		setUser(user);
+		setUser(user); // sets the details received so that every children of UserProvider can access them
 		if (window.location.href.endsWith("/auth/login")) router.push("/");
 		toast.success("Registered");
 	};

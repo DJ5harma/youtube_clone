@@ -1,3 +1,5 @@
+// (almost) all the major types used at the client-side
+
 export interface CVideoCard {
 	_id: string;
 	title: string;
@@ -19,7 +21,7 @@ export interface CVideoCard {
 		public_id: string;
 	};
 	views: number;
-	createdAt: Date;
+	createdAt: string | Date;
 }
 export interface CVideoPlayable extends CVideoCard {
 	creator: {
@@ -50,4 +52,19 @@ export interface CComment {
 	createdAt: Date;
 	likes: number;
 	dislikes: number;
+}
+
+export interface CCreator {
+	avatar: { public_id: string };
+	subscribers: number;
+	username: string;
+	_id: string;
+	email: string;
+}
+
+export interface CUser {
+	_id: string;
+	email: string;
+	username: string;
+	avatar: { secure_url: string; public_id: string };
 }

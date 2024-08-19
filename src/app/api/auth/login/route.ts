@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import getUserIdFromJwt from "@/lib/getUserIdFromJwt";
 
 export const POST = async (req: NextRequest) => {
 	try {
@@ -31,11 +32,7 @@ export const POST = async (req: NextRequest) => {
 
 export const GET = async () => {
 	try {
-		const token = cookies().get("token")?.value;
-		if (!token) throw new Error();
-		const { user_id } = jwt.verify(token, process.env.JWT_SECRET!) as {
-			user_id: string;
-		};
+		const user_id = await getUserIdFromJwt();
 		if (!user_id) throw new Error();
 		const user = await USER.findById(user_id)
 			.select("_id username avatar email")
