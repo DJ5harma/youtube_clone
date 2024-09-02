@@ -41,8 +41,7 @@ const RegisterForm = () => {
 
 		setForm({ ...form, avatar: { secure_url, public_id } });
 
-		setShowForm(false);
-		toast.success("Registered");
+		toast.success("Uploaded avatar");
 	};
 
 	const handleRegister = async () => {
@@ -64,6 +63,7 @@ const RegisterForm = () => {
 		setUser(user); // sets the details received so that every children of UserProvider can access them
 		if (window.location.href.endsWith("/auth/login")) router.push("/");
 		toast.success("Registered");
+		setShowForm(false);
 	};
 	return (
 		<div className="w-full h-full flex justify-around gap-4">
