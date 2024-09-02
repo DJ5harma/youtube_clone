@@ -67,15 +67,13 @@ const RegisterForm = () => {
 	};
 	return (
 		<div className="w-full h-full flex justify-around gap-4">
-			{!form.avatar.secure_url && (
-				<Image
-					src={form.avatar.secure_url || "/profile.png"}
-					width="300"
-					height="300"
-					alt="image_not_visible"
-					className="rounded-full max-h-20 max-w-20"
-				/>
-			)}
+			<Image
+				src={form.avatar.secure_url || "/profile.png"}
+				width="300"
+				height="300"
+				alt="image_not_visible"
+				className="rounded-full max-h-20 max-w-20"
+			/>
 			<div className="grid gap-4 w-full">
 				<div className="grid gap-2">
 					<Label htmlFor="username">Username</Label>
