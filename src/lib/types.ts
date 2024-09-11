@@ -1,5 +1,7 @@
 // (almost) all the major types used at the client-side
 
+import { UploadApiResponse } from "cloudinary";
+
 export interface CVideoCard {
 	_id: string;
 	title: string;
@@ -19,6 +21,7 @@ export interface CVideoCard {
 	video: {
 		secure_url: string;
 		public_id: string;
+		duration: number;
 	};
 	views: number;
 	createdAt: string | Date;
@@ -67,4 +70,8 @@ export interface CUser {
 	email: string;
 	username: string;
 	avatar: { secure_url: string; public_id: string };
+}
+
+export interface CVideoUploadApiResponse extends UploadApiResponse {
+	duration: number;
 }

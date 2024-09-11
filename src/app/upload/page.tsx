@@ -43,7 +43,11 @@ export default function Page() {
 		const res2 = (await axios.post("/api/upload/video", formData)).data;
 		toast.dismiss();
 		if (res2.errMessage) return toast.error(res2.errMessage);
-		const video = { secure_url: res2.secure_url, public_id: res2.public_id };
+		const video = {
+			secure_url: res2.secure_url,
+			public_id: res2.public_id,
+			duration: res2.duration,
+		};
 
 		const { errMessage } = (
 			await axios.post("/api/upload", {
@@ -57,6 +61,7 @@ export default function Page() {
 		toast.success("Upload successful");
 		router.replace("/");
 	};
+
 	return (
 		<div className="flex flex-col gap-2 items-center p-4">
 			{thumbnailSecureUrl && (
@@ -71,7 +76,9 @@ export default function Page() {
 			<Button variant="outline" className="w-full">
 				<div className="absolute flex items-center gap-2">
 					<BiUpload size={20} />
-					Thumbnail
+					{thumbnailFile
+						? thumbnailFile.name.slice(0, 20) + "... _ tap to replace"
+						: "Thumbnail Max : 10MB"}
 				</div>
 				<input
 					type="file"
@@ -79,13 +86,16 @@ export default function Page() {
 					className="border-2 h-full w-full opacity-0 cursor-pointer"
 					onChange={(e) => {
 						if (e.target.files) setThumbnailFile(e.target.files[0]);
+						console.log(e.target.files?.item(0)?.name);
 					}}
 				/>
 			</Button>
 			<Button variant="outline" className="w-full">
 				<div className="absolute flex items-center gap-2">
 					<BiUpload size={20} />
-					Video {"Max: 100MB"}
+					{videoFile
+						? videoFile.name.slice(0, 20) + "... _ tap to replace"
+						: "Video Max: 100MB"}
 				</div>
 				<input
 					type="file"
@@ -93,6 +103,7 @@ export default function Page() {
 					className="border-2 h-full w-full opacity-0 cursor-pointer"
 					onChange={(e) => {
 						if (e.target.files) setVideoFile(e.target.files[0]);
+						console.log(e.target.files);
 					}}
 				/>
 			</Button>

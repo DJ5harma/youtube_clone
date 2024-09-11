@@ -128,7 +128,7 @@ const RegisterForm = () => {
 				>
 					<BiUpload size={20} />
 					Avatar
-					{" (Optional, max: 5MB)"}
+					{" (Optional, max: 10MB)"}
 					<input
 						id="avatar-input"
 						type="file"

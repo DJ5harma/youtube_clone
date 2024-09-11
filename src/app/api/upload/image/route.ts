@@ -13,7 +13,7 @@ export const POST = async (req: NextRequest) => {
 
 		if (!image) throw new Error("Image didn't arrive");
 
-		const SIZE_LIMIT = 5 * 1024 * 1024; // 5MB
+		const SIZE_LIMIT = 10 * 1024 * 1024; // 10MB
 
 		if (image.size > SIZE_LIMIT)
 			throw new Error("Image size exceeds the limit of 5MB");

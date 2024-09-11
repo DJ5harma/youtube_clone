@@ -1,5 +1,6 @@
 import { uploadToCloudinary } from "@/lib/cloudinary/uploadFile";
 import getUserIdFromJwt from "@/lib/getUserIdFromJwt";
+import { UploadApiResponse } from "cloudinary";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
@@ -22,12 +23,17 @@ export const POST = async (req: NextRequest) => {
 
 		if (errMessage) throw new Error(errMessage);
 
-		const { secure_url, public_id } = result as {
+		const { secure_url, public_id, duration } = result as {
 			secure_url: string;
 			public_id: string;
+			duration: number;
 		};
+		console.log({ duration });
 
-		return NextResponse.json({ secure_url, public_id }, { status: 200 });
+		return NextResponse.json(
+			{ secure_url, public_id, duration },
+			{ status: 200 }
+		);
 	} catch (error) {
 		return NextResponse.json({
 			errMessage: (error as Error).message || "Internal server Error",

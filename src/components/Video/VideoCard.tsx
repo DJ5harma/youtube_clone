@@ -1,6 +1,11 @@
 "use client";
 import { CVideoCard } from "@/lib/types";
-import { croppedAvatarUrl, getSrc, timeSince } from "@/lib/utils";
+import {
+	croppedAvatarUrl,
+	getSeekbarTime,
+	getSrc,
+	timeSince,
+} from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
@@ -81,6 +86,9 @@ const VideoCard = ({
 						isHovered && "w-0"
 					}`}
 				/>
+				<p className="bg-black rounded-full p-2 text-sm">
+					Duration : {getSeekbarTime(video.video.duration)}
+				</p>
 			</Link>
 			{videoLoaded && videoRef.current && isHovered && (
 				<input

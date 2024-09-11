@@ -27,6 +27,7 @@ const VIDEO =
 					type: {
 						secure_url: String,
 						public_id: String,
+						duration: Number,
 					},
 					required: true,
 					_id: false,
