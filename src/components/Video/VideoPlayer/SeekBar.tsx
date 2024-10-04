@@ -1,5 +1,5 @@
 "use client";
-import React, { RefObject, useEffect, useRef, useState } from "react";
+import React, { RefObject, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const SeekBar = ({ videoRef }: { videoRef: RefObject<HTMLVideoElement> }) => {

@@ -28,6 +28,8 @@ export default function Page() {
 		formData.append("image", thumbnailFile);
 		toast.loading("Uploading thumbnail");
 		const res1 = (await axios.post("/api/upload/image", formData)).data;
+		console.log({ res1 });
+
 		toast.dismiss();
 		if (res1.errMessage) return toast.error(res1.errMessage);
 
@@ -41,6 +43,7 @@ export default function Page() {
 		formData.append("video", videoFile);
 		toast.loading("Uploading video");
 		const res2 = (await axios.post("/api/upload/video", formData)).data;
+		console.log({ res2 });
 		toast.dismiss();
 		if (res2.errMessage) return toast.error(res2.errMessage);
 		const video = {
@@ -86,7 +89,7 @@ export default function Page() {
 					className="border-2 h-full w-full opacity-0 cursor-pointer"
 					onChange={(e) => {
 						if (e.target.files) setThumbnailFile(e.target.files[0]);
-						console.log(e.target.files?.item(0)?.name);
+						console.log(e.target.files?.item(0));
 					}}
 				/>
 			</Button>
@@ -103,7 +106,7 @@ export default function Page() {
 					className="border-2 h-full w-full opacity-0 cursor-pointer"
 					onChange={(e) => {
 						if (e.target.files) setVideoFile(e.target.files[0]);
-						console.log(e.target.files);
+						console.log(e.target.files?.item(0));
 					}}
 				/>
 			</Button>

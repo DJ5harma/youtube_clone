@@ -10,13 +10,16 @@ import { getSrc } from "@/lib/utils";
 import { FaBackward, FaForward } from "react-icons/fa";
 import FullScreenBtn from "./ControlButtons/FullScreenBtn";
 import toast from "react-hot-toast";
+import { CVideoPlayable } from "@/lib/types";
 
 export default function VideoPlayer({
 	secure_url,
 	title,
+	duration,
 }: {
 	secure_url: string;
 	title: string;
+	duration: number;
 }) {
 	const videoRef = useRef<HTMLVideoElement>(null);
 	const fullscreenContainer = useRef<HTMLDivElement>(null);
@@ -202,7 +205,7 @@ export default function VideoPlayer({
 								text="Play next ->"
 							/>
 							<Volume videoRef={videoRef} />
-							<Time videoRef={videoRef} />
+							<Time videoRef={videoRef} duration={duration} />
 						</div>
 						<FullScreenBtn toggleFullscreen={toggleFullscreen} />
 					</div>

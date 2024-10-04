@@ -52,7 +52,7 @@ const DialogForm = () => {
 								onClick={() => setShowForm(false)}
 								className="mt-4"
 							>
-								Or remain as guest
+								Or skip
 							</Button>
 						</DialogFooter>
 					</Tabs>

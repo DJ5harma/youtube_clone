@@ -1,15 +1,18 @@
 import { getSeekbarTime } from "@/lib/utils";
 import React, { RefObject, useEffect, useRef } from "react";
 
-const Time = ({ videoRef }: { videoRef: RefObject<HTMLVideoElement> }) => {
+const Time = ({
+	videoRef,
+	duration,
+}: {
+	videoRef: RefObject<HTMLVideoElement>;
+	duration: number;
+}) => {
 	const CurrTimeRef = useRef<HTMLParagraphElement>(null);
-	const DurationRef = useRef<HTMLParagraphElement>(null);
 	useEffect(() => {
 		if (typeof window === "undefined") return;
 		const video = videoRef.current;
 		if (!video) return;
-		if (DurationRef.current)
-			DurationRef.current.textContent = getSeekbarTime(video.duration);
 		const handleTimeUpdate = () => {
 			if (CurrTimeRef.current)
 				CurrTimeRef.current.textContent = getSeekbarTime(video.currentTime);
@@ -25,7 +28,7 @@ const Time = ({ videoRef }: { videoRef: RefObject<HTMLVideoElement> }) => {
 				{getSeekbarTime(videoRef.current?.currentTime || 0)}
 			</p>
 			<p>/</p>
-			<p ref={DurationRef}></p>
+			<p>{getSeekbarTime(duration)}</p>
 		</div>
 	);
 };

@@ -79,7 +79,7 @@ export const getSrc = (
 	file: "video" | "image",
 	localPath?: string
 ) => {
-	// return actualPath;
+	return actualPath;
 
 	return process.env.NODE_ENV === "development"
 		? localPath || (file === "image" ? "/sampleImage.jpg" : "/sampleVideo.mp4")

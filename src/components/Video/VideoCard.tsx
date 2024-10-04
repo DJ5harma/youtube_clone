@@ -10,6 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
+import { Button } from "../ui/button";
 
 const VideoCard = ({
 	video,
@@ -58,38 +59,41 @@ const VideoCard = ({
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
 		>
-			<Link
-				href={`/watch?video_id=${video._id}`}
-				onClick={() => toast.loading("Loading video")}
-			>
-				{videoLoaded && (
-					<video
-						src={getSrc(video.video.secure_url, "video")}
-						ref={videoRef}
-						className={`${
-							!isHovered && "w-0"
-						} rounded cursor-pointer object-cover aspect-video`}
-						autoPlay
-						onTimeUpdate={
-							() => setCurrentTime(videoRef.current?.currentTime || 0) // just updating the time state
-						}
-						muted={false}
-					></video>
-				)}
+			<div className="relative">
+				<Link
+					href={`/watch?video_id=${video._id}`}
+					onClick={() => toast.loading("Loading video")}
+				>
+					{videoLoaded && (
+						<video
+							src={getSrc(video.video.secure_url, "video")}
+							ref={videoRef}
+							className={`${
+								!isHovered && "w-0"
+							} rounded cursor-pointer object-cover aspect-video`}
+							autoPlay
+							onTimeUpdate={
+								() => setCurrentTime(videoRef.current?.currentTime || 0) // just updating the time state
+							}
+							muted={false}
+						></video>
+					)}
 
-				<Image
-					src={getSrc(video.thumbnail.secure_url, "image")}
-					alt=""
-					width={1280}
-					height={720}
-					className={`rounded cursor-pointer object-cover aspect-video ${
-						isHovered && "w-0"
-					}`}
-				/>
-				<p className="bg-black rounded-full p-2 text-sm">
-					Duration : {getSeekbarTime(video.video.duration)}
-				</p>
-			</Link>
+					<Image
+						src={getSrc(video.thumbnail.secure_url, "image")}
+						alt=""
+						width={1280}
+						height={720}
+						className={`rounded cursor-pointer object-cover aspect-video ${
+							isHovered && "w-0"
+						}`}
+					/>
+				</Link>
+
+				<Button className="rounded-md m-2 p-2 text-sm absolute bottom-0 right-0 z-50 cursor-default">
+					{getSeekbarTime(video.video.duration)}
+				</Button>
+			</div>
 			{videoLoaded && videoRef.current && isHovered && (
 				<input
 					className="h-6 w-full cursor-pointer relative bottom-3.5"

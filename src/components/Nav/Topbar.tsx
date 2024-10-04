@@ -37,7 +37,7 @@ const Topbar = () => {
 				<CustomTooltip icon={<BiSearch />} text="Search" />
 			</div>
 			<div className="flex h-full items-center gap-4 pl-2 pr-4">
-				<CustomTooltip icon={<ModeToggle />} text="Toggle theme" />
+				<ModeToggle />
 				<Link href={user._id ? "/upload" : "/auth/login"}>
 					<CustomTooltip icon={<LuUpload />} text="Upload +" size={28} />
 				</Link>

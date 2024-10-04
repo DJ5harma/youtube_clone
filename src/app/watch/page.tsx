@@ -80,7 +80,11 @@ export default async function page({
 	return (
 		<div className="flex-wrap sm:p-4 sm:gap-4 lg:flex-nowrap overflow-x-hidden flex">
 			<div className="flex flex-col w-full pb-2 lg:w-7/12">
-				<VideoPlayer secure_url={video.video.secure_url} title={video.title} />
+				<VideoPlayer
+					duration={video.video.duration}
+					secure_url={video.video.secure_url}
+					title={video.title}
+				/>
 				<div className="px-2 flex w-full justify-between flex-col gap-3 sm:flex-row">
 					<SubscribeSection
 						creator={JSON.parse(JSON.stringify(video.creator))}
