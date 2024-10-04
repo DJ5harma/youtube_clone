@@ -27,8 +27,7 @@ const Time = ({
 			<p ref={CurrTimeRef}>
 				{getSeekbarTime(videoRef.current?.currentTime || 0)}
 			</p>
-			<p>/</p>
-			<p>{getSeekbarTime(duration)}</p>
+			<p>/ {getSeekbarTime(duration)}</p>
 		</div>
 	);
 };

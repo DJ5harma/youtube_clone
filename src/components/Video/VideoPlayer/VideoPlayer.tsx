@@ -10,7 +10,6 @@ import { getSrc } from "@/lib/utils";
 import { FaBackward, FaForward } from "react-icons/fa";
 import FullScreenBtn from "./ControlButtons/FullScreenBtn";
 import toast from "react-hot-toast";
-import { CVideoPlayable } from "@/lib/types";
 
 export default function VideoPlayer({
 	secure_url,
@@ -54,6 +53,31 @@ export default function VideoPlayer({
 		else if (seconds < 0 && videoRef.current.currentTime - seconds > 0)
 			videoRef.current.currentTime += seconds;
 	};
+
+	let lock = false;
+	const handleControlsShow = () => {
+		if (!controlsRef.current || !videoRef.current) return;
+		controlsRef.current.style.opacity = "100%";
+		if (!lock) {
+			lock = true;
+			setTimeout(
+				() => {
+					if (
+						controlsRef.current &&
+						!videoRef.current?.paused &&
+						mobileControlsRef.current
+					) {
+						controlsRef.current.style.opacity = "0";
+					}
+					lock = false;
+				},
+				window.innerWidth < 640 ? 1500 : 3000
+			);
+		}
+	};
+	const handleHideControls = () => {
+		if (controlsRef.current) controlsRef.current.style.opacity = "0";
+	};
 	useEffect(() => {
 		toast.dismiss();
 		toast.success("Video loaded!");
@@ -67,6 +91,7 @@ export default function VideoPlayer({
 		}
 		const handleKeyPress = (e: KeyboardEvent) => {
 			if (video && document.activeElement?.tagName !== "INPUT") {
+				handleControlsShow();
 				switch (e.key.toUpperCase()) {
 					case "F":
 						e.preventDefault();
@@ -92,36 +117,6 @@ export default function VideoPlayer({
 		document.addEventListener("keydown", handleKeyPress);
 		return () => document.removeEventListener("keydown", handleKeyPress);
 	}, [videoRef]);
-
-	let lock = false;
-	const handleControlsShow = () => {
-		if (!controlsRef.current || !videoRef.current) return;
-		controlsRef.current.style.opacity = "100%";
-		// mobileControlsRef.current &&
-		// (mobileControlsRef.current.style.zIndex = "50");
-		if (!lock) {
-			lock = true;
-			setTimeout(
-				() => {
-					if (
-						controlsRef.current &&
-						!videoRef.current?.paused &&
-						mobileControlsRef.current
-					) {
-						controlsRef.current.style.opacity = "0";
-						// mobileControlsRef.current.style.zIndex = "0";
-					}
-					lock = false;
-				},
-				window.innerWidth < 640 ? 1500 : 3000
-			);
-		}
-	};
-	const handleHideControls = () => {
-		if (controlsRef.current) controlsRef.current.style.opacity = "0";
-		// if (mobileControlsRef.current)
-		// mobileControlsRef.current.style.zIndex = "0";
-	};
 
 	return (
 		<div className="items-start gap-1 flex-col">
