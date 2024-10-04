@@ -1,11 +1,13 @@
 import { uploadToCloudinary } from "@/lib/cloudinary/uploadFile";
 import getUserIdFromJwt from "@/lib/getUserIdFromJwt";
-import { UploadApiResponse } from "cloudinary";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
 	try {
 		const user_id = await getUserIdFromJwt();
+
+		console.log({ user_id });
+
 		if (!user_id) throw new Error("Token missing");
 
 		const formData = await req.formData();
@@ -28,7 +30,6 @@ export const POST = async (req: NextRequest) => {
 			public_id: string;
 			duration: number;
 		};
-		console.log({ duration });
 
 		return NextResponse.json(
 			{ secure_url, public_id, duration },

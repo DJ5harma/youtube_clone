@@ -14,8 +14,10 @@ import React from "react";
 import { ModeToggle } from "@/providers/ThemeProvider";
 import { BiSearch } from "react-icons/bi";
 import Link from "next/link";
+import { useUser } from "@/providers/UserProvider";
 
 const Topbar = () => {
+	const { user } = useUser();
 	return (
 		<aside className="fixed inset-y-0 right-0 top-0 z-50 sm:border-2 bg-background flex justify-between w-screen h-14">
 			<div className="flex items-center gap-4 px-2 py-4">
@@ -36,7 +38,7 @@ const Topbar = () => {
 			</div>
 			<div className="flex h-full items-center gap-4 pl-2 pr-4">
 				<CustomTooltip icon={<ModeToggle />} text="Toggle theme" />
-				<Link href="/upload">
+				<Link href={user._id ? "/upload" : "/auth/login"}>
 					<CustomTooltip icon={<LuUpload />} text="Upload +" size={28} />
 				</Link>
 				<CustomTooltip

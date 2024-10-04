@@ -80,9 +80,8 @@ export const getSrc = (
 	localPath?: string
 ) => {
 	// return actualPath;
+
 	return process.env.NODE_ENV === "development"
-		? localPath || file === "image"
-			? "/sampleImage.jpg"
-			: "/sampleVideo.mp4"
+		? localPath || (file === "image" ? "/sampleImage.jpg" : "/sampleVideo.mp4")
 		: actualPath;
 }; // a handy util to be used to test the stuff which can be tested without actually fetching the real images/videos by using local files
