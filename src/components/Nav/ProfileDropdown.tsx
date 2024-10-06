@@ -51,10 +51,12 @@ export function ProfileDropdown() {
 							</DropdownMenuItem>
 						)}
 					</Link>
-					<DropdownMenuItem onClick={() => setShowForm(true)}>
-						{user._id ? "Switch Account" : "Sign in"}
-						{/* <DropdownMenuShortcut>⌘B</DropdownMenuShortcut> */}
-					</DropdownMenuItem>
+					<Link href="/auth/login">
+						<DropdownMenuItem>
+							{user._id ? "Switch Account" : "Sign in"}
+							{/* <DropdownMenuShortcut>⌘B</DropdownMenuShortcut> */}
+						</DropdownMenuItem>
+					</Link>
 				</DropdownMenuGroup>
 				{/* <DropdownMenuSeparator />
 				<DropdownMenuGroup>
