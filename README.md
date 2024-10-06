@@ -1,6 +1,8 @@
 NOTE!!! : the video upload feature doesn't work on the server I've deployed because Vercel has a limit on how much the file size should be if uploading.
 But, everything would work if you run locally...!
 
+A full stack YouTube clone (kinda) made using NextJS.
+
 # You can
 
 - upload your own videos,
