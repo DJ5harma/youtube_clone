@@ -16,7 +16,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 export function ProfileDropdown() {
-	const { user, setShowForm, setUser } = useUser();
+	const { user, setUser } = useUser();
 	const handleLogout = async () => {
 		toast.loading("Logging you out");
 		const { errMessage } = (await axios.get("/api/auth/logout")).data; // this api route will delete the token from client's cookies

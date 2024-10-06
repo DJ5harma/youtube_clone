@@ -34,6 +34,7 @@ export const GET = async () => {
 	try {
 		const user_id = await getUserIdFromJwt();
 		if (!user_id) throw new Error();
+		await dbConnect();
 		const user = await USER.findById(user_id)
 			.select("_id username avatar email")
 			.populate("avatar");
