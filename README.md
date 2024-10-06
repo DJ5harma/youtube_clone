@@ -13,7 +13,7 @@ But, everything would work if you run locally...!
 - change whole web-app's theme
   and much more...
 
-Visit here and have fun: youtube-clone-topaz-five-35.vercel.app
+Visit here and have fun: https://youtube-clone-topaz-five-35.vercel.app/
 
 # To run locally :
 
