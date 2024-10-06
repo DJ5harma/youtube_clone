@@ -43,7 +43,7 @@ const Volume = ({ videoRef }: { videoRef: RefObject<HTMLVideoElement> }) => {
 							toast.success(
 								"Volume increased to " +
 									(videoRef.current.volume * 100).toFixed(0) +
-									" %",
+									"%",
 								{
 									duration: 1000,
 								}
@@ -63,7 +63,7 @@ const Volume = ({ videoRef }: { videoRef: RefObject<HTMLVideoElement> }) => {
 							toast.success(
 								"Volume decreased to " +
 									(videoRef.current.volume * 100).toFixed(0) +
-									" %",
+									"%",
 								{
 									duration: 1000,
 								}
@@ -104,7 +104,7 @@ const Volume = ({ videoRef }: { videoRef: RefObject<HTMLVideoElement> }) => {
 				/>
 			</div>
 
-			<Input
+			<input
 				type="range"
 				min={0}
 				max={1}

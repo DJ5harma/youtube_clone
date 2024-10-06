@@ -68,12 +68,8 @@ const Comments = ({
 					<div className="flex items-center gap-2 mb-4">
 						<Link href={`/user/${user.email}`}>
 							<Image
-								src={
-									process.env.NODE_ENV === "development"
-										? "/sampleImage.jpg"
-										: croppedAvatarUrl(user.avatar.public_id)
-								}
-								alt=""
+								src={getSrc(croppedAvatarUrl(user.avatar.public_id), "image")}
+								alt="Profile icon"
 								width="40"
 								height="40"
 								className="rounded-full min-w-8 min-h-8 aspect-square"
