@@ -6,8 +6,6 @@ export const POST = async (req: NextRequest) => {
 	try {
 		const user_id = await getUserIdFromJwt();
 
-		console.log({ user_id });
-
 		if (!user_id) throw new Error("Token missing");
 
 		const formData = await req.formData();
