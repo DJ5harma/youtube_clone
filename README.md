@@ -22,3 +22,4 @@ Visit here and have fun: youtube-clone-topaz-five-35.vercel.app
 - Firstly, run "npm i" in the root directory (where you can see a package.json file)..
 - Change the name of "sample.env" files in backend and frontend directories to ".env", --(you can also change .env's contents if you wish, like using a MongoAtlas URI, or a custom JWT_SECRET)..
 - Then run "npm run dev" while being in the directory's root.
+- You shall see a string similar to "localhost:3000". Open it on your browser and enjoy!!!😘
