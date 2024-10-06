@@ -24,13 +24,22 @@ export const POST = async (req: NextRequest) => {
 		} = await req.json();
 		await dbConnect();
 
-		if (todo === "LIKE" || todo === "DISLIKE") {
+		const ratingByThisUser = await USER.findOne(
+			{ "videoRatings.video": video_id },
+			{ "videoRatings.$": 1 }
+		).select("-_id");
+		const userRating = ratingByThisUser
+			? ratingByThisUser.videoRatings[0].isPositive
+				? 1
+				: -1
+			: 0;
+		if (userRating === 0) {
 			await USER.updateOne(
 				{ _id: user_id },
 				{
 					$push: {
 						videoRatings: {
-							isPositive: todo === "LIKE" ? true : false,
+							isPositive: todo === "LIKE",
 							video: new mongoose.Types.ObjectId(video_id),
 						},
 					},
@@ -42,7 +51,10 @@ export const POST = async (req: NextRequest) => {
 					$inc: todo === "LIKE" ? { likes: +1 } : { dislikes: +1 },
 				}
 			);
-		} else if (todo === "UNLIKE" || todo === "UNDISLIKE") {
+		} else if (
+			(todo === "UNLIKE" && userRating === 1) ||
+			(todo === "UNDISLIKE" && userRating === -1)
+		) {
 			await USER.updateOne(
 				{ _id: user_id },
 				{
@@ -59,13 +71,15 @@ export const POST = async (req: NextRequest) => {
 					$inc: todo === "UNLIKE" ? { likes: -1 } : { dislikes: -1 },
 				}
 			);
-		} else if (todo === "LIKE_TO_DISLIKE" || todo === "DISLIKE_TO_LIKE") {
+		} else if (
+			(todo === "LIKE_TO_DISLIKE" && userRating === 1) ||
+			(todo === "DISLIKE_TO_LIKE" && userRating === -1)
+		) {
 			await USER.updateOne(
 				{ _id: user_id, "videoRatings.video": video_id },
 				{
 					$set: {
-						"videoRatings.$.isPositive":
-							todo === "DISLIKE_TO_LIKE" ? true : false,
+						"videoRatings.$.isPositive": todo === "DISLIKE_TO_LIKE",
 					},
 				}
 			);

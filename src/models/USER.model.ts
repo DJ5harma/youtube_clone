@@ -27,7 +27,6 @@ const USER =
 						secure_url: "",
 						public_id: "",
 					},
-					_id: false,
 				},
 				videoRatings: [
 					{
@@ -35,7 +34,6 @@ const USER =
 							isPositive: Boolean,
 							video: { type: Schema.Types.ObjectId, ref: "VIDEO" },
 						},
-						_id: false,
 					},
 				],
 				watchHistory: [
